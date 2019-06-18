@@ -14,6 +14,10 @@
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 cimport autodiff
 cimport date
+cimport enums
+cimport schedule
+from redukti import schedule_pb2
+from libcpp.string cimport string
 
 cdef class ADVar:
     cdef autodiff.redukti_adouble_t* _ad
@@ -48,10 +52,41 @@ cdef class ADVar:
         return g
 
 cdef class Date:
-    cdef int _date
+    cdef int _serial
+    cdef date.YearMonthDay _ymd
 
-    def __cinit__(self, int date):
-        _date = date
+    def __cinit__(self, int value):
+        self._serial = value
+        self._ymd = date.date_components(value)
 
-def make(unsigned d, unsigned m, int y):
+    def day(self):
+        return self._ymd.d
+    
+    def month(self):
+        return self._ymd.m
+    
+    def year(self):
+        return self._ymd.y
+
+    def serial(self):
+        return self._serial
+    
+    
+def make_date_from_dmy(unsigned d, unsigned m, int y):
     return Date(date.make_date(d, m, y))
+
+def generate_schedule(schedule_parameters):
+    cdef string str = schedule_parameters.SerializeToString()
+    cdef schedule.ScheduleParameters _parameters
+    if not _parameters.ParseFromString(str):
+        raise ValueError("Cannot parse the schedule parameters")
+    cdef schedule.Schedule _schedule
+    status = schedule.build_schedule(_parameters, _schedule)
+    if not status == enums.ResponseSubCode.kOk:
+        raise Exception('Failed to generate schedule')
+    result = schedule_pb2.Schedule()
+    cdef string result_str
+    if not _schedule.SerializeToString(&result_str):
+        raise Exception('Failed to parse result from api call')
+    result.ParseFromString(result_str)
+    return result

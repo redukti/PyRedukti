@@ -3,6 +3,15 @@
 This is work in progress.
 The Python interface is being developed using Cython.
 
+## Pre-requisites
+
+* Python grpcio package must be installed
+
+```
+python -m pip install grpcio
+python -m pip install grpcio-tools
+```
+
 ## Build notes
 
 * First build OpenRedukti

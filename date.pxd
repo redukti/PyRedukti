@@ -17,4 +17,16 @@ cdef extern from "date.h" namespace "redukti":
         unsigned char m
         unsigned char d
     int make_date(unsigned d, unsigned m, int y)
+    YearMonthDay date_components(int z)
+    int day_of_year(YearMonthDay ymd)
+    unsigned char weekday(int z)
+    unsigned last_day_of_month_common_year(unsigned m)
+    bint is_leap(int y)
+    unsigned last_day_of_month(int y, unsigned m)
+    int end_of_month(int y, unsigned m)
+    bint is_end_of_month(YearMonthDay ymd)
+    unsigned weekday_difference(unsigned x, unsigned y)
+    unsigned next_weekday(unsigned wd)
+    unsigned prev_weekday(unsigned wd)
+    
 
