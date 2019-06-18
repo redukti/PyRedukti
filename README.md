@@ -1,6 +1,7 @@
 # PyRedukti - A Python interface to OpenRedukti
 
 This is work in progress.
+The Python interface is being developed using Cython.
 
 ## Build notes
 
