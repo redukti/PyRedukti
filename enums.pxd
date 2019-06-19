@@ -16,17 +16,22 @@ cdef extern from "enums.pb.h" namespace "redukti":
     cdef enum ResponseSubCode:
         kOk = 0
     cdef enum IsdaIndex:
-        pass
+        ZAR_JIBAR_SAFEX = 40
     cdef enum IndexFamily:
-        pass
+        REPO_CURVE = 27
     cdef enum DayCountFraction:
         BUS_252 = 9
     cdef enum BusinessCenter:
         BUSINESS_CENTER_UNSPECIFIED = 0
         BRSP = 11
     cdef enum PeriodUnit:
+        DAYS = 2
         YEARS = 5
     cdef enum JointCalendarRule:
         pass
     cdef enum BusinessDayConvention:
-        pass
+        UNADJUSTED = 5
+    cdef enum Tenor:
+        TENOR_1T = 97
+    cdef enum Currency:
+        PLN = 18

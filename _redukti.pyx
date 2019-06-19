@@ -12,7 +12,7 @@
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-cimport autodiff, date, enums, schedule, calendar, dayfraction
+cimport autodiff, date, enums, schedule, calendar, dayfraction, index
 from redukti import schedule_pb2
 from libcpp.string cimport string
 
@@ -65,7 +65,7 @@ cdef class Date:
     cpdef int day(self):
         return self._ymd.d
     
-    cpdef int month(self):
+    cpdef int month(self):  
         return self._ymd.m
     
     cpdef int year(self):
@@ -74,9 +74,9 @@ cdef class Date:
     cpdef int serial(self):
         return self._serial
     
-    
-def make_date_from_dmy(unsigned d, unsigned m, int y):
-    return Date(date.make_date(d, m, y))
+    @staticmethod
+    def from_dmy(unsigned d, unsigned m, int y):
+        return Date(date.make_date(d, m, y))
 
 def generate_schedule(schedule_parameters):
     cdef string str = schedule_parameters.SerializeToString()
@@ -94,23 +94,23 @@ def generate_schedule(schedule_parameters):
     result.ParseFromString(result_str)
     return result
 
+cdef validate_business_centers(list business_centres):
+    if len(business_centres) == 0:
+        raise ValueError('Business centers must be specified')
+    for center in business_centres:
+        if center < 1 or center > enums.BRSP:
+            raise ValueError('Invalid business center')
+
+cdef validate_periodunit(enums.PeriodUnit unit):
+    if unit < 1 or unit > enums.YEARS:
+        raise ValueError('Invalid PeriodUnit specified')
+
 cdef class Calendar:
     cdef const calendar.Calendar *_calendar
 
-    cdef validate(self, list business_centres):
-        if len(business_centres) == 0:
-            raise ValueError('Business centers must be specified')
-        for center in business_centres:
-            if center < 1 or center > enums.BRSP:
-                raise ValueError('Invalid business center')
-
-    cdef validate_periodunit(self, enums.PeriodUnit unit):
-        if unit < 1 or unit > enums.YEARS:
-            raise ValueError('Invalid PeriodUnit specified')
-
     def __cinit__(self, list business_centres):
         cdef calendar.JointCalendarParameters joint_calendars
-        self.validate(business_centres)
+        validate_business_centers(business_centres)
         if len(business_centres) == 0:
             raise ValueError('Business centers must be specified')
         if len(business_centres) == 1:
@@ -133,18 +133,18 @@ cdef class Calendar:
         return self._calendar.is_holiday(d.serial())
 
     def advance(self, Date date, int n, enums.PeriodUnit unit):
-        self.validate_periodunit(unit)
+        validate_periodunit(unit)
         return Date(self._calendar.advance(date.serial(), n, unit))
+
+cdef validate_daycountfraction(enums.DayCountFraction dfc):
+    if dfc < 1 or dfc > enums.BUS_252:
+        raise ValueError('Invalid DayCountFraction specified')
 
 cdef class DayFraction:
     cdef const dayfraction.DayFraction *_dayfraction
 
-    cdef validate(self, enums.DayCountFraction dfc):
-        if dfc < 1 or dfc > enums.BUS_252:
-            raise ValueError('Invalid DayCountFraction specified')
-
     def __cinit__(self, enums.DayCountFraction dfc):
-        self.validate(dfc)
+        validate_daycountfraction(dfc)
         self._dayfraction = dayfraction.get_day_fraction(dfc)
 
     cpdef double year_fraction(self, Date d1, Date d2):
@@ -155,3 +155,76 @@ cdef class DayFraction:
     
     cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):
         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), ref_date1.serial(), ref_date2.serial())
+
+cdef validate_isda_index(enums.IsdaIndex index):
+    if index < 1 or index > enums.ZAR_JIBAR_SAFEX:
+        raise ValueError('Invalid IsdaIndex specified')
+
+cdef validate_index_family(enums.IndexFamily family):
+    if family < 1 or family > enums.REPO_CURVE:
+        raise ValueError('Invalid IndexFamily specified')
+
+cdef validate_tenor(enums.Tenor tenor):
+    if tenor < 0 or tenor > enums.TENOR_1T:
+        raise ValueError('Invalid Tenor specified')
+
+cdef validate_currency(enums.Currency ccy):
+    if ccy < 0 or ccy > enums.PLN:
+        raise ValueError('Invalid Currency specified')
+
+cdef class InterestRateIndex:
+    cdef const index.InterestRateIndex *_index
+
+    def __cinit__(self):
+        self._index = NULL
+
+    @staticmethod
+    def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):
+        validate_isda_index(isda_index)
+        validate_tenor(tenor)
+        cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
+        if idx is NULL:
+            raise ValueError('Index not defined for given IsdaIndex and Tenor')
+        cdef InterestRateIndex obj = InterestRateIndex()
+        obj._index = idx
+        return obj
+
+    @staticmethod
+    def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):
+        validate_currency(currency)
+        validate_index_family(index_family)
+        validate_tenor(tenor)
+        cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
+        if idx is NULL:
+            raise ValueError('Index not defined for given Currency, IndexFamily and Tenor')
+        cdef InterestRateIndex obj = InterestRateIndex()
+        obj._index = idx
+        return obj
+
+    cpdef Date value_date(self, Date fixing_date):
+        if self._index is NULL:
+            return Exception('Index object is not initialized')
+        return Date(self._index.value_date(fixing_date.serial()))
+
+    cpdef Date fixing_date(self, Date accrual_start_date):
+        if self._index is NULL:
+            return Exception('Index object is not initialized')
+        return Date(self._index.fixing_date(accrual_start_date.serial()))
+
+    cpdef Date maturity_date(self, Date value_date):
+        if self._index is NULL:
+            return Exception('Index object is not initialized')
+        return Date(self._index.maturity_date(value_date.serial()))
+
+    def date_components(self, Date adjusted):
+        if self._index is NULL:
+            return Exception('Index object is not initialized')
+        cdef int fixing = self._index.fixing_date(adjusted.serial())
+        cdef int value_dt = self._index.value_date(fixing)
+        cdef int maturity_dt = self._index.maturity_date(value_dt)        
+        return Date(fixing), Date(value_dt), Date(maturity_dt)
+
+    cpdef Date adjust_date(self, Date unadjusted, int days):
+        if self._index is NULL:
+            return Exception('Index object is not initialized')
+        return Date(self._index.fixing_calendar().advance(unadjusted.serial(), days, enums.DAYS, self._index.day_convention()))
