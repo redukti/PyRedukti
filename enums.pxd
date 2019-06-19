@@ -20,7 +20,7 @@ cdef extern from "enums.pb.h" namespace "redukti":
     cdef enum IndexFamily:
         pass
     cdef enum DayCountFraction:
-        pass
+        BUS_252 = 9
     cdef enum BusinessCenter:
         BUSINESS_CENTER_UNSPECIFIED = 0
         BRSP = 11

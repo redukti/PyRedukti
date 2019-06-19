@@ -12,7 +12,7 @@
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-cimport autodiff, date, enums, schedule, calendar
+cimport autodiff, date, enums, schedule, calendar, dayfraction
 from redukti import schedule_pb2
 from libcpp.string cimport string
 
@@ -136,3 +136,22 @@ cdef class Calendar:
         self.validate_periodunit(unit)
         return Date(self._calendar.advance(date.serial(), n, unit))
 
+cdef class DayFraction:
+    cdef const dayfraction.DayFraction *_dayfraction
+
+    cdef validate(self, enums.DayCountFraction dfc):
+        if dfc < 1 or dfc > enums.BUS_252:
+            raise ValueError('Invalid DayCountFraction specified')
+
+    def __cinit__(self, enums.DayCountFraction dfc):
+        self.validate(dfc)
+        self._dayfraction = dayfraction.get_day_fraction(dfc)
+
+    cpdef double year_fraction(self, Date d1, Date d2):
+        return self._dayfraction.year_fraction(d1.serial(), d2.serial())
+
+    cpdef double year_fraction_with_finalperiod(self, Date d1, Date d2, bint final_period):
+        return self._dayfraction.year_fraction(d1.serial(), d2.serial(), final_period)
+    
+    cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):
+        return self._dayfraction.year_fraction(d1.serial(), d2.serial(), ref_date1.serial(), ref_date2.serial())

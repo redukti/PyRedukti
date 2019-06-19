@@ -56,7 +56,14 @@ class TestDate(unittest.TestCase):
         self.assertEqual(d.serial()+1, d2.serial())
         d3 = calendar.advance(d, -1, enums.DAYS)
         self.assertEqual(d3.serial(), redukti.make_date_from_dmy(14,6,2019).serial())
-        d3 = calendar.advance(d, -1, 90)        
+        #d3 = calendar.advance(d, -1, 90)
+
+    def test_daycountfraction_basics(self):
+        dfc = redukti.DayFraction(enums.ACT_365_FIXED)
+        d1 = redukti.make_date_from_dmy(14,6,2019)
+        d2 = redukti.make_date_from_dmy(13,6,2020)
+        fraction = dfc.year_fraction(d1, d2)
+        self.assertEqual(fraction, 1.0)     
 
 if __name__ == '__main__':
     unittest.main()
