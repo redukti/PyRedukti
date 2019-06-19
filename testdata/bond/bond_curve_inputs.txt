@@ -1,0 +1,9 @@
+curve_id,instrument_type,instrument_id,floating_tenor,par_rate,forward_curve_id,discount_curve_id
+1,deposit_rate,3M,,0.0096,1,1
+1,deposit_rate,6M,,0.0145,1,1
+1,deposit_rate,1Y,,0.0194,1,1
+1,fixed_bond_100_6M,15-03-2005:31-08-2010:100.390625,,0.02375,1,1
+1,fixed_bond_100_6M,15-06-2005:31-08-2011:106.21875,,0.04625,1,1
+1,fixed_bond_100_6M,30-06-2006:31-08-2013:100.59375,,0.03125,1,1
+1,fixed_bond_100_6M,15-11-2002:15-08-2018:101.6875,,0.04000,1,1
+1,fixed_bond_100_6M,15-05-1987:15-05-2038:102.140625,,0.04500,1,1

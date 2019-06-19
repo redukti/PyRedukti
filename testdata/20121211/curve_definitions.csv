@@ -1,0 +1,5 @@
+group,curve_id,currency,index_family,curve_tenor,interpolator,interpolated_on,maturity_generation_rule,tenors
+C,7,EUR,EONIA,,LogCubicSplineNatural,DiscountFactor,DeriveFromInstruments,
+C,8,EUR,EURIBOR,,LogCubicSplineNatural,DiscountFactor,DeriveFromInstruments,
+C,9,EUR,EURIBOR,3M,LogCubicSplineNatural,DiscountFactor,DeriveFromInstruments,	
+C,10,EUR,EURIBOR,6M,LogCubicSplineNatural,DiscountFactor,DeriveFromInstruments,

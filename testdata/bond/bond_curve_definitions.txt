@@ -1,0 +1,2 @@
+group,curve_id,currency,index_family,curve_tenor,interpolator,interpolated_on,maturity_generation_rule,tenors
+A,1,USD,GOVT_BOND,,LogLinear,DiscountFactor,DeriveFromInstruments,
