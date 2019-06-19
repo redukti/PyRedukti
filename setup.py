@@ -21,7 +21,8 @@ sourcefiles = ['_redukti.pyx']
 extensions = [Extension("_redukti", sourcefiles,
     libraries=["openredukti"],
     library_dirs=[os.path.join(basepath, 'redukti', 'lib')],
-    include_dirs = [os.path.join(basepath, 'redukti', 'include', 'openredukti'), 
+    include_dirs = [os.path.join(basepath, 'redukti', 'include', 'redukti'),
+        os.path.join(basepath, 'redukti', 'include'), 
         os.path.join(basepath, 'protobuf', 'include')],
     language="c++",             # generate C++ code
     )]

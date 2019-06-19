@@ -48,6 +48,15 @@ class TestDate(unittest.TestCase):
         #adjusted_payment_dates: 42646
         #adjusted_payment_dates: 42738
 
+    def test_calendar_basics(self):
+        calendar = redukti.Calendar([enums.GBLO])
+        d = redukti.make_date_from_dmy(16,6,2019)
+        self.assertTrue(calendar.is_holiday(d))
+        d2 = calendar.advance(d, 1, enums.DAYS)
+        self.assertEqual(d.serial()+1, d2.serial())
+        d3 = calendar.advance(d, -1, enums.DAYS)
+        self.assertEqual(d3.serial(), redukti.make_date_from_dmy(14,6,2019).serial())
+        d3 = calendar.advance(d, -1, 90)        
 
 if __name__ == '__main__':
     unittest.main()

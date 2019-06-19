@@ -11,22 +11,3 @@
 # The contents of this file are subject to the the GNU General Public License
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
-cdef extern from "enums.pb.h" namespace "redukti":
-
-    cdef enum ResponseSubCode:
-        kOk = 0
-    cdef enum IsdaIndex:
-        pass
-    cdef enum IndexFamily:
-        pass
-    cdef enum DayCountFraction:
-        pass
-    cdef enum BusinessCenter:
-        BUSINESS_CENTER_UNSPECIFIED = 0
-        BRSP = 11
-    cdef enum PeriodUnit:
-        YEARS = 5
-    cdef enum JointCalendarRule:
-        pass
-    cdef enum BusinessDayConvention:
-        pass

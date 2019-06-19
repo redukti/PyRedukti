@@ -4,14 +4,16 @@
 {
     "distutils": {
         "depends": [
-            "/home/dylan/Software/redukti/include/openredukti/autodiff.h",
-            "/home/dylan/Software/redukti/include/openredukti/date.h",
-            "/home/dylan/Software/redukti/include/openredukti/enums.pb.h",
-            "/home/dylan/Software/redukti/include/openredukti/schedule.h",
-            "/home/dylan/Software/redukti/include/openredukti/schedule.pb.h"
+            "/home/dylan/Software/redukti/include/redukti/autodiff.h",
+            "/home/dylan/Software/redukti/include/redukti/calendars.h",
+            "/home/dylan/Software/redukti/include/redukti/date.h",
+            "/home/dylan/Software/redukti/include/redukti/enums.pb.h",
+            "/home/dylan/Software/redukti/include/redukti/schedule.h",
+            "/home/dylan/Software/redukti/include/redukti/schedule.pb.h"
         ],
         "include_dirs": [
-            "/home/dylan/Software/redukti/include/openredukti",
+            "/home/dylan/Software/redukti/include/redukti",
+            "/home/dylan/Software/redukti/include",
             "/home/dylan/Software/protobuf/include"
         ],
         "language": "c++",
@@ -648,6 +650,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <string>
 #include "schedule.pb.h"
 #include "schedule.h"
+#include "calendars.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -863,8 +866,9 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_obj_8_redukti_ADVar;
 struct __pyx_obj_8_redukti_Date;
+struct __pyx_obj_8_redukti_Calendar;
 
-/* "_redukti.pyx":22
+/* "_redukti.pyx":19
  * from libcpp.string cimport string
  * 
  * cdef class ADVar:             # <<<<<<<<<<<<<<
@@ -879,7 +883,7 @@ struct __pyx_obj_8_redukti_ADVar {
 };
 
 
-/* "_redukti.pyx":54
+/* "_redukti.pyx":57
  *         return g
  * 
  * cdef class Date:             # <<<<<<<<<<<<<<
@@ -888,10 +892,58 @@ struct __pyx_obj_8_redukti_ADVar {
  */
 struct __pyx_obj_8_redukti_Date {
   PyObject_HEAD
+  struct __pyx_vtabstruct_8_redukti_Date *__pyx_vtab;
   int _serial;
   struct redukti::YearMonthDay _ymd;
 };
 
+
+/* "_redukti.pyx":97
+ *     return result
+ * 
+ * cdef class Calendar:             # <<<<<<<<<<<<<<
+ *     cdef const calendar.Calendar *_calendar
+ * 
+ */
+struct __pyx_obj_8_redukti_Calendar {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_8_redukti_Calendar *__pyx_vtab;
+  redukti::Calendar const *_calendar;
+};
+
+
+
+/* "_redukti.pyx":57
+ *         return g
+ * 
+ * cdef class Date:             # <<<<<<<<<<<<<<
+ *     cdef int _serial
+ *     cdef date.YearMonthDay _ymd
+ */
+
+struct __pyx_vtabstruct_8_redukti_Date {
+  int (*day)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+  int (*month)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+  int (*year)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+  int (*serial)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_8_redukti_Date *__pyx_vtabptr_8_redukti_Date;
+
+
+/* "_redukti.pyx":97
+ *     return result
+ * 
+ * cdef class Calendar:             # <<<<<<<<<<<<<<
+ *     cdef const calendar.Calendar *_calendar
+ * 
+ */
+
+struct __pyx_vtabstruct_8_redukti_Calendar {
+  PyObject *(*validate)(struct __pyx_obj_8_redukti_Calendar *, PyObject *);
+  PyObject *(*validate_periodunit)(struct __pyx_obj_8_redukti_Calendar *, enum redukti::PeriodUnit);
+  int (*is_holiday)(struct __pyx_obj_8_redukti_Calendar *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_8_redukti_Calendar *__pyx_vtabptr_8_redukti_Calendar;
 
 /* --- Runtime support code (head) --- */
 /* Refnanny.proto */
@@ -979,12 +1031,6 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
 
-/* ArgTypeTest.proto */
-#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
-    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
-        __Pyx__ArgTypeTest(obj, type, name, exact))
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
-
 /* PyObjectCall.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
@@ -1031,6 +1077,12 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
+/* ArgTypeTest.proto */
+#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
+    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
+        __Pyx__ArgTypeTest(obj, type, name, exact))
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
+
 /* ListAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -1048,11 +1100,30 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
 
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+/* PyDictVersioning.proto */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
+#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
+    (version_var) = __PYX_GET_DICT_VERSION(dict);\
+    (cache_var) = (value);
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
+    static PY_UINT64_T __pyx_dict_version = 0;\
+    static PyObject *__pyx_dict_cached_value = NULL;\
+    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
+        (VAR) = __pyx_dict_cached_value;\
+    } else {\
+        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
+        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
+    }\
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
 #else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#define __PYX_GET_DICT_VERSION(dict)  (0)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
 #endif
 
 /* PyFunctionFastCall.proto */
@@ -1083,9 +1154,6 @@ static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, 
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
 #endif
 
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
@@ -1093,31 +1161,20 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-/* PyDictVersioning.proto */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
-#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
-    (version_var) = __PYX_GET_DICT_VERSION(dict);\
-    (cache_var) = (value);
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
-    static PY_UINT64_T __pyx_dict_version = 0;\
-    static PyObject *__pyx_dict_cached_value = NULL;\
-    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
-        (VAR) = __pyx_dict_cached_value;\
-    } else {\
-        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
-        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
-    }\
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
 #else
-#define __PYX_GET_DICT_VERSION(dict)  (0)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
 #endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
 
 /* GetModuleGlobalName.proto */
 #if CYTHON_USE_DICT_VERSIONS
@@ -1143,6 +1200,28 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 /* PyObjectCall2Args.proto */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
 
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
 /* PyObject_GenericGetAttrNoDict.proto */
 #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj, PyObject* attr_name);
@@ -1159,6 +1238,9 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 
 /* SetupReduce.proto */
 static int __Pyx_setup_reduce(PyObject* type_obj);
+
+/* SetVTable.proto */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -1196,10 +1278,10 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_char(unsigned char value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__redukti_3a__3a_BusinessCenter(enum redukti::BusinessCenter value);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_short(short value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
@@ -1208,10 +1290,13 @@ static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
 
 /* CIntFromPy.proto */
+static CYTHON_INLINE enum redukti::PeriodUnit __Pyx_PyInt_As_enum__redukti_3a__3a_PeriodUnit(PyObject *);
+
+/* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+/* CIntFromPy.proto */
+static CYTHON_INLINE enum redukti::BusinessCenter __Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(PyObject *);
 
 /* FastTypeChecks.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1232,6 +1317,13 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
+static int __pyx_f_8_redukti_4Date_day(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_8_redukti_4Date_month(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_8_redukti_4Date_year(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_8_redukti_4Date_serial(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_8_redukti_8Calendar_validate(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, PyObject *__pyx_v_business_centres); /* proto*/
+static PyObject *__pyx_f_8_redukti_8Calendar_validate_periodunit(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, enum redukti::PeriodUnit __pyx_v_unit); /* proto*/
+static int __pyx_f_8_redukti_8Calendar_is_holiday(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch); /* proto*/
 
 /* Module declarations from 'cpython.mem' */
 
@@ -1247,9 +1339,12 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from 'schedule' */
 
+/* Module declarations from 'calendar' */
+
 /* Module declarations from '_redukti' */
 static PyTypeObject *__pyx_ptype_8_redukti_ADVar = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_Date = 0;
+static PyTypeObject *__pyx_ptype_8_redukti_Calendar = 0;
 static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyObject_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_string(std::string const &); /*proto*/
@@ -1266,13 +1361,19 @@ static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_TypeError;
 static const char __pyx_k_d[] = "d";
 static const char __pyx_k_m[] = "m";
+static const char __pyx_k_n[] = "n";
 static const char __pyx_k_y[] = "y";
+static const char __pyx_k_day[] = "day";
 static const char __pyx_k_str[] = "str";
 static const char __pyx_k_Date[] = "Date";
+static const char __pyx_k_date[] = "date";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_unit[] = "unit";
+static const char __pyx_k_year[] = "year";
 static const char __pyx_k_ADVar[] = "ADVar";
+static const char __pyx_k_month[] = "month";
 static const char __pyx_k_order[] = "order";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_value[] = "value";
@@ -1280,8 +1381,10 @@ static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_n_vars[] = "n_vars";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_result[] = "result";
+static const char __pyx_k_serial[] = "serial";
 static const char __pyx_k_status[] = "status";
 static const char __pyx_k_redukti[] = "redukti";
+static const char __pyx_k_Calendar[] = "Calendar";
 static const char __pyx_k_Schedule[] = "Schedule";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_schedule[] = "_schedule";
@@ -1291,7 +1394,9 @@ static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_redukti_2[] = "_redukti";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_is_holiday[] = "is_holiday";
 static const char __pyx_k_parameters[] = "_parameters";
+static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_result_str[] = "result_str";
 static const char __pyx_k_redukti_pyx[] = "_redukti.pyx";
 static const char __pyx_k_schedule_pb2[] = "schedule_pb2";
@@ -1299,41 +1404,66 @@ static const char __pyx_k_initial_value[] = "initial_value";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_ParseFromString[] = "ParseFromString";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_business_centres[] = "business_centres";
 static const char __pyx_k_SerializeToString[] = "SerializeToString";
 static const char __pyx_k_generate_schedule[] = "generate_schedule";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_make_date_from_dmy[] = "make_date_from_dmy";
 static const char __pyx_k_schedule_parameters[] = "schedule_parameters";
+static const char __pyx_k_Invalid_business_center[] = "Invalid business center";
 static const char __pyx_k_Failed_to_generate_schedule[] = "Failed to generate schedule";
+static const char __pyx_k_Invalid_PeriodUnit_specified[] = "Invalid PeriodUnit specified";
+static const char __pyx_k_Order_must_be_between_0_and_2[] = "Order must be between 0 and 2";
+static const char __pyx_k_Variable_index_is_out_of_range[] = "Variable index is out of range";
 static const char __pyx_k_Failed_to_parse_result_from_api[] = "Failed to parse result from api call";
+static const char __pyx_k_Business_centers_must_be_specifi[] = "Business centers must be specified";
 static const char __pyx_k_Cannot_parse_the_schedule_parame[] = "Cannot parse the schedule parameters";
+static const char __pyx_k_Incorrect_number_of_values_in_bu[] = "Incorrect number of values in business centres list, max of 4 allowed";
+static const char __pyx_k_Number_of_variables_in_AdVar_mus[] = "Number of variables in AdVar must be > 0";
 static const char __pyx_k_Supplied_values_are_not_of_the_s[] = "Supplied values are not of the same order or size";
+static const char __pyx_k_Unable_to_construct_a_calendar_f[] = "Unable to construct a calendar from given parameters";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static PyObject *__pyx_n_s_ADVar;
+static PyObject *__pyx_kp_u_Business_centers_must_be_specifi;
+static PyObject *__pyx_n_s_Calendar;
 static PyObject *__pyx_kp_u_Cannot_parse_the_schedule_parame;
 static PyObject *__pyx_n_s_Date;
 static PyObject *__pyx_kp_u_Failed_to_generate_schedule;
 static PyObject *__pyx_kp_u_Failed_to_parse_result_from_api;
+static PyObject *__pyx_kp_u_Incorrect_number_of_values_in_bu;
+static PyObject *__pyx_kp_u_Invalid_PeriodUnit_specified;
+static PyObject *__pyx_kp_u_Invalid_business_center;
+static PyObject *__pyx_kp_u_Number_of_variables_in_AdVar_mus;
+static PyObject *__pyx_kp_u_Order_must_be_between_0_and_2;
 static PyObject *__pyx_n_s_ParseFromString;
 static PyObject *__pyx_n_s_Schedule;
 static PyObject *__pyx_n_s_SerializeToString;
 static PyObject *__pyx_kp_u_Supplied_values_are_not_of_the_s;
 static PyObject *__pyx_n_s_TypeError;
+static PyObject *__pyx_kp_u_Unable_to_construct_a_calendar_f;
 static PyObject *__pyx_n_s_ValueError;
+static PyObject *__pyx_kp_u_Variable_index_is_out_of_range;
+static PyObject *__pyx_n_s_business_centres;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_d;
+static PyObject *__pyx_n_s_date;
+static PyObject *__pyx_n_s_day;
 static PyObject *__pyx_n_s_generate_schedule;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_initial_value;
+static PyObject *__pyx_n_s_is_holiday;
 static PyObject *__pyx_n_s_m;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_make_date_from_dmy;
+static PyObject *__pyx_n_s_month;
+static PyObject *__pyx_n_s_n;
 static PyObject *__pyx_n_s_n_vars;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
 static PyObject *__pyx_n_s_order;
 static PyObject *__pyx_n_s_parameters;
+static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
@@ -1346,14 +1476,17 @@ static PyObject *__pyx_n_s_result_str;
 static PyObject *__pyx_n_s_schedule;
 static PyObject *__pyx_n_s_schedule_parameters;
 static PyObject *__pyx_n_s_schedule_pb2;
+static PyObject *__pyx_n_s_serial;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_status;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_n_s_test;
+static PyObject *__pyx_n_s_unit;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_variable;
 static PyObject *__pyx_n_s_y;
+static PyObject *__pyx_n_s_year;
 static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar *__pyx_v_self, int __pyx_v_n_vars, int __pyx_v_order, int __pyx_v_variable, double __pyx_v_initial_value); /* proto */
 static void __pyx_pf_8_redukti_5ADVar_2__dealloc__(struct __pyx_obj_8_redukti_ADVar *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_ADVar *__pyx_v_self, struct __pyx_obj_8_redukti_ADVar *__pyx_v_other); /* proto */
@@ -1370,8 +1503,15 @@ static PyObject *__pyx_pf_8_redukti_4Date_10__reduce_cython__(CYTHON_UNUSED stru
 static PyObject *__pyx_pf_8_redukti_4Date_12__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Date *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_8_redukti_make_date_from_dmy(CYTHON_UNUSED PyObject *__pyx_self, unsigned int __pyx_v_d, unsigned int __pyx_v_m, int __pyx_v_y); /* proto */
 static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters); /* proto */
+static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, PyObject *__pyx_v_business_centres); /* proto */
+static PyObject *__pyx_pf_8_redukti_8Calendar_2is_holiday(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d); /* proto */
+static PyObject *__pyx_pf_8_redukti_8Calendar_4advance(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_date, int __pyx_v_n, enum redukti::PeriodUnit __pyx_v_unit); /* proto */
+static PyObject *__pyx_pf_8_redukti_8Calendar_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8_redukti_8Calendar_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_8_redukti_ADVar(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_8_redukti_Date(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_8_redukti_Calendar(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_int_1;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
@@ -1381,17 +1521,27 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_codeobj__10;
-static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_tuple__12;
+static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__17;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
 /* Late includes */
 
-/* "_redukti.pyx":27
+/* "_redukti.pyx":24
  *     cdef int _order
  * 
  *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):             # <<<<<<<<<<<<<<
- *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
- *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
+ *         if (n_vars <= 0):
+ *             raise ValueError('Number of variables in AdVar must be > 0')
  */
 
 /* Python wrapper */
@@ -1431,23 +1581,23 @@ static int __pyx_pw_8_redukti_5ADVar_1__cinit__(PyObject *__pyx_v_self, PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_order)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 1); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 1); __PYX_ERR(0, 24, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_variable)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 2); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 2); __PYX_ERR(0, 24, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_initial_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 3); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 3); __PYX_ERR(0, 24, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 24, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -1457,14 +1607,14 @@ static int __pyx_pw_8_redukti_5ADVar_1__cinit__(PyObject *__pyx_v_self, PyObject
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_n_vars = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_n_vars == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L3_error)
-    __pyx_v_order = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_order == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L3_error)
-    __pyx_v_variable = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_variable == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L3_error)
-    __pyx_v_initial_value = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_initial_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L3_error)
+    __pyx_v_n_vars = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_n_vars == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L3_error)
+    __pyx_v_order = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_order == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L3_error)
+    __pyx_v_variable = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_variable == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L3_error)
+    __pyx_v_initial_value = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_initial_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 24, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.ADVar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1481,19 +1631,134 @@ static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar 
   size_t __pyx_v_size;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_redukti.pyx":28
+  /* "_redukti.pyx":25
  * 
  *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+ *         if (n_vars <= 0):             # <<<<<<<<<<<<<<
+ *             raise ValueError('Number of variables in AdVar must be > 0')
+ *         if order < 0 or order > 2:
+ */
+  __pyx_t_1 = ((__pyx_v_n_vars <= 0) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "_redukti.pyx":26
+ *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+ *         if (n_vars <= 0):
+ *             raise ValueError('Number of variables in AdVar must be > 0')             # <<<<<<<<<<<<<<
+ *         if order < 0 or order > 2:
+ *             raise ValueError('Order must be between 0 and 2')
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_ERR(0, 26, __pyx_L1_error)
+
+    /* "_redukti.pyx":25
+ * 
+ *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+ *         if (n_vars <= 0):             # <<<<<<<<<<<<<<
+ *             raise ValueError('Number of variables in AdVar must be > 0')
+ *         if order < 0 or order > 2:
+ */
+  }
+
+  /* "_redukti.pyx":27
+ *         if (n_vars <= 0):
+ *             raise ValueError('Number of variables in AdVar must be > 0')
+ *         if order < 0 or order > 2:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Order must be between 0 and 2')
+ *         if (variable < 0 or variable >= n_vars):
+ */
+  __pyx_t_3 = ((__pyx_v_order < 0) != 0);
+  if (!__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L5_bool_binop_done;
+  }
+  __pyx_t_3 = ((__pyx_v_order > 2) != 0);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L5_bool_binop_done:;
+  if (unlikely(__pyx_t_1)) {
+
+    /* "_redukti.pyx":28
+ *             raise ValueError('Number of variables in AdVar must be > 0')
+ *         if order < 0 or order > 2:
+ *             raise ValueError('Order must be between 0 and 2')             # <<<<<<<<<<<<<<
+ *         if (variable < 0 or variable >= n_vars):
+ *             raise ValueError('Variable index is out of range')
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_ERR(0, 28, __pyx_L1_error)
+
+    /* "_redukti.pyx":27
+ *         if (n_vars <= 0):
+ *             raise ValueError('Number of variables in AdVar must be > 0')
+ *         if order < 0 or order > 2:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Order must be between 0 and 2')
+ *         if (variable < 0 or variable >= n_vars):
+ */
+  }
+
+  /* "_redukti.pyx":29
+ *         if order < 0 or order > 2:
+ *             raise ValueError('Order must be between 0 and 2')
+ *         if (variable < 0 or variable >= n_vars):             # <<<<<<<<<<<<<<
+ *             raise ValueError('Variable index is out of range')
+ *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
+ */
+  __pyx_t_3 = ((__pyx_v_variable < 0) != 0);
+  if (!__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L8_bool_binop_done;
+  }
+  __pyx_t_3 = ((__pyx_v_variable >= __pyx_v_n_vars) != 0);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L8_bool_binop_done:;
+  if (unlikely(__pyx_t_1)) {
+
+    /* "_redukti.pyx":30
+ *             raise ValueError('Order must be between 0 and 2')
+ *         if (variable < 0 or variable >= n_vars):
+ *             raise ValueError('Variable index is out of range')             # <<<<<<<<<<<<<<
+ *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
+ *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_ERR(0, 30, __pyx_L1_error)
+
+    /* "_redukti.pyx":29
+ *         if order < 0 or order > 2:
+ *             raise ValueError('Order must be between 0 and 2')
+ *         if (variable < 0 or variable >= n_vars):             # <<<<<<<<<<<<<<
+ *             raise ValueError('Variable index is out of range')
+ *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
+ */
+  }
+
+  /* "_redukti.pyx":31
+ *         if (variable < 0 or variable >= n_vars):
+ *             raise ValueError('Variable index is out of range')
  *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)             # <<<<<<<<<<<<<<
  *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
  *         self._vars = n_vars
  */
   __pyx_v_size = redukti_adouble_alloc_size(__pyx_v_n_vars, __pyx_v_order);
 
-  /* "_redukti.pyx":29
- *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+  /* "_redukti.pyx":32
+ *             raise ValueError('Variable index is out of range')
  *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
  *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)             # <<<<<<<<<<<<<<
  *         self._vars = n_vars
@@ -1501,7 +1766,7 @@ static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar 
  */
   __pyx_v_self->_ad = ((redukti_adouble_t *)PyMem_Malloc(__pyx_v_size));
 
-  /* "_redukti.pyx":30
+  /* "_redukti.pyx":33
  *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
  *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
  *         self._vars = n_vars             # <<<<<<<<<<<<<<
@@ -1510,7 +1775,7 @@ static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar 
  */
   __pyx_v_self->_vars = __pyx_v_n_vars;
 
-  /* "_redukti.pyx":31
+  /* "_redukti.pyx":34
  *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
  *         self._vars = n_vars
  *         self._order = order             # <<<<<<<<<<<<<<
@@ -1519,7 +1784,7 @@ static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar 
  */
   __pyx_v_self->_order = __pyx_v_order;
 
-  /* "_redukti.pyx":32
+  /* "_redukti.pyx":35
  *         self._vars = n_vars
  *         self._order = order
  *         autodiff.redukti_adouble_init(self._ad, n_vars, order, variable, initial_value)             # <<<<<<<<<<<<<<
@@ -1528,21 +1793,27 @@ static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar 
  */
   redukti_adouble_init(__pyx_v_self->_ad, __pyx_v_n_vars, __pyx_v_order, __pyx_v_variable, __pyx_v_initial_value);
 
-  /* "_redukti.pyx":27
+  /* "_redukti.pyx":24
  *     cdef int _order
  * 
  *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):             # <<<<<<<<<<<<<<
- *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
- *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
+ *         if (n_vars <= 0):
+ *             raise ValueError('Number of variables in AdVar must be > 0')
  */
 
   /* function exit code */
   __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("_redukti.ADVar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "_redukti.pyx":34
+/* "_redukti.pyx":37
  *         autodiff.redukti_adouble_init(self._ad, n_vars, order, variable, initial_value)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1565,7 +1836,7 @@ static void __pyx_pf_8_redukti_5ADVar_2__dealloc__(struct __pyx_obj_8_redukti_AD
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "_redukti.pyx":35
+  /* "_redukti.pyx":38
  * 
  *     def __dealloc__(self):
  *         PyMem_Free(self._ad)             # <<<<<<<<<<<<<<
@@ -1574,7 +1845,7 @@ static void __pyx_pf_8_redukti_5ADVar_2__dealloc__(struct __pyx_obj_8_redukti_AD
  */
   PyMem_Free(__pyx_v_self->_ad);
 
-  /* "_redukti.pyx":34
+  /* "_redukti.pyx":37
  *         autodiff.redukti_adouble_init(self._ad, n_vars, order, variable, initial_value)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1586,7 +1857,7 @@ static void __pyx_pf_8_redukti_5ADVar_2__dealloc__(struct __pyx_obj_8_redukti_AD
   __Pyx_RefNannyFinishContext();
 }
 
-/* "_redukti.pyx":37
+/* "_redukti.pyx":40
  *         PyMem_Free(self._ad)
  * 
  *     def assign(self, ADVar other):             # <<<<<<<<<<<<<<
@@ -1600,7 +1871,7 @@ static PyObject *__pyx_pw_8_redukti_5ADVar_5assign(PyObject *__pyx_v_self, PyObj
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("assign (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_other), __pyx_ptype_8_redukti_ADVar, 1, "other", 0))) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_other), __pyx_ptype_8_redukti_ADVar, 1, "other", 0))) __PYX_ERR(0, 40, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_5ADVar_4assign(((struct __pyx_obj_8_redukti_ADVar *)__pyx_v_self), ((struct __pyx_obj_8_redukti_ADVar *)__pyx_v_other));
 
   /* function exit code */
@@ -1622,7 +1893,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_AD
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("assign", 0);
 
-  /* "_redukti.pyx":38
+  /* "_redukti.pyx":41
  * 
  *     def assign(self, ADVar other):
  *         is_compatible = self._vars == other._vars and self._order == other._order             # <<<<<<<<<<<<<<
@@ -1632,14 +1903,14 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_AD
   __pyx_t_2 = (__pyx_v_self->_vars == __pyx_v_other->_vars);
   if (__pyx_t_2) {
   } else {
-    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L3_bool_binop_done;
   }
   __pyx_t_2 = (__pyx_v_self->_order == __pyx_v_other->_order);
-  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -1647,31 +1918,31 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_AD
   __pyx_v_is_compatible = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":39
+  /* "_redukti.pyx":42
  *     def assign(self, ADVar other):
  *         is_compatible = self._vars == other._vars and self._order == other._order
  *         if not is_compatible:             # <<<<<<<<<<<<<<
  *             raise ValueError('Supplied values are not of the same order or size')
  *         autodiff.redukti_adouble_assign(self._ad, other._ad)
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_is_compatible); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_is_compatible); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_t_4 = ((!__pyx_t_2) != 0);
   if (unlikely(__pyx_t_4)) {
 
-    /* "_redukti.pyx":40
+    /* "_redukti.pyx":43
  *         is_compatible = self._vars == other._vars and self._order == other._order
  *         if not is_compatible:
  *             raise ValueError('Supplied values are not of the same order or size')             # <<<<<<<<<<<<<<
  *         autodiff.redukti_adouble_assign(self._ad, other._ad)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 40, __pyx_L1_error)
+    __PYX_ERR(0, 43, __pyx_L1_error)
 
-    /* "_redukti.pyx":39
+    /* "_redukti.pyx":42
  *     def assign(self, ADVar other):
  *         is_compatible = self._vars == other._vars and self._order == other._order
  *         if not is_compatible:             # <<<<<<<<<<<<<<
@@ -1680,7 +1951,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_AD
  */
   }
 
-  /* "_redukti.pyx":41
+  /* "_redukti.pyx":44
  *         if not is_compatible:
  *             raise ValueError('Supplied values are not of the same order or size')
  *         autodiff.redukti_adouble_assign(self._ad, other._ad)             # <<<<<<<<<<<<<<
@@ -1689,7 +1960,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_AD
  */
   redukti_adouble_assign(__pyx_v_self->_ad, __pyx_v_other->_ad);
 
-  /* "_redukti.pyx":37
+  /* "_redukti.pyx":40
  *         PyMem_Free(self._ad)
  * 
  *     def assign(self, ADVar other):             # <<<<<<<<<<<<<<
@@ -1712,7 +1983,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_4assign(struct __pyx_obj_8_redukti_AD
   return __pyx_r;
 }
 
-/* "_redukti.pyx":43
+/* "_redukti.pyx":46
  *         autodiff.redukti_adouble_assign(self._ad, other._ad)
  * 
  *     def value(self):             # <<<<<<<<<<<<<<
@@ -1739,7 +2010,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_6value(struct __pyx_obj_8_redukti_ADV
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("value", 0);
 
-  /* "_redukti.pyx":44
+  /* "_redukti.pyx":47
  * 
  *     def value(self):
  *         return autodiff.redukti_adouble_get_value(self._ad)             # <<<<<<<<<<<<<<
@@ -1747,13 +2018,13 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_6value(struct __pyx_obj_8_redukti_ADV
  *     def gradient(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(redukti_adouble_get_value(__pyx_v_self->_ad)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(redukti_adouble_get_value(__pyx_v_self->_ad)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":43
+  /* "_redukti.pyx":46
  *         autodiff.redukti_adouble_assign(self._ad, other._ad)
  * 
  *     def value(self):             # <<<<<<<<<<<<<<
@@ -1772,7 +2043,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_6value(struct __pyx_obj_8_redukti_ADV
   return __pyx_r;
 }
 
-/* "_redukti.pyx":46
+/* "_redukti.pyx":49
  *         return autodiff.redukti_adouble_get_value(self._ad)
  * 
  *     def gradient(self):             # <<<<<<<<<<<<<<
@@ -1806,19 +2077,19 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_8gradient(struct __pyx_obj_8_redukti_
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "_redukti.pyx":47
+  /* "_redukti.pyx":50
  * 
  *     def gradient(self):
  *         g = []             # <<<<<<<<<<<<<<
  *         if self._order == 0:
  *             return g
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_g = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":48
+  /* "_redukti.pyx":51
  *     def gradient(self):
  *         g = []
  *         if self._order == 0:             # <<<<<<<<<<<<<<
@@ -1828,7 +2099,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_8gradient(struct __pyx_obj_8_redukti_
   __pyx_t_2 = ((__pyx_v_self->_order == 0) != 0);
   if (__pyx_t_2) {
 
-    /* "_redukti.pyx":49
+    /* "_redukti.pyx":52
  *         g = []
  *         if self._order == 0:
  *             return g             # <<<<<<<<<<<<<<
@@ -1840,7 +2111,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_8gradient(struct __pyx_obj_8_redukti_
     __pyx_r = __pyx_v_g;
     goto __pyx_L0;
 
-    /* "_redukti.pyx":48
+    /* "_redukti.pyx":51
  *     def gradient(self):
  *         g = []
  *         if self._order == 0:             # <<<<<<<<<<<<<<
@@ -1849,7 +2120,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_8gradient(struct __pyx_obj_8_redukti_
  */
   }
 
-  /* "_redukti.pyx":50
+  /* "_redukti.pyx":53
  *         if self._order == 0:
  *             return g
  *         for i in range(0,self._vars):             # <<<<<<<<<<<<<<
@@ -1861,20 +2132,20 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_8gradient(struct __pyx_obj_8_redukti_
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "_redukti.pyx":51
+    /* "_redukti.pyx":54
  *             return g
  *         for i in range(0,self._vars):
  *             list.append(g, autodiff.redukti_adouble_get_derivative1(self._ad, i))             # <<<<<<<<<<<<<<
  *         return g
  * 
  */
-    __pyx_t_1 = PyFloat_FromDouble(redukti_adouble_get_derivative1(__pyx_v_self->_ad, __pyx_v_i)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(redukti_adouble_get_derivative1(__pyx_v_self->_ad, __pyx_v_i)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_g, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_g, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "_redukti.pyx":52
+  /* "_redukti.pyx":55
  *         for i in range(0,self._vars):
  *             list.append(g, autodiff.redukti_adouble_get_derivative1(self._ad, i))
  *         return g             # <<<<<<<<<<<<<<
@@ -1886,7 +2157,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_8gradient(struct __pyx_obj_8_redukti_
   __pyx_r = __pyx_v_g;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":46
+  /* "_redukti.pyx":49
  *         return autodiff.redukti_adouble_get_value(self._ad)
  * 
  *     def gradient(self):             # <<<<<<<<<<<<<<
@@ -1937,7 +2208,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_10__reduce_cython__(CYTHON_UNUSED str
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1990,7 +2261,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_12__setstate_cython__(CYTHON_UNUSED s
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2013,7 +2284,7 @@ static PyObject *__pyx_pf_8_redukti_5ADVar_12__setstate_cython__(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "_redukti.pyx":58
+/* "_redukti.pyx":61
  *     cdef date.YearMonthDay _ymd
  * 
  *     def __cinit__(self, int value):             # <<<<<<<<<<<<<<
@@ -2047,18 +2318,18 @@ static int __pyx_pw_8_redukti_4Date_1__cinit__(PyObject *__pyx_v_self, PyObject 
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 58, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 61, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_value = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_value == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
+    __pyx_v_value = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_value == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 58, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 61, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.Date.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2076,7 +2347,7 @@ static int __pyx_pf_8_redukti_4Date___cinit__(struct __pyx_obj_8_redukti_Date *_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_redukti.pyx":59
+  /* "_redukti.pyx":62
  * 
  *     def __cinit__(self, int value):
  *         self._serial = value             # <<<<<<<<<<<<<<
@@ -2085,16 +2356,16 @@ static int __pyx_pf_8_redukti_4Date___cinit__(struct __pyx_obj_8_redukti_Date *_
  */
   __pyx_v_self->_serial = __pyx_v_value;
 
-  /* "_redukti.pyx":60
+  /* "_redukti.pyx":63
  *     def __cinit__(self, int value):
  *         self._serial = value
  *         self._ymd = date.date_components(value)             # <<<<<<<<<<<<<<
  * 
- *     def day(self):
+ *     cpdef int day(self):
  */
   __pyx_v_self->_ymd = redukti::date_components(__pyx_v_value);
 
-  /* "_redukti.pyx":58
+  /* "_redukti.pyx":61
  *     cdef date.YearMonthDay _ymd
  * 
  *     def __cinit__(self, int value):             # <<<<<<<<<<<<<<
@@ -2108,13 +2379,101 @@ static int __pyx_pf_8_redukti_4Date___cinit__(struct __pyx_obj_8_redukti_Date *_
   return __pyx_r;
 }
 
-/* "_redukti.pyx":62
+/* "_redukti.pyx":65
  *         self._ymd = date.date_components(value)
  * 
- *     def day(self):             # <<<<<<<<<<<<<<
+ *     cpdef int day(self):             # <<<<<<<<<<<<<<
  *         return self._ymd.d
  * 
  */
+
+static PyObject *__pyx_pw_8_redukti_4Date_3day(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static int __pyx_f_8_redukti_4Date_day(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("day", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_day); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_4Date_3day)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":66
+ * 
+ *     cpdef int day(self):
+ *         return self._ymd.d             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef int month(self):
+ */
+  __pyx_r = __pyx_v_self->_ymd.d;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":65
+ *         self._ymd = date.date_components(value)
+ * 
+ *     cpdef int day(self):             # <<<<<<<<<<<<<<
+ *         return self._ymd.d
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.Date.day", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8_redukti_4Date_3day(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -2134,28 +2493,12 @@ static PyObject *__pyx_pf_8_redukti_4Date_2day(struct __pyx_obj_8_redukti_Date *
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("day", 0);
-
-  /* "_redukti.pyx":63
- * 
- *     def day(self):
- *         return self._ymd.d             # <<<<<<<<<<<<<<
- * 
- *     def month(self):
- */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_char(__pyx_v_self->_ymd.d); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_8_redukti_4Date_day(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
-
-  /* "_redukti.pyx":62
- *         self._ymd = date.date_components(value)
- * 
- *     def day(self):             # <<<<<<<<<<<<<<
- *         return self._ymd.d
- * 
- */
 
   /* function exit code */
   __pyx_L1_error:;
@@ -2168,13 +2511,101 @@ static PyObject *__pyx_pf_8_redukti_4Date_2day(struct __pyx_obj_8_redukti_Date *
   return __pyx_r;
 }
 
-/* "_redukti.pyx":65
+/* "_redukti.pyx":68
  *         return self._ymd.d
  * 
- *     def month(self):             # <<<<<<<<<<<<<<
+ *     cpdef int month(self):             # <<<<<<<<<<<<<<
  *         return self._ymd.m
  * 
  */
+
+static PyObject *__pyx_pw_8_redukti_4Date_5month(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static int __pyx_f_8_redukti_4Date_month(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("month", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_month); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_4Date_5month)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":69
+ * 
+ *     cpdef int month(self):
+ *         return self._ymd.m             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef int year(self):
+ */
+  __pyx_r = __pyx_v_self->_ymd.m;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":68
+ *         return self._ymd.d
+ * 
+ *     cpdef int month(self):             # <<<<<<<<<<<<<<
+ *         return self._ymd.m
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.Date.month", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8_redukti_4Date_5month(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -2194,28 +2625,12 @@ static PyObject *__pyx_pf_8_redukti_4Date_4month(struct __pyx_obj_8_redukti_Date
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("month", 0);
-
-  /* "_redukti.pyx":66
- * 
- *     def month(self):
- *         return self._ymd.m             # <<<<<<<<<<<<<<
- * 
- *     def year(self):
- */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_char(__pyx_v_self->_ymd.m); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_8_redukti_4Date_month(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
-
-  /* "_redukti.pyx":65
- *         return self._ymd.d
- * 
- *     def month(self):             # <<<<<<<<<<<<<<
- *         return self._ymd.m
- * 
- */
 
   /* function exit code */
   __pyx_L1_error:;
@@ -2228,13 +2643,101 @@ static PyObject *__pyx_pf_8_redukti_4Date_4month(struct __pyx_obj_8_redukti_Date
   return __pyx_r;
 }
 
-/* "_redukti.pyx":68
+/* "_redukti.pyx":71
  *         return self._ymd.m
  * 
- *     def year(self):             # <<<<<<<<<<<<<<
+ *     cpdef int year(self):             # <<<<<<<<<<<<<<
  *         return self._ymd.y
  * 
  */
+
+static PyObject *__pyx_pw_8_redukti_4Date_7year(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static int __pyx_f_8_redukti_4Date_year(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("year", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_4Date_7year)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":72
+ * 
+ *     cpdef int year(self):
+ *         return self._ymd.y             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef int serial(self):
+ */
+  __pyx_r = __pyx_v_self->_ymd.y;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":71
+ *         return self._ymd.m
+ * 
+ *     cpdef int year(self):             # <<<<<<<<<<<<<<
+ *         return self._ymd.y
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.Date.year", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8_redukti_4Date_7year(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -2254,28 +2757,12 @@ static PyObject *__pyx_pf_8_redukti_4Date_6year(struct __pyx_obj_8_redukti_Date 
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("year", 0);
-
-  /* "_redukti.pyx":69
- * 
- *     def year(self):
- *         return self._ymd.y             # <<<<<<<<<<<<<<
- * 
- *     def serial(self):
- */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->_ymd.y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_8_redukti_4Date_year(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
-
-  /* "_redukti.pyx":68
- *         return self._ymd.m
- * 
- *     def year(self):             # <<<<<<<<<<<<<<
- *         return self._ymd.y
- * 
- */
 
   /* function exit code */
   __pyx_L1_error:;
@@ -2288,13 +2775,101 @@ static PyObject *__pyx_pf_8_redukti_4Date_6year(struct __pyx_obj_8_redukti_Date 
   return __pyx_r;
 }
 
-/* "_redukti.pyx":71
+/* "_redukti.pyx":74
  *         return self._ymd.y
  * 
- *     def serial(self):             # <<<<<<<<<<<<<<
+ *     cpdef int serial(self):             # <<<<<<<<<<<<<<
  *         return self._serial
  * 
  */
+
+static PyObject *__pyx_pw_8_redukti_4Date_9serial(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static int __pyx_f_8_redukti_4Date_serial(struct __pyx_obj_8_redukti_Date *__pyx_v_self, int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("serial", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_serial); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_4Date_9serial)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":75
+ * 
+ *     cpdef int serial(self):
+ *         return self._serial             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = __pyx_v_self->_serial;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":74
+ *         return self._ymd.y
+ * 
+ *     cpdef int serial(self):             # <<<<<<<<<<<<<<
+ *         return self._serial
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.Date.serial", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8_redukti_4Date_9serial(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -2314,28 +2889,12 @@ static PyObject *__pyx_pf_8_redukti_4Date_8serial(struct __pyx_obj_8_redukti_Dat
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("serial", 0);
-
-  /* "_redukti.pyx":72
- * 
- *     def serial(self):
- *         return self._serial             # <<<<<<<<<<<<<<
- * 
- * 
- */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_serial); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_8_redukti_4Date_serial(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
-
-  /* "_redukti.pyx":71
- *         return self._ymd.y
- * 
- *     def serial(self):             # <<<<<<<<<<<<<<
- *         return self._serial
- * 
- */
 
   /* function exit code */
   __pyx_L1_error:;
@@ -2379,7 +2938,7 @@ static PyObject *__pyx_pf_8_redukti_4Date_10__reduce_cython__(CYTHON_UNUSED stru
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2432,7 +2991,7 @@ static PyObject *__pyx_pf_8_redukti_4Date_12__setstate_cython__(CYTHON_UNUSED st
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2455,7 +3014,7 @@ static PyObject *__pyx_pf_8_redukti_4Date_12__setstate_cython__(CYTHON_UNUSED st
   return __pyx_r;
 }
 
-/* "_redukti.pyx":75
+/* "_redukti.pyx":78
  * 
  * 
  * def make_date_from_dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
@@ -2498,17 +3057,17 @@ static PyObject *__pyx_pw_8_redukti_1make_date_from_dmy(PyObject *__pyx_self, Py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_m)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("make_date_from_dmy", 1, 3, 3, 1); __PYX_ERR(0, 75, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("make_date_from_dmy", 1, 3, 3, 1); __PYX_ERR(0, 78, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("make_date_from_dmy", 1, 3, 3, 2); __PYX_ERR(0, 75, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("make_date_from_dmy", 1, 3, 3, 2); __PYX_ERR(0, 78, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "make_date_from_dmy") < 0)) __PYX_ERR(0, 75, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "make_date_from_dmy") < 0)) __PYX_ERR(0, 78, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2517,13 +3076,13 @@ static PyObject *__pyx_pw_8_redukti_1make_date_from_dmy(PyObject *__pyx_self, Py
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_d = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_d == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
-    __pyx_v_m = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_m == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
-    __pyx_v_y = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_y == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
+    __pyx_v_d = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_d == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L3_error)
+    __pyx_v_m = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_m == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L3_error)
+    __pyx_v_y = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_y == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("make_date_from_dmy", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 75, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("make_date_from_dmy", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 78, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.make_date_from_dmy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2543,7 +3102,7 @@ static PyObject *__pyx_pf_8_redukti_make_date_from_dmy(CYTHON_UNUSED PyObject *_
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("make_date_from_dmy", 0);
 
-  /* "_redukti.pyx":76
+  /* "_redukti.pyx":79
  * 
  * def make_date_from_dmy(unsigned d, unsigned m, int y):
  *     return Date(date.make_date(d, m, y))             # <<<<<<<<<<<<<<
@@ -2551,16 +3110,16 @@ static PyObject *__pyx_pf_8_redukti_make_date_from_dmy(CYTHON_UNUSED PyObject *_
  * def generate_schedule(schedule_parameters):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(redukti::make_date(__pyx_v_d, __pyx_v_m, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(redukti::make_date(__pyx_v_d, __pyx_v_m, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":75
+  /* "_redukti.pyx":78
  * 
  * 
  * def make_date_from_dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
@@ -2580,7 +3139,7 @@ static PyObject *__pyx_pf_8_redukti_make_date_from_dmy(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "_redukti.pyx":78
+/* "_redukti.pyx":81
  *     return Date(date.make_date(d, m, y))
  * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
@@ -2619,14 +3178,14 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("generate_schedule", 0);
 
-  /* "_redukti.pyx":79
+  /* "_redukti.pyx":82
  * 
  * def generate_schedule(schedule_parameters):
  *     cdef string str = schedule_parameters.SerializeToString()             # <<<<<<<<<<<<<<
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_schedule_parameters, __pyx_n_s_SerializeToString); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_schedule_parameters, __pyx_n_s_SerializeToString); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2640,14 +3199,14 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_str = __pyx_t_4;
 
-  /* "_redukti.pyx":81
+  /* "_redukti.pyx":84
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):             # <<<<<<<<<<<<<<
@@ -2657,20 +3216,20 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   __pyx_t_5 = ((!(__pyx_v__parameters.ParseFromString(__pyx_v_str) != 0)) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "_redukti.pyx":82
+    /* "_redukti.pyx":85
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):
  *         raise ValueError("Cannot parse the schedule parameters")             # <<<<<<<<<<<<<<
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 82, __pyx_L1_error)
+    __PYX_ERR(0, 85, __pyx_L1_error)
 
-    /* "_redukti.pyx":81
+    /* "_redukti.pyx":84
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):             # <<<<<<<<<<<<<<
@@ -2679,7 +3238,7 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
  */
   }
 
-  /* "_redukti.pyx":84
+  /* "_redukti.pyx":87
  *         raise ValueError("Cannot parse the schedule parameters")
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)             # <<<<<<<<<<<<<<
@@ -2688,7 +3247,7 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
  */
   __pyx_v_status = redukti::build_schedule(__pyx_v__parameters, __pyx_v__schedule);
 
-  /* "_redukti.pyx":85
+  /* "_redukti.pyx":88
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:             # <<<<<<<<<<<<<<
@@ -2698,20 +3257,20 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   __pyx_t_5 = ((!((__pyx_v_status == redukti::kOk) != 0)) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "_redukti.pyx":86
+    /* "_redukti.pyx":89
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:
  *         raise Exception('Failed to generate schedule')             # <<<<<<<<<<<<<<
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 86, __pyx_L1_error)
+    __PYX_ERR(0, 89, __pyx_L1_error)
 
-    /* "_redukti.pyx":85
+    /* "_redukti.pyx":88
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:             # <<<<<<<<<<<<<<
@@ -2720,16 +3279,16 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
  */
   }
 
-  /* "_redukti.pyx":87
+  /* "_redukti.pyx":90
  *     if not status == enums.ResponseSubCode.kOk:
  *         raise Exception('Failed to generate schedule')
  *     result = schedule_pb2.Schedule()             # <<<<<<<<<<<<<<
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_schedule_pb2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_schedule_pb2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_Schedule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_Schedule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -2744,13 +3303,13 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_result = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":89
+  /* "_redukti.pyx":92
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):             # <<<<<<<<<<<<<<
@@ -2760,20 +3319,20 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   __pyx_t_5 = ((!(__pyx_v__schedule.SerializeToString((&__pyx_v_result_str)) != 0)) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "_redukti.pyx":90
+    /* "_redukti.pyx":93
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):
  *         raise Exception('Failed to parse result from api call')             # <<<<<<<<<<<<<<
  *     result.ParseFromString(result_str)
  *     return result
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 90, __pyx_L1_error)
+    __PYX_ERR(0, 93, __pyx_L1_error)
 
-    /* "_redukti.pyx":89
+    /* "_redukti.pyx":92
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):             # <<<<<<<<<<<<<<
@@ -2782,15 +3341,16 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
  */
   }
 
-  /* "_redukti.pyx":91
+  /* "_redukti.pyx":94
  *     if not _schedule.SerializeToString(&result_str):
  *         raise Exception('Failed to parse result from api call')
  *     result.ParseFromString(result_str)             # <<<<<<<<<<<<<<
  *     return result
+ * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_ParseFromString); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_ParseFromString); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_result_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_result_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2805,22 +3365,24 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":92
+  /* "_redukti.pyx":95
  *         raise Exception('Failed to parse result from api call')
  *     result.ParseFromString(result_str)
  *     return result             # <<<<<<<<<<<<<<
+ * 
+ * cdef class Calendar:
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result);
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":78
+  /* "_redukti.pyx":81
  *     return Date(date.make_date(d, m, y))
  * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
@@ -2838,6 +3400,1062 @@ static PyObject *__pyx_pf_8_redukti_2generate_schedule(CYTHON_UNUSED PyObject *_
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_result);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":100
+ *     cdef const calendar.Calendar *_calendar
+ * 
+ *     cdef validate(self, list business_centres):             # <<<<<<<<<<<<<<
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ */
+
+static PyObject *__pyx_f_8_redukti_8Calendar_validate(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, PyObject *__pyx_v_business_centres) {
+  PyObject *__pyx_v_center = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_RefNannySetupContext("validate", 0);
+
+  /* "_redukti.pyx":101
+ * 
+ *     cdef validate(self, list business_centres):
+ *         if len(business_centres) == 0:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Business centers must be specified')
+ *         for center in business_centres:
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 101, __pyx_L1_error)
+  }
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_2 = ((__pyx_t_1 == 0) != 0);
+  if (unlikely(__pyx_t_2)) {
+
+    /* "_redukti.pyx":102
+ *     cdef validate(self, list business_centres):
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')             # <<<<<<<<<<<<<<
+ *         for center in business_centres:
+ *             if center < 1 or center > enums.BRSP:
+ */
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(0, 102, __pyx_L1_error)
+
+    /* "_redukti.pyx":101
+ * 
+ *     cdef validate(self, list business_centres):
+ *         if len(business_centres) == 0:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Business centers must be specified')
+ *         for center in business_centres:
+ */
+  }
+
+  /* "_redukti.pyx":103
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ *         for center in business_centres:             # <<<<<<<<<<<<<<
+ *             if center < 1 or center > enums.BRSP:
+ *                 raise ValueError('Invalid business center')
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+    __PYX_ERR(0, 103, __pyx_L1_error)
+  }
+  __pyx_t_3 = __pyx_v_business_centres; __Pyx_INCREF(__pyx_t_3); __pyx_t_1 = 0;
+  for (;;) {
+    if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_3)) break;
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_4); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+    #else
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    #endif
+    __Pyx_XDECREF_SET(__pyx_v_center, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "_redukti.pyx":104
+ *             raise ValueError('Business centers must be specified')
+ *         for center in business_centres:
+ *             if center < 1 or center > enums.BRSP:             # <<<<<<<<<<<<<<
+ *                 raise ValueError('Invalid business center')
+ * 
+ */
+    __pyx_t_4 = PyObject_RichCompare(__pyx_v_center, __pyx_int_1, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (!__pyx_t_5) {
+    } else {
+      __pyx_t_2 = __pyx_t_5;
+      goto __pyx_L7_bool_binop_done;
+    }
+    __pyx_t_4 = __Pyx_PyInt_From_enum__redukti_3a__3a_BusinessCenter(redukti::BRSP); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_center, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_2 = __pyx_t_5;
+    __pyx_L7_bool_binop_done:;
+    if (unlikely(__pyx_t_2)) {
+
+      /* "_redukti.pyx":105
+ *         for center in business_centres:
+ *             if center < 1 or center > enums.BRSP:
+ *                 raise ValueError('Invalid business center')             # <<<<<<<<<<<<<<
+ * 
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):
+ */
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 105, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_Raise(__pyx_t_6, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __PYX_ERR(0, 105, __pyx_L1_error)
+
+      /* "_redukti.pyx":104
+ *             raise ValueError('Business centers must be specified')
+ *         for center in business_centres:
+ *             if center < 1 or center > enums.BRSP:             # <<<<<<<<<<<<<<
+ *                 raise ValueError('Invalid business center')
+ * 
+ */
+    }
+
+    /* "_redukti.pyx":103
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ *         for center in business_centres:             # <<<<<<<<<<<<<<
+ *             if center < 1 or center > enums.BRSP:
+ *                 raise ValueError('Invalid business center')
+ */
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "_redukti.pyx":100
+ *     cdef const calendar.Calendar *_calendar
+ * 
+ *     cdef validate(self, list business_centres):             # <<<<<<<<<<<<<<
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("_redukti.Calendar.validate", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_center);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":107
+ *                 raise ValueError('Invalid business center')
+ * 
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
+ *         if unit < 1 or unit > enums.YEARS:
+ *             raise ValueError('Invalid PeriodUnit specified')
+ */
+
+static PyObject *__pyx_f_8_redukti_8Calendar_validate_periodunit(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, enum redukti::PeriodUnit __pyx_v_unit) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  __Pyx_RefNannySetupContext("validate_periodunit", 0);
+
+  /* "_redukti.pyx":108
+ * 
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):
+ *         if unit < 1 or unit > enums.YEARS:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Invalid PeriodUnit specified')
+ * 
+ */
+  __pyx_t_2 = ((__pyx_v_unit < 1) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = ((__pyx_v_unit > redukti::YEARS) != 0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L4_bool_binop_done:;
+  if (unlikely(__pyx_t_1)) {
+
+    /* "_redukti.pyx":109
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):
+ *         if unit < 1 or unit > enums.YEARS:
+ *             raise ValueError('Invalid PeriodUnit specified')             # <<<<<<<<<<<<<<
+ * 
+ *     def __cinit__(self, list business_centres):
+ */
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(0, 109, __pyx_L1_error)
+
+    /* "_redukti.pyx":108
+ * 
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):
+ *         if unit < 1 or unit > enums.YEARS:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Invalid PeriodUnit specified')
+ * 
+ */
+  }
+
+  /* "_redukti.pyx":107
+ *                 raise ValueError('Invalid business center')
+ * 
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
+ *         if unit < 1 or unit > enums.YEARS:
+ *             raise ValueError('Invalid PeriodUnit specified')
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("_redukti.Calendar.validate_periodunit", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":111
+ *             raise ValueError('Invalid PeriodUnit specified')
+ * 
+ *     def __cinit__(self, list business_centres):             # <<<<<<<<<<<<<<
+ *         cdef calendar.JointCalendarParameters joint_calendars
+ *         self.validate(business_centres)
+ */
+
+/* Python wrapper */
+static int __pyx_pw_8_redukti_8Calendar_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_8_redukti_8Calendar_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_business_centres = 0;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_business_centres,0};
+    PyObject* values[1] = {0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_business_centres)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+    }
+    __pyx_v_business_centres = ((PyObject*)values[0]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_redukti.Calendar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_business_centres), (&PyList_Type), 1, "business_centres", 1))) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_8Calendar___cinit__(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), __pyx_v_business_centres);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, PyObject *__pyx_v_business_centres) {
+  redukti::JointCalendarParameters __pyx_v_joint_calendars;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  enum redukti::BusinessCenter __pyx_t_4;
+  enum redukti::BusinessCenter __pyx_t_5;
+  enum redukti::BusinessCenter __pyx_t_6;
+  enum redukti::BusinessCenter __pyx_t_7;
+  __Pyx_RefNannySetupContext("__cinit__", 0);
+
+  /* "_redukti.pyx":113
+ *     def __cinit__(self, list business_centres):
+ *         cdef calendar.JointCalendarParameters joint_calendars
+ *         self.validate(business_centres)             # <<<<<<<<<<<<<<
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8_redukti_Calendar *)__pyx_v_self->__pyx_vtab)->validate(__pyx_v_self, __pyx_v_business_centres); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_redukti.pyx":114
+ *         cdef calendar.JointCalendarParameters joint_calendars
+ *         self.validate(business_centres)
+ *         if len(business_centres) == 0:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Business centers must be specified')
+ *         if len(business_centres) == 1:
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 114, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_2 == 0) != 0);
+  if (unlikely(__pyx_t_3)) {
+
+    /* "_redukti.pyx":115
+ *         self.validate(business_centres)
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')             # <<<<<<<<<<<<<<
+ *         if len(business_centres) == 1:
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 115, __pyx_L1_error)
+
+    /* "_redukti.pyx":114
+ *         cdef calendar.JointCalendarParameters joint_calendars
+ *         self.validate(business_centres)
+ *         if len(business_centres) == 0:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Business centers must be specified')
+ *         if len(business_centres) == 1:
+ */
+  }
+
+  /* "_redukti.pyx":116
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ *         if len(business_centres) == 1:             # <<<<<<<<<<<<<<
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
+ *         elif len(business_centres) == 2:
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 116, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_2 == 1) != 0);
+  if (__pyx_t_3) {
+
+    /* "_redukti.pyx":117
+ *             raise ValueError('Business centers must be specified')
+ *         if len(business_centres) == 1:
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])             # <<<<<<<<<<<<<<
+ *         elif len(business_centres) == 2:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
+ */
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 117, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(((enum redukti::BusinessCenter)__pyx_t_4));
+
+    /* "_redukti.pyx":116
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')
+ *         if len(business_centres) == 1:             # <<<<<<<<<<<<<<
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
+ *         elif len(business_centres) == 2:
+ */
+    goto __pyx_L4;
+  }
+
+  /* "_redukti.pyx":118
+ *         if len(business_centres) == 1:
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
+ *         elif len(business_centres) == 2:             # <<<<<<<<<<<<<<
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 118, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_2 == 2) != 0);
+  if (__pyx_t_3) {
+
+    /* "_redukti.pyx":119
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
+ *         elif len(business_centres) == 2:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])             # <<<<<<<<<<<<<<
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 3:
+ */
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 119, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 119, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_joint_calendars = redukti::JointCalendarParameters(__pyx_t_4, __pyx_t_5);
+
+    /* "_redukti.pyx":120
+ *         elif len(business_centres) == 2:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)             # <<<<<<<<<<<<<<
+ *         elif len(business_centres) == 3:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
+ */
+    __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(__pyx_v_joint_calendars);
+
+    /* "_redukti.pyx":118
+ *         if len(business_centres) == 1:
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
+ *         elif len(business_centres) == 2:             # <<<<<<<<<<<<<<
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ */
+    goto __pyx_L4;
+  }
+
+  /* "_redukti.pyx":121
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 3:             # <<<<<<<<<<<<<<
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 121, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_2 == 3) != 0);
+  if (__pyx_t_3) {
+
+    /* "_redukti.pyx":122
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 3:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])             # <<<<<<<<<<<<<<
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 4:
+ */
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 122, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 122, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 122, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_joint_calendars = redukti::JointCalendarParameters(__pyx_t_5, __pyx_t_4, __pyx_t_6);
+
+    /* "_redukti.pyx":123
+ *         elif len(business_centres) == 3:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)             # <<<<<<<<<<<<<<
+ *         elif len(business_centres) == 4:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])
+ */
+    __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(__pyx_v_joint_calendars);
+
+    /* "_redukti.pyx":121
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 3:             # <<<<<<<<<<<<<<
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ */
+    goto __pyx_L4;
+  }
+
+  /* "_redukti.pyx":124
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 4:             # <<<<<<<<<<<<<<
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ */
+  if (unlikely(__pyx_v_business_centres == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 124, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_2 == 4) != 0);
+  if (likely(__pyx_t_3)) {
+
+    /* "_redukti.pyx":125
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 4:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])             # <<<<<<<<<<<<<<
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         else:
+ */
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 125, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 125, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 125, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(__pyx_v_business_centres == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 125, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 3, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_7 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_joint_calendars = redukti::JointCalendarParameters(__pyx_t_6, __pyx_t_4, __pyx_t_5, __pyx_t_7);
+
+    /* "_redukti.pyx":126
+ *         elif len(business_centres) == 4:
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)             # <<<<<<<<<<<<<<
+ *         else:
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
+ */
+    __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(__pyx_v_joint_calendars);
+
+    /* "_redukti.pyx":124
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         elif len(business_centres) == 4:             # <<<<<<<<<<<<<<
+ *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ */
+    goto __pyx_L4;
+  }
+
+  /* "_redukti.pyx":128
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         else:
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')             # <<<<<<<<<<<<<<
+ *         if self._calendar is NULL:
+ *             raise ValueError('Unable to construct a calendar from given parameters')
+ */
+  /*else*/ {
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 128, __pyx_L1_error)
+  }
+  __pyx_L4:;
+
+  /* "_redukti.pyx":129
+ *         else:
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
+ *         if self._calendar is NULL:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Unable to construct a calendar from given parameters')
+ * 
+ */
+  __pyx_t_3 = ((__pyx_v_self->_calendar == NULL) != 0);
+  if (unlikely(__pyx_t_3)) {
+
+    /* "_redukti.pyx":130
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
+ *         if self._calendar is NULL:
+ *             raise ValueError('Unable to construct a calendar from given parameters')             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef bint is_holiday(self, Date d):
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 130, __pyx_L1_error)
+
+    /* "_redukti.pyx":129
+ *         else:
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
+ *         if self._calendar is NULL:             # <<<<<<<<<<<<<<
+ *             raise ValueError('Unable to construct a calendar from given parameters')
+ * 
+ */
+  }
+
+  /* "_redukti.pyx":111
+ *             raise ValueError('Invalid PeriodUnit specified')
+ * 
+ *     def __cinit__(self, list business_centres):             # <<<<<<<<<<<<<<
+ *         cdef calendar.JointCalendarParameters joint_calendars
+ *         self.validate(business_centres)
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.Calendar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":132
+ *             raise ValueError('Unable to construct a calendar from given parameters')
+ * 
+ *     cpdef bint is_holiday(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._calendar.is_holiday(d.serial())
+ * 
+ */
+
+static PyObject *__pyx_pw_8_redukti_8Calendar_3is_holiday(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static int __pyx_f_8_redukti_8Calendar_is_holiday(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("is_holiday", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_is_holiday); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_8Calendar_3is_holiday)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_d)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_d));
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 132, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":133
+ * 
+ *     cpdef bint is_holiday(self, Date d):
+ *         return self._calendar.is_holiday(d.serial())             # <<<<<<<<<<<<<<
+ * 
+ *     def advance(self, Date date, int n, enums.PeriodUnit unit):
+ */
+  __pyx_r = __pyx_v_self->_calendar->is_holiday(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d->__pyx_vtab)->serial(__pyx_v_d, 0));
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":132
+ *             raise ValueError('Unable to construct a calendar from given parameters')
+ * 
+ *     cpdef bint is_holiday(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._calendar.is_holiday(d.serial())
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.Calendar.is_holiday", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_8Calendar_3is_holiday(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static PyObject *__pyx_pw_8_redukti_8Calendar_3is_holiday(PyObject *__pyx_v_self, PyObject *__pyx_v_d) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("is_holiday (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d), __pyx_ptype_8_redukti_Date, 1, "d", 0))) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_8Calendar_2is_holiday(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_d));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_8Calendar_2is_holiday(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("is_holiday", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_8_redukti_8Calendar_is_holiday(__pyx_v_self, __pyx_v_d, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.Calendar.is_holiday", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":135
+ *         return self._calendar.is_holiday(d.serial())
+ * 
+ *     def advance(self, Date date, int n, enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
+ *         self.validate_periodunit(unit)
+ *         return Date(self._calendar.advance(date.serial(), n, unit))
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_8Calendar_5advance(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8_redukti_8Calendar_5advance(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_8_redukti_Date *__pyx_v_date = 0;
+  int __pyx_v_n;
+  enum redukti::PeriodUnit __pyx_v_unit;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("advance (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_date,&__pyx_n_s_n,&__pyx_n_s_unit,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_date)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, 1); __PYX_ERR(0, 135, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_unit)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, 2); __PYX_ERR(0, 135, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "advance") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_date = ((struct __pyx_obj_8_redukti_Date *)values[0]);
+    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
+    __pyx_v_unit = ((enum redukti::PeriodUnit)__Pyx_PyInt_As_enum__redukti_3a__3a_PeriodUnit(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_redukti.Calendar.advance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_date), __pyx_ptype_8_redukti_Date, 1, "date", 0))) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_8Calendar_4advance(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), __pyx_v_date, __pyx_v_n, __pyx_v_unit);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_8Calendar_4advance(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_date, int __pyx_v_n, enum redukti::PeriodUnit __pyx_v_unit) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("advance", 0);
+
+  /* "_redukti.pyx":136
+ * 
+ *     def advance(self, Date date, int n, enums.PeriodUnit unit):
+ *         self.validate_periodunit(unit)             # <<<<<<<<<<<<<<
+ *         return Date(self._calendar.advance(date.serial(), n, unit))
+ * 
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8_redukti_Calendar *)__pyx_v_self->__pyx_vtab)->validate_periodunit(__pyx_v_self, __pyx_v_unit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_redukti.pyx":137
+ *     def advance(self, Date date, int n, enums.PeriodUnit unit):
+ *         self.validate_periodunit(unit)
+ *         return Date(self._calendar.advance(date.serial(), n, unit))             # <<<<<<<<<<<<<<
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_calendar->advance(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_date->__pyx_vtab)->serial(__pyx_v_date, 0), __pyx_v_n, __pyx_v_unit)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":135
+ *         return self._calendar.is_holiday(d.serial())
+ * 
+ *     def advance(self, Date date, int n, enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
+ *         self.validate_periodunit(unit)
+ *         return Date(self._calendar.advance(date.serial(), n, unit))
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("_redukti.Calendar.advance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_8Calendar_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_8_redukti_8Calendar_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8_redukti_8Calendar_6__reduce_cython__(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_8Calendar_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 2, __pyx_L1_error)
+
+  /* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.Calendar.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_8Calendar_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_8_redukti_8Calendar_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8_redukti_8Calendar_8__setstate_cython__(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_8Calendar_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 4, __pyx_L1_error)
+
+  /* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.Calendar.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -3231,8 +4849,10 @@ static PyTypeObject __pyx_type_8_redukti_ADVar = {
   0, /*tp_vectorcall*/
   #endif
 };
+static struct __pyx_vtabstruct_8_redukti_Date __pyx_vtable_8_redukti_Date;
 
 static PyObject *__pyx_tp_new_8_redukti_Date(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_8_redukti_Date *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -3240,6 +4860,8 @@ static PyObject *__pyx_tp_new_8_redukti_Date(PyTypeObject *t, PyObject *a, PyObj
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_8_redukti_Date *)o);
+  p->__pyx_vtab = __pyx_vtabptr_8_redukti_Date;
   if (unlikely(__pyx_pw_8_redukti_4Date_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
@@ -3326,6 +4948,103 @@ static PyTypeObject __pyx_type_8_redukti_Date = {
   0, /*tp_vectorcall*/
   #endif
 };
+static struct __pyx_vtabstruct_8_redukti_Calendar __pyx_vtable_8_redukti_Calendar;
+
+static PyObject *__pyx_tp_new_8_redukti_Calendar(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_8_redukti_Calendar *p;
+  PyObject *o;
+  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
+    o = (*t->tp_alloc)(t, 0);
+  } else {
+    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
+  }
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_8_redukti_Calendar *)o);
+  p->__pyx_vtab = __pyx_vtabptr_8_redukti_Calendar;
+  if (unlikely(__pyx_pw_8_redukti_8Calendar_1__cinit__(o, a, k) < 0)) goto bad;
+  return o;
+  bad:
+  Py_DECREF(o); o = 0;
+  return NULL;
+}
+
+static void __pyx_tp_dealloc_8_redukti_Calendar(PyObject *o) {
+  #if CYTHON_USE_TP_FINALIZE
+  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  (*Py_TYPE(o)->tp_free)(o);
+}
+
+static PyMethodDef __pyx_methods_8_redukti_Calendar[] = {
+  {"is_holiday", (PyCFunction)__pyx_pw_8_redukti_8Calendar_3is_holiday, METH_O, 0},
+  {"advance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8_redukti_8Calendar_5advance, METH_VARARGS|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_8_redukti_8Calendar_7__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_8_redukti_8Calendar_9__setstate_cython__, METH_O, 0},
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_8_redukti_Calendar = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "_redukti.Calendar", /*tp_name*/
+  sizeof(struct __pyx_obj_8_redukti_Calendar), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_8_redukti_Calendar, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_8_redukti_Calendar, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_8_redukti_Calendar, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b1
+  0, /*tp_vectorcall*/
+  #endif
+};
 
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
@@ -3374,30 +5093,46 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ADVar, __pyx_k_ADVar, sizeof(__pyx_k_ADVar), 0, 0, 1, 1},
+  {&__pyx_kp_u_Business_centers_must_be_specifi, __pyx_k_Business_centers_must_be_specifi, sizeof(__pyx_k_Business_centers_must_be_specifi), 0, 1, 0, 0},
+  {&__pyx_n_s_Calendar, __pyx_k_Calendar, sizeof(__pyx_k_Calendar), 0, 0, 1, 1},
   {&__pyx_kp_u_Cannot_parse_the_schedule_parame, __pyx_k_Cannot_parse_the_schedule_parame, sizeof(__pyx_k_Cannot_parse_the_schedule_parame), 0, 1, 0, 0},
   {&__pyx_n_s_Date, __pyx_k_Date, sizeof(__pyx_k_Date), 0, 0, 1, 1},
   {&__pyx_kp_u_Failed_to_generate_schedule, __pyx_k_Failed_to_generate_schedule, sizeof(__pyx_k_Failed_to_generate_schedule), 0, 1, 0, 0},
   {&__pyx_kp_u_Failed_to_parse_result_from_api, __pyx_k_Failed_to_parse_result_from_api, sizeof(__pyx_k_Failed_to_parse_result_from_api), 0, 1, 0, 0},
+  {&__pyx_kp_u_Incorrect_number_of_values_in_bu, __pyx_k_Incorrect_number_of_values_in_bu, sizeof(__pyx_k_Incorrect_number_of_values_in_bu), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_PeriodUnit_specified, __pyx_k_Invalid_PeriodUnit_specified, sizeof(__pyx_k_Invalid_PeriodUnit_specified), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_business_center, __pyx_k_Invalid_business_center, sizeof(__pyx_k_Invalid_business_center), 0, 1, 0, 0},
+  {&__pyx_kp_u_Number_of_variables_in_AdVar_mus, __pyx_k_Number_of_variables_in_AdVar_mus, sizeof(__pyx_k_Number_of_variables_in_AdVar_mus), 0, 1, 0, 0},
+  {&__pyx_kp_u_Order_must_be_between_0_and_2, __pyx_k_Order_must_be_between_0_and_2, sizeof(__pyx_k_Order_must_be_between_0_and_2), 0, 1, 0, 0},
   {&__pyx_n_s_ParseFromString, __pyx_k_ParseFromString, sizeof(__pyx_k_ParseFromString), 0, 0, 1, 1},
   {&__pyx_n_s_Schedule, __pyx_k_Schedule, sizeof(__pyx_k_Schedule), 0, 0, 1, 1},
   {&__pyx_n_s_SerializeToString, __pyx_k_SerializeToString, sizeof(__pyx_k_SerializeToString), 0, 0, 1, 1},
   {&__pyx_kp_u_Supplied_values_are_not_of_the_s, __pyx_k_Supplied_values_are_not_of_the_s, sizeof(__pyx_k_Supplied_values_are_not_of_the_s), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
+  {&__pyx_kp_u_Unable_to_construct_a_calendar_f, __pyx_k_Unable_to_construct_a_calendar_f, sizeof(__pyx_k_Unable_to_construct_a_calendar_f), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
+  {&__pyx_kp_u_Variable_index_is_out_of_range, __pyx_k_Variable_index_is_out_of_range, sizeof(__pyx_k_Variable_index_is_out_of_range), 0, 1, 0, 0},
+  {&__pyx_n_s_business_centres, __pyx_k_business_centres, sizeof(__pyx_k_business_centres), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
+  {&__pyx_n_s_date, __pyx_k_date, sizeof(__pyx_k_date), 0, 0, 1, 1},
+  {&__pyx_n_s_day, __pyx_k_day, sizeof(__pyx_k_day), 0, 0, 1, 1},
   {&__pyx_n_s_generate_schedule, __pyx_k_generate_schedule, sizeof(__pyx_k_generate_schedule), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_initial_value, __pyx_k_initial_value, sizeof(__pyx_k_initial_value), 0, 0, 1, 1},
+  {&__pyx_n_s_is_holiday, __pyx_k_is_holiday, sizeof(__pyx_k_is_holiday), 0, 0, 1, 1},
   {&__pyx_n_s_m, __pyx_k_m, sizeof(__pyx_k_m), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_make_date_from_dmy, __pyx_k_make_date_from_dmy, sizeof(__pyx_k_make_date_from_dmy), 0, 0, 1, 1},
+  {&__pyx_n_s_month, __pyx_k_month, sizeof(__pyx_k_month), 0, 0, 1, 1},
+  {&__pyx_n_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 1},
   {&__pyx_n_s_n_vars, __pyx_k_n_vars, sizeof(__pyx_k_n_vars), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
   {&__pyx_n_s_order, __pyx_k_order, sizeof(__pyx_k_order), 0, 0, 1, 1},
   {&__pyx_n_s_parameters, __pyx_k_parameters, sizeof(__pyx_k_parameters), 0, 0, 1, 1},
+  {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -3410,19 +5145,22 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_schedule, __pyx_k_schedule, sizeof(__pyx_k_schedule), 0, 0, 1, 1},
   {&__pyx_n_s_schedule_parameters, __pyx_k_schedule_parameters, sizeof(__pyx_k_schedule_parameters), 0, 0, 1, 1},
   {&__pyx_n_s_schedule_pb2, __pyx_k_schedule_pb2, sizeof(__pyx_k_schedule_pb2), 0, 0, 1, 1},
+  {&__pyx_n_s_serial, __pyx_k_serial, sizeof(__pyx_k_serial), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_status, __pyx_k_status, sizeof(__pyx_k_status), 0, 0, 1, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
+  {&__pyx_n_s_unit, __pyx_k_unit, sizeof(__pyx_k_unit), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_variable, __pyx_k_variable, sizeof(__pyx_k_variable), 0, 0, 1, 1},
   {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
+  {&__pyx_n_s_year, __pyx_k_year, sizeof(__pyx_k_year), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 40, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 53, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -3433,111 +5171,218 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "_redukti.pyx":40
+  /* "_redukti.pyx":26
+ *     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+ *         if (n_vars <= 0):
+ *             raise ValueError('Number of variables in AdVar must be > 0')             # <<<<<<<<<<<<<<
+ *         if order < 0 or order > 2:
+ *             raise ValueError('Order must be between 0 and 2')
+ */
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Number_of_variables_in_AdVar_mus); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "_redukti.pyx":28
+ *             raise ValueError('Number of variables in AdVar must be > 0')
+ *         if order < 0 or order > 2:
+ *             raise ValueError('Order must be between 0 and 2')             # <<<<<<<<<<<<<<
+ *         if (variable < 0 or variable >= n_vars):
+ *             raise ValueError('Variable index is out of range')
+ */
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Order_must_be_between_0_and_2); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "_redukti.pyx":30
+ *             raise ValueError('Order must be between 0 and 2')
+ *         if (variable < 0 or variable >= n_vars):
+ *             raise ValueError('Variable index is out of range')             # <<<<<<<<<<<<<<
+ *         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
+ *         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
+ */
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Variable_index_is_out_of_range); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+
+  /* "_redukti.pyx":43
  *         is_compatible = self._vars == other._vars and self._order == other._order
  *         if not is_compatible:
  *             raise ValueError('Supplied values are not of the same order or size')             # <<<<<<<<<<<<<<
  *         autodiff.redukti_adouble_assign(self._ad, other._ad)
  * 
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Supplied_values_are_not_of_the_s); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 40, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
-
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
-
-  /* "(tree fragment)":4
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
-
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Supplied_values_are_not_of_the_s); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "_redukti.pyx":82
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+
+  /* "_redukti.pyx":85
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):
  *         raise ValueError("Cannot parse the schedule parameters")             # <<<<<<<<<<<<<<
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Cannot_parse_the_schedule_parame); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 82, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Cannot_parse_the_schedule_parame); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "_redukti.pyx":86
+  /* "_redukti.pyx":89
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:
  *         raise Exception('Failed to generate schedule')             # <<<<<<<<<<<<<<
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_generate_schedule); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 86, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_generate_schedule); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "_redukti.pyx":90
+  /* "_redukti.pyx":93
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):
  *         raise Exception('Failed to parse result from api call')             # <<<<<<<<<<<<<<
  *     result.ParseFromString(result_str)
  *     return result
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_parse_result_from_api); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 90, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_parse_result_from_api); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "_redukti.pyx":75
+  /* "_redukti.pyx":102
+ *     cdef validate(self, list business_centres):
+ *         if len(business_centres) == 0:
+ *             raise ValueError('Business centers must be specified')             # <<<<<<<<<<<<<<
+ *         for center in business_centres:
+ *             if center < 1 or center > enums.BRSP:
+ */
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Business_centers_must_be_specifi); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+
+  /* "_redukti.pyx":105
+ *         for center in business_centres:
+ *             if center < 1 or center > enums.BRSP:
+ *                 raise ValueError('Invalid business center')             # <<<<<<<<<<<<<<
+ * 
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):
+ */
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Invalid_business_center); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+
+  /* "_redukti.pyx":109
+ *     cdef validate_periodunit(self, enums.PeriodUnit unit):
+ *         if unit < 1 or unit > enums.YEARS:
+ *             raise ValueError('Invalid PeriodUnit specified')             # <<<<<<<<<<<<<<
+ * 
+ *     def __cinit__(self, list business_centres):
+ */
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_Invalid_PeriodUnit_specified); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+
+  /* "_redukti.pyx":128
+ *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
+ *         else:
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')             # <<<<<<<<<<<<<<
+ *         if self._calendar is NULL:
+ *             raise ValueError('Unable to construct a calendar from given parameters')
+ */
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Incorrect_number_of_values_in_bu); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+
+  /* "_redukti.pyx":130
+ *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
+ *         if self._calendar is NULL:
+ *             raise ValueError('Unable to construct a calendar from given parameters')             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef bint is_holiday(self, Date d):
+ */
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Unable_to_construct_a_calendar_f); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+
+  /* "_redukti.pyx":78
  * 
  * 
  * def make_date_from_dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
  *     return Date(date.make_date(d, m, y))
  * 
  */
-  __pyx_tuple__9 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 75, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_make_date_from_dmy, 75, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_make_date_from_dmy, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 78, __pyx_L1_error)
 
-  /* "_redukti.pyx":78
+  /* "_redukti.pyx":81
  *     return Date(date.make_date(d, m, y))
  * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  */
-  __pyx_tuple__11 = PyTuple_Pack(7, __pyx_n_s_schedule_parameters, __pyx_n_s_str, __pyx_n_s_parameters, __pyx_n_s_schedule, __pyx_n_s_status, __pyx_n_s_result, __pyx_n_s_result_str); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_generate_schedule, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(7, __pyx_n_s_schedule_parameters, __pyx_n_s_str, __pyx_n_s_parameters, __pyx_n_s_schedule, __pyx_n_s_status, __pyx_n_s_result, __pyx_n_s_result_str); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_generate_schedule, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3547,6 +5392,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3588,26 +5434,47 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_8_redukti_ADVar) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8_redukti_ADVar) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_8_redukti_ADVar.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_ADVar.tp_dictoffset && __pyx_type_8_redukti_ADVar.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8_redukti_ADVar.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ADVar, (PyObject *)&__pyx_type_8_redukti_ADVar) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_ADVar) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ADVar, (PyObject *)&__pyx_type_8_redukti_ADVar) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_ADVar) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __pyx_ptype_8_redukti_ADVar = &__pyx_type_8_redukti_ADVar;
-  if (PyType_Ready(&__pyx_type_8_redukti_Date) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_vtabptr_8_redukti_Date = &__pyx_vtable_8_redukti_Date;
+  __pyx_vtable_8_redukti_Date.day = (int (*)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_4Date_day;
+  __pyx_vtable_8_redukti_Date.month = (int (*)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_4Date_month;
+  __pyx_vtable_8_redukti_Date.year = (int (*)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_4Date_year;
+  __pyx_vtable_8_redukti_Date.serial = (int (*)(struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_4Date_serial;
+  if (PyType_Ready(&__pyx_type_8_redukti_Date) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_8_redukti_Date.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_Date.tp_dictoffset && __pyx_type_8_redukti_Date.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8_redukti_Date.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Date, (PyObject *)&__pyx_type_8_redukti_Date) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_Date) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_8_redukti_Date.tp_dict, __pyx_vtabptr_8_redukti_Date) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Date, (PyObject *)&__pyx_type_8_redukti_Date) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_Date) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
   __pyx_ptype_8_redukti_Date = &__pyx_type_8_redukti_Date;
+  __pyx_vtabptr_8_redukti_Calendar = &__pyx_vtable_8_redukti_Calendar;
+  __pyx_vtable_8_redukti_Calendar.validate = (PyObject *(*)(struct __pyx_obj_8_redukti_Calendar *, PyObject *))__pyx_f_8_redukti_8Calendar_validate;
+  __pyx_vtable_8_redukti_Calendar.validate_periodunit = (PyObject *(*)(struct __pyx_obj_8_redukti_Calendar *, enum redukti::PeriodUnit))__pyx_f_8_redukti_8Calendar_validate_periodunit;
+  __pyx_vtable_8_redukti_Calendar.is_holiday = (int (*)(struct __pyx_obj_8_redukti_Calendar *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_8Calendar_is_holiday;
+  if (PyType_Ready(&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  #if PY_VERSION_HEX < 0x030800B1
+  __pyx_type_8_redukti_Calendar.tp_print = 0;
+  #endif
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_Calendar.tp_dictoffset && __pyx_type_8_redukti_Calendar.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_8_redukti_Calendar.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  }
+  if (__Pyx_SetVtable(__pyx_type_8_redukti_Calendar.tp_dict, __pyx_vtabptr_8_redukti_Calendar) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Calendar, (PyObject *)&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_ptype_8_redukti_Calendar = &__pyx_type_8_redukti_Calendar;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3837,49 +5704,49 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "_redukti.pyx":19
- * cimport enums
- * cimport schedule
+  /* "_redukti.pyx":16
+ * from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
+ * cimport autodiff, date, enums, schedule, calendar
  * from redukti import schedule_pb2             # <<<<<<<<<<<<<<
  * from libcpp.string cimport string
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_schedule_pb2);
   __Pyx_GIVEREF(__pyx_n_s_schedule_pb2);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_schedule_pb2);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_redukti, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_redukti, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_schedule_pb2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_schedule_pb2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_schedule_pb2, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_schedule_pb2, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "_redukti.pyx":75
+  /* "_redukti.pyx":78
  * 
  * 
  * def make_date_from_dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
  *     return Date(date.make_date(d, m, y))
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_1make_date_from_dmy, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_1make_date_from_dmy, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_date_from_dmy, __pyx_t_2) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_date_from_dmy, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "_redukti.pyx":78
+  /* "_redukti.pyx":81
  *     return Date(date.make_date(d, m, y))
  * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_3generate_schedule, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_3generate_schedule, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_schedule, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_schedule, __pyx_t_2) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "_redukti.pyx":1
@@ -4113,27 +5980,6 @@ bad:
     return -1;
 }
 
-/* ArgTypeTest */
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
-{
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    else if (exact) {
-        #if PY_MAJOR_VERSION == 2
-        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
-        #endif
-    }
-    else {
-        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
-    }
-    PyErr_Format(PyExc_TypeError,
-        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
-        name, type->tp_name, Py_TYPE(obj)->tp_name);
-    return 0;
-}
-
 /* PyObjectCall */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
@@ -4337,26 +6183,50 @@ bad:
 }
 #endif
 
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+/* ArgTypeTest */
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
     }
+    else if (exact) {
+        #if PY_MAJOR_VERSION == 2
+        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
+    }
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+    return 0;
+}
+
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
 }
 #endif
 
@@ -4499,6 +6369,51 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 }
 #endif
 
+/* PyObjectCallNoArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
+#else
+    if (likely(PyCFunction_Check(func)))
+#endif
+    {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
+
 /* PyObjectCallOneArg */
 #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
@@ -4539,53 +6454,47 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 }
 #endif
 
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+/* WriteUnraisableException */
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_PyThreadState_declare
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#ifdef _MSC_VER
+    else state = (PyGILState_STATE)-1;
+#endif
+#endif
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
     }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
     }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
 #endif
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
 }
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
 
 /* GetModuleGlobalName */
 #if CYTHON_USE_DICT_VERSIONS
@@ -4649,6 +6558,93 @@ static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyOb
     Py_DECREF(function);
 done:
     return result;
+}
+
+/* GetItemInt */
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
 }
 
 /* PyObject_GenericGetAttrNoDict */
@@ -4775,6 +6771,24 @@ GOOD:
     Py_XDECREF(setstate);
     Py_XDECREF(setstate_cython);
     return ret;
+}
+
+/* SetVTable */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
+#if PY_VERSION_HEX >= 0x02070000
+    PyObject *ob = PyCapsule_New(vtable, 0, 0);
+#else
+    PyObject *ob = PyCObject_FromVoidPtr(vtable, 0);
+#endif
+    if (!ob)
+        goto bad;
+    if (PyDict_SetItem(dict, __pyx_n_s_pyx_vtable, ob) < 0)
+        goto bad;
+    Py_DECREF(ob);
+    return 0;
+bad:
+    Py_XDECREF(ob);
+    return -1;
 }
 
 /* Import */
@@ -5117,24 +7131,24 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
 }
 
 /* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_char(unsigned char value) {
-    const unsigned char neg_one = (unsigned char) ((unsigned char) 0 - (unsigned char) 1), const_zero = (unsigned char) 0;
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__redukti_3a__3a_BusinessCenter(enum redukti::BusinessCenter value) {
+    const enum redukti::BusinessCenter neg_one = (enum redukti::BusinessCenter) ((enum redukti::BusinessCenter) 0 - (enum redukti::BusinessCenter) 1), const_zero = (enum redukti::BusinessCenter) 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(unsigned char) < sizeof(long)) {
+        if (sizeof(enum redukti::BusinessCenter) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned char) <= sizeof(unsigned long)) {
+        } else if (sizeof(enum redukti::BusinessCenter) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(unsigned char) <= sizeof(unsigned PY_LONG_LONG)) {
+        } else if (sizeof(enum redukti::BusinessCenter) <= sizeof(unsigned PY_LONG_LONG)) {
             return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
 #endif
         }
     } else {
-        if (sizeof(unsigned char) <= sizeof(long)) {
+        if (sizeof(enum redukti::BusinessCenter) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(unsigned char) <= sizeof(PY_LONG_LONG)) {
+        } else if (sizeof(enum redukti::BusinessCenter) <= sizeof(PY_LONG_LONG)) {
             return PyLong_FromLongLong((PY_LONG_LONG) value);
 #endif
         }
@@ -5142,30 +7156,30 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_char(unsigned char valu
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(unsigned char),
+        return _PyLong_FromByteArray(bytes, sizeof(enum redukti::BusinessCenter),
                                      little, !is_unsigned);
     }
 }
 
 /* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_short(short value) {
-    const short neg_one = (short) ((short) 0 - (short) 1), const_zero = (short) 0;
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(short) < sizeof(long)) {
+        if (sizeof(long) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(short) <= sizeof(unsigned long)) {
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(short) <= sizeof(unsigned PY_LONG_LONG)) {
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
             return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
 #endif
         }
     } else {
-        if (sizeof(short) <= sizeof(long)) {
+        if (sizeof(long) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(short) <= sizeof(PY_LONG_LONG)) {
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
             return PyLong_FromLongLong((PY_LONG_LONG) value);
 #endif
         }
@@ -5173,7 +7187,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_short(short value) {
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(short),
+        return _PyLong_FromByteArray(bytes, sizeof(long),
                                      little, !is_unsigned);
     }
 }
@@ -5557,6 +7571,195 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
+static CYTHON_INLINE enum redukti::PeriodUnit __Pyx_PyInt_As_enum__redukti_3a__3a_PeriodUnit(PyObject *x) {
+    const enum redukti::PeriodUnit neg_one = (enum redukti::PeriodUnit) ((enum redukti::PeriodUnit) 0 - (enum redukti::PeriodUnit) 1), const_zero = (enum redukti::PeriodUnit) 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(enum redukti::PeriodUnit) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (enum redukti::PeriodUnit) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum redukti::PeriodUnit) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(enum redukti::PeriodUnit) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) >= 2 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) (((((enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum redukti::PeriodUnit) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) >= 3 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) (((((((enum redukti::PeriodUnit)digits[2]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum redukti::PeriodUnit) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) >= 4 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) (((((((((enum redukti::PeriodUnit)digits[3]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[2]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (enum redukti::PeriodUnit) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(enum redukti::PeriodUnit) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::PeriodUnit, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(enum redukti::PeriodUnit) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::PeriodUnit, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum redukti::PeriodUnit) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) (((enum redukti::PeriodUnit)-1)*(((((enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(enum redukti::PeriodUnit) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) ((((((enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) (((enum redukti::PeriodUnit)-1)*(((((((enum redukti::PeriodUnit)digits[2]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum redukti::PeriodUnit) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) ((((((((enum redukti::PeriodUnit)digits[2]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) (((enum redukti::PeriodUnit)-1)*(((((((((enum redukti::PeriodUnit)digits[3]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[2]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum redukti::PeriodUnit) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::PeriodUnit, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::PeriodUnit) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum redukti::PeriodUnit) ((((((((((enum redukti::PeriodUnit)digits[3]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[2]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[1]) << PyLong_SHIFT) | (enum redukti::PeriodUnit)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(enum redukti::PeriodUnit) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::PeriodUnit, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(enum redukti::PeriodUnit) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::PeriodUnit, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            enum redukti::PeriodUnit val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (enum redukti::PeriodUnit) -1;
+        }
+    } else {
+        enum redukti::PeriodUnit val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (enum redukti::PeriodUnit) -1;
+        val = __Pyx_PyInt_As_enum__redukti_3a__3a_PeriodUnit(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to enum redukti::PeriodUnit");
+    return (enum redukti::PeriodUnit) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to enum redukti::PeriodUnit");
+    return (enum redukti::PeriodUnit) -1;
+}
+
+/* CIntFromPy */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
     const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -5745,35 +7948,193 @@ raise_neg_overflow:
     return (long) -1;
 }
 
-/* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
+/* CIntFromPy */
+static CYTHON_INLINE enum redukti::BusinessCenter __Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(PyObject *x) {
+    const enum redukti::BusinessCenter neg_one = (enum redukti::BusinessCenter) ((enum redukti::BusinessCenter) 0 - (enum redukti::BusinessCenter) 1), const_zero = (enum redukti::BusinessCenter) 0;
     const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(enum redukti::BusinessCenter) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (enum redukti::BusinessCenter) val;
+        }
+    } else
 #endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum redukti::BusinessCenter) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(enum redukti::BusinessCenter) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) >= 2 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) (((((enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum redukti::BusinessCenter) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) >= 3 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) (((((((enum redukti::BusinessCenter)digits[2]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum redukti::BusinessCenter) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) >= 4 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) (((((((((enum redukti::BusinessCenter)digits[3]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[2]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (enum redukti::BusinessCenter) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(enum redukti::BusinessCenter) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::BusinessCenter, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(enum redukti::BusinessCenter) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::BusinessCenter, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum redukti::BusinessCenter) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) (((enum redukti::BusinessCenter)-1)*(((((enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(enum redukti::BusinessCenter) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) ((((((enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) (((enum redukti::BusinessCenter)-1)*(((((((enum redukti::BusinessCenter)digits[2]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum redukti::BusinessCenter) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) ((((((((enum redukti::BusinessCenter)digits[2]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) (((enum redukti::BusinessCenter)-1)*(((((((((enum redukti::BusinessCenter)digits[3]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[2]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum redukti::BusinessCenter) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum redukti::BusinessCenter, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum redukti::BusinessCenter) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum redukti::BusinessCenter) ((((((((((enum redukti::BusinessCenter)digits[3]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[2]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[1]) << PyLong_SHIFT) | (enum redukti::BusinessCenter)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(enum redukti::BusinessCenter) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::BusinessCenter, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(enum redukti::BusinessCenter) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum redukti::BusinessCenter, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            enum redukti::BusinessCenter val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (enum redukti::BusinessCenter) -1;
         }
     } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
+        enum redukti::BusinessCenter val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (enum redukti::BusinessCenter) -1;
+        val = __Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(tmp);
+        Py_DECREF(tmp);
+        return val;
     }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to enum redukti::BusinessCenter");
+    return (enum redukti::BusinessCenter) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to enum redukti::BusinessCenter");
+    return (enum redukti::BusinessCenter) -1;
 }
 
 /* FastTypeChecks */
