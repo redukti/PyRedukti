@@ -906,7 +906,7 @@ struct __pyx_obj_8_redukti_Date {
 };
 
 
-/* "_redukti.pyx":108
+/* "_redukti.pyx":129
  *         raise ValueError('Invalid PeriodUnit specified')
  * 
  * cdef class Calendar:             # <<<<<<<<<<<<<<
@@ -920,7 +920,7 @@ struct __pyx_obj_8_redukti_Calendar {
 };
 
 
-/* "_redukti.pyx":143
+/* "_redukti.pyx":164
  *         raise ValueError('Invalid DayCountFraction specified')
  * 
  * cdef class DayFraction:             # <<<<<<<<<<<<<<
@@ -934,7 +934,7 @@ struct __pyx_obj_8_redukti_DayFraction {
 };
 
 
-/* "_redukti.pyx":175
+/* "_redukti.pyx":196
  *         raise ValueError('Invalid Currency specified')
  * 
  * cdef class InterestRateIndex:             # <<<<<<<<<<<<<<
@@ -966,7 +966,7 @@ struct __pyx_vtabstruct_8_redukti_Date {
 static struct __pyx_vtabstruct_8_redukti_Date *__pyx_vtabptr_8_redukti_Date;
 
 
-/* "_redukti.pyx":108
+/* "_redukti.pyx":129
  *         raise ValueError('Invalid PeriodUnit specified')
  * 
  * cdef class Calendar:             # <<<<<<<<<<<<<<
@@ -980,7 +980,7 @@ struct __pyx_vtabstruct_8_redukti_Calendar {
 static struct __pyx_vtabstruct_8_redukti_Calendar *__pyx_vtabptr_8_redukti_Calendar;
 
 
-/* "_redukti.pyx":143
+/* "_redukti.pyx":164
  *         raise ValueError('Invalid DayCountFraction specified')
  * 
  * cdef class DayFraction:             # <<<<<<<<<<<<<<
@@ -996,7 +996,7 @@ struct __pyx_vtabstruct_8_redukti_DayFraction {
 static struct __pyx_vtabstruct_8_redukti_DayFraction *__pyx_vtabptr_8_redukti_DayFraction;
 
 
-/* "_redukti.pyx":175
+/* "_redukti.pyx":196
  *         raise ValueError('Invalid Currency specified')
  * 
  * cdef class InterestRateIndex:             # <<<<<<<<<<<<<<
@@ -1243,6 +1243,9 @@ static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
 
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
 /* GetModuleGlobalName.proto */
 #if CYTHON_USE_DICT_VERSIONS
 #define __Pyx_GetModuleGlobalName(var, name)  {\
@@ -1263,9 +1266,6 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 #define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
-
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
 
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
@@ -1456,6 +1456,7 @@ static PyTypeObject *__pyx_ptype_8_redukti_Date = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_Calendar = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_DayFraction = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_InterestRateIndex = 0;
+static PyObject *__pyx_f_8_redukti_to_bytes(PyObject *); /*proto*/
 static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *); /*proto*/
 static PyObject *__pyx_f_8_redukti_validate_periodunit(enum redukti::PeriodUnit); /*proto*/
 static PyObject *__pyx_f_8_redukti_validate_daycountfraction(enum redukti::DayCountFraction); /*proto*/
@@ -1481,11 +1482,13 @@ static PyObject *__pyx_builtin_TypeError;
 static const char __pyx_k_d[] = "d";
 static const char __pyx_k_m[] = "m";
 static const char __pyx_k_n[] = "n";
+static const char __pyx_k_s[] = "s";
 static const char __pyx_k_y[] = "y";
 static const char __pyx_k_d1[] = "d1";
 static const char __pyx_k_d2[] = "d2";
 static const char __pyx_k_day[] = "day";
 static const char __pyx_k_dfc[] = "dfc";
+static const char __pyx_k_dmy[] = "dmy";
 static const char __pyx_k_idx[] = "idx";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_str[] = "str";
@@ -1498,11 +1501,14 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_unit[] = "unit";
 static const char __pyx_k_year[] = "year";
 static const char __pyx_k_ADVar[] = "ADVar";
+static const char __pyx_k_UTF_8[] = "UTF-8";
 static const char __pyx_k_month[] = "month";
 static const char __pyx_k_order[] = "order";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_tenor[] = "tenor";
 static const char __pyx_k_value[] = "value";
+static const char __pyx_k_byte_s[] = "byte_s";
+static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_n_vars[] = "n_vars";
 static const char __pyx_k_reduce[] = "__reduce__";
@@ -1512,6 +1518,7 @@ static const char __pyx_k_status[] = "status";
 static const char __pyx_k_redukti[] = "redukti";
 static const char __pyx_k_Calendar[] = "Calendar";
 static const char __pyx_k_Schedule[] = "Schedule";
+static const char __pyx_k_c_string[] = "c_string";
 static const char __pyx_k_currency[] = "currency";
 static const char __pyx_k_from_dmy[] = "from_dmy";
 static const char __pyx_k_getstate[] = "__getstate__";
@@ -1528,6 +1535,7 @@ static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_is_holiday[] = "is_holiday";
 static const char __pyx_k_isda_index[] = "isda_index";
 static const char __pyx_k_parameters[] = "_parameters";
+static const char __pyx_k_parse_date[] = "parse_date";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_result_str[] = "result_str";
 static const char __pyx_k_unadjusted[] = "unadjusted";
@@ -1555,6 +1563,8 @@ static const char __pyx_k_schedule_parameters[] = "schedule_parameters";
 static const char __pyx_k_get_index_by_isdaindex[] = "get_index_by_isdaindex";
 static const char __pyx_k_Invalid_Tenor_specified[] = "Invalid Tenor specified";
 static const char __pyx_k_Invalid_business_center[] = "Invalid business center";
+static const char __pyx_k_Invalid_date_cannot_parse[] = "Invalid date: cannot parse";
+static const char __pyx_k_Could_not_convert_to_bytes[] = "Could not convert to bytes.";
 static const char __pyx_k_Invalid_Currency_specified[] = "Invalid Currency specified";
 static const char __pyx_k_Failed_to_generate_schedule[] = "Failed to generate schedule";
 static const char __pyx_k_Invalid_IsdaIndex_specified[] = "Invalid IsdaIndex specified";
@@ -1580,6 +1590,7 @@ static PyObject *__pyx_n_s_ADVar;
 static PyObject *__pyx_kp_u_Business_centers_must_be_specifi;
 static PyObject *__pyx_n_s_Calendar;
 static PyObject *__pyx_kp_u_Cannot_parse_the_schedule_parame;
+static PyObject *__pyx_kp_u_Could_not_convert_to_bytes;
 static PyObject *__pyx_n_s_Date;
 static PyObject *__pyx_n_s_DayFraction;
 static PyObject *__pyx_kp_u_Failed_to_generate_schedule;
@@ -1596,6 +1607,7 @@ static PyObject *__pyx_kp_u_Invalid_IsdaIndex_specified;
 static PyObject *__pyx_kp_u_Invalid_PeriodUnit_specified;
 static PyObject *__pyx_kp_u_Invalid_Tenor_specified;
 static PyObject *__pyx_kp_u_Invalid_business_center;
+static PyObject *__pyx_kp_u_Invalid_date_cannot_parse;
 static PyObject *__pyx_kp_u_Number_of_variables_in_AdVar_mus;
 static PyObject *__pyx_kp_u_Order_must_be_between_0_and_2;
 static PyObject *__pyx_n_s_ParseFromString;
@@ -1603,11 +1615,14 @@ static PyObject *__pyx_n_s_Schedule;
 static PyObject *__pyx_n_s_SerializeToString;
 static PyObject *__pyx_kp_u_Supplied_values_are_not_of_the_s;
 static PyObject *__pyx_n_s_TypeError;
+static PyObject *__pyx_kp_u_UTF_8;
 static PyObject *__pyx_kp_u_Unable_to_construct_a_calendar_f;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_u_Variable_index_is_out_of_range;
 static PyObject *__pyx_n_s_adjust_date;
 static PyObject *__pyx_n_s_business_centres;
+static PyObject *__pyx_n_s_byte_s;
+static PyObject *__pyx_n_s_c_string;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_currency;
 static PyObject *__pyx_n_s_d;
@@ -1617,6 +1632,8 @@ static PyObject *__pyx_n_s_date;
 static PyObject *__pyx_n_s_day;
 static PyObject *__pyx_n_s_days;
 static PyObject *__pyx_n_s_dfc;
+static PyObject *__pyx_n_s_dmy;
+static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_final_period;
 static PyObject *__pyx_n_s_fixing_date;
 static PyObject *__pyx_n_s_from_dmy;
@@ -1641,6 +1658,7 @@ static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_order;
 static PyObject *__pyx_n_s_parameters;
+static PyObject *__pyx_n_s_parse_date;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
@@ -1653,6 +1671,7 @@ static PyObject *__pyx_n_s_ref_date1;
 static PyObject *__pyx_n_s_ref_date2;
 static PyObject *__pyx_n_s_result;
 static PyObject *__pyx_n_s_result_str;
+static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_schedule;
 static PyObject *__pyx_n_s_schedule_parameters;
 static PyObject *__pyx_n_s_schedule_pb2;
@@ -1689,7 +1708,9 @@ static PyObject *__pyx_pf_8_redukti_4Date_8serial(struct __pyx_obj_8_redukti_Dat
 static PyObject *__pyx_pf_8_redukti_4Date_10from_dmy(unsigned int __pyx_v_d, unsigned int __pyx_v_m, int __pyx_v_y); /* proto */
 static PyObject *__pyx_pf_8_redukti_4Date_12__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Date *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8_redukti_4Date_14__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_Date *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters); /* proto */
+static PyObject *__pyx_pf_8_redukti_dmy(CYTHON_UNUSED PyObject *__pyx_self, unsigned int __pyx_v_d, unsigned int __pyx_v_m, int __pyx_v_y); /* proto */
+static PyObject *__pyx_pf_8_redukti_2parse_date(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s); /* proto */
+static PyObject *__pyx_pf_8_redukti_4generate_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters); /* proto */
 static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, PyObject *__pyx_v_business_centres); /* proto */
 static PyObject *__pyx_pf_8_redukti_8Calendar_2is_holiday(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d); /* proto */
 static PyObject *__pyx_pf_8_redukti_8Calendar_4advance(struct __pyx_obj_8_redukti_Calendar *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_date, int __pyx_v_n, enum redukti::PeriodUnit __pyx_v_unit); /* proto */
@@ -1748,13 +1769,19 @@ static PyObject *__pyx_tuple__28;
 static PyObject *__pyx_tuple__29;
 static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__32;
 static PyObject *__pyx_tuple__33;
 static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__37;
-static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_tuple__39;
+static PyObject *__pyx_tuple__41;
+static PyObject *__pyx_tuple__43;
 static PyObject *__pyx_codeobj__34;
 static PyObject *__pyx_codeobj__36;
 static PyObject *__pyx_codeobj__38;
+static PyObject *__pyx_codeobj__40;
+static PyObject *__pyx_codeobj__42;
+static PyObject *__pyx_codeobj__44;
 /* Late includes */
 
 /* "_redukti.pyx":24
@@ -3221,7 +3248,7 @@ static PyObject *__pyx_pf_8_redukti_4Date_10from_dmy(unsigned int __pyx_v_d, uns
  *     def from_dmy(unsigned d, unsigned m, int y):
  *         return Date(date.make_date(d, m, y))             # <<<<<<<<<<<<<<
  * 
- * def generate_schedule(schedule_parameters):
+ * def dmy(unsigned d, unsigned m, int y):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyInt_From_int(redukti::make_date(__pyx_v_d, __pyx_v_m, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -3363,26 +3390,452 @@ static PyObject *__pyx_pf_8_redukti_4Date_14__setstate_cython__(CYTHON_UNUSED st
 /* "_redukti.pyx":81
  *         return Date(date.make_date(d, m, y))
  * 
- * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
- *     cdef string str = schedule_parameters.SerializeToString()
- *     cdef schedule.ScheduleParameters _parameters
+ * def dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
+ *     return Date(date.make_date(d, m, y))
+ * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8_redukti_1generate_schedule(PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters); /*proto*/
-static PyMethodDef __pyx_mdef_8_redukti_1generate_schedule = {"generate_schedule", (PyCFunction)__pyx_pw_8_redukti_1generate_schedule, METH_O, 0};
-static PyObject *__pyx_pw_8_redukti_1generate_schedule(PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters) {
+static PyObject *__pyx_pw_8_redukti_1dmy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8_redukti_1dmy = {"dmy", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8_redukti_1dmy, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8_redukti_1dmy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  unsigned int __pyx_v_d;
+  unsigned int __pyx_v_m;
+  int __pyx_v_y;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generate_schedule (wrapper)", 0);
-  __pyx_r = __pyx_pf_8_redukti_generate_schedule(__pyx_self, ((PyObject *)__pyx_v_schedule_parameters));
+  __Pyx_RefNannySetupContext("dmy (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_d,&__pyx_n_s_m,&__pyx_n_s_y,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_m)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("dmy", 1, 3, 3, 1); __PYX_ERR(0, 81, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("dmy", 1, 3, 3, 2); __PYX_ERR(0, 81, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dmy") < 0)) __PYX_ERR(0, 81, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_d = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_d == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
+    __pyx_v_m = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_m == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
+    __pyx_v_y = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_y == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("dmy", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 81, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_redukti.dmy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_8_redukti_dmy(__pyx_self, __pyx_v_d, __pyx_v_m, __pyx_v_y);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters) {
+static PyObject *__pyx_pf_8_redukti_dmy(CYTHON_UNUSED PyObject *__pyx_self, unsigned int __pyx_v_d, unsigned int __pyx_v_m, int __pyx_v_y) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("dmy", 0);
+
+  /* "_redukti.pyx":82
+ * 
+ * def dmy(unsigned d, unsigned m, int y):
+ *     return Date(date.make_date(d, m, y))             # <<<<<<<<<<<<<<
+ * 
+ * cdef bytes to_bytes(s):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(redukti::make_date(__pyx_v_d, __pyx_v_m, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":81
+ *         return Date(date.make_date(d, m, y))
+ * 
+ * def dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
+ *     return Date(date.make_date(d, m, y))
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("_redukti.dmy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":84
+ *     return Date(date.make_date(d, m, y))
+ * 
+ * cdef bytes to_bytes(s):             # <<<<<<<<<<<<<<
+ *     if type(s) is unicode:
+ *         return s.encode('UTF-8')
+ */
+
+static PyObject *__pyx_f_8_redukti_to_bytes(PyObject *__pyx_v_s) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  __Pyx_RefNannySetupContext("to_bytes", 0);
+
+  /* "_redukti.pyx":85
+ * 
+ * cdef bytes to_bytes(s):
+ *     if type(s) is unicode:             # <<<<<<<<<<<<<<
+ *         return s.encode('UTF-8')
+ *     elif isinstance(s, bytes):
+ */
+  __pyx_t_1 = (((PyObject *)Py_TYPE(__pyx_v_s)) == ((PyObject *)(&PyUnicode_Type)));
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (__pyx_t_2) {
+
+    /* "_redukti.pyx":86
+ * cdef bytes to_bytes(s):
+ *     if type(s) is unicode:
+ *         return s.encode('UTF-8')             # <<<<<<<<<<<<<<
+ *     elif isinstance(s, bytes):
+ *         return s
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_s, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
+      }
+    }
+    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_u_UTF_8) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_u_UTF_8);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (!(likely(PyBytes_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_r = ((PyObject*)__pyx_t_3);
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "_redukti.pyx":85
+ * 
+ * cdef bytes to_bytes(s):
+ *     if type(s) is unicode:             # <<<<<<<<<<<<<<
+ *         return s.encode('UTF-8')
+ *     elif isinstance(s, bytes):
+ */
+  }
+
+  /* "_redukti.pyx":87
+ *     if type(s) is unicode:
+ *         return s.encode('UTF-8')
+ *     elif isinstance(s, bytes):             # <<<<<<<<<<<<<<
+ *         return s
+ *     elif isinstance(s, unicode):
+ */
+  __pyx_t_2 = PyBytes_Check(__pyx_v_s); 
+  __pyx_t_1 = (__pyx_t_2 != 0);
+  if (__pyx_t_1) {
+
+    /* "_redukti.pyx":88
+ *         return s.encode('UTF-8')
+ *     elif isinstance(s, bytes):
+ *         return s             # <<<<<<<<<<<<<<
+ *     elif isinstance(s, unicode):
+ *         return bytes(s)
+ */
+    __Pyx_XDECREF(__pyx_r);
+    if (!(likely(PyBytes_CheckExact(__pyx_v_s))||((__pyx_v_s) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_s)->tp_name), 0))) __PYX_ERR(0, 88, __pyx_L1_error)
+    __Pyx_INCREF(__pyx_v_s);
+    __pyx_r = ((PyObject*)__pyx_v_s);
+    goto __pyx_L0;
+
+    /* "_redukti.pyx":87
+ *     if type(s) is unicode:
+ *         return s.encode('UTF-8')
+ *     elif isinstance(s, bytes):             # <<<<<<<<<<<<<<
+ *         return s
+ *     elif isinstance(s, unicode):
+ */
+  }
+
+  /* "_redukti.pyx":89
+ *     elif isinstance(s, bytes):
+ *         return s
+ *     elif isinstance(s, unicode):             # <<<<<<<<<<<<<<
+ *         return bytes(s)
+ *     else:
+ */
+  __pyx_t_1 = PyUnicode_Check(__pyx_v_s); 
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (likely(__pyx_t_2)) {
+
+    /* "_redukti.pyx":90
+ *         return s
+ *     elif isinstance(s, unicode):
+ *         return bytes(s)             # <<<<<<<<<<<<<<
+ *     else:
+ *         raise TypeError("Could not convert to bytes.")
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyBytes_Type)), __pyx_v_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_r = ((PyObject*)__pyx_t_3);
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "_redukti.pyx":89
+ *     elif isinstance(s, bytes):
+ *         return s
+ *     elif isinstance(s, unicode):             # <<<<<<<<<<<<<<
+ *         return bytes(s)
+ *     else:
+ */
+  }
+
+  /* "_redukti.pyx":92
+ *         return bytes(s)
+ *     else:
+ *         raise TypeError("Could not convert to bytes.")             # <<<<<<<<<<<<<<
+ * 
+ * def parse_date(s):
+ */
+  /*else*/ {
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(0, 92, __pyx_L1_error)
+  }
+
+  /* "_redukti.pyx":84
+ *     return Date(date.make_date(d, m, y))
+ * 
+ * cdef bytes to_bytes(s):             # <<<<<<<<<<<<<<
+ *     if type(s) is unicode:
+ *         return s.encode('UTF-8')
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("_redukti.to_bytes", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":94
+ *         raise TypeError("Could not convert to bytes.")
+ * 
+ * def parse_date(s):             # <<<<<<<<<<<<<<
+ *     cdef int d
+ *     byte_s = to_bytes(s)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_3parse_date(PyObject *__pyx_self, PyObject *__pyx_v_s); /*proto*/
+static PyMethodDef __pyx_mdef_8_redukti_3parse_date = {"parse_date", (PyCFunction)__pyx_pw_8_redukti_3parse_date, METH_O, 0};
+static PyObject *__pyx_pw_8_redukti_3parse_date(PyObject *__pyx_self, PyObject *__pyx_v_s) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("parse_date (wrapper)", 0);
+  __pyx_r = __pyx_pf_8_redukti_2parse_date(__pyx_self, ((PyObject *)__pyx_v_s));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_2parse_date(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s) {
+  int __pyx_v_d;
+  PyObject *__pyx_v_byte_s = NULL;
+  char const *__pyx_v_c_string;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  char const *__pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("parse_date", 0);
+
+  /* "_redukti.pyx":96
+ * def parse_date(s):
+ *     cdef int d
+ *     byte_s = to_bytes(s)             # <<<<<<<<<<<<<<
+ *     cdef const char* c_string = byte_s
+ *     if not date.parse_date(c_string, &d):
+ */
+  __pyx_t_1 = __pyx_f_8_redukti_to_bytes(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_byte_s = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "_redukti.pyx":97
+ *     cdef int d
+ *     byte_s = to_bytes(s)
+ *     cdef const char* c_string = byte_s             # <<<<<<<<<<<<<<
+ *     if not date.parse_date(c_string, &d):
+ *         raise ValueError('Invalid date: cannot parse')
+ */
+  if (unlikely(__pyx_v_byte_s == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "expected bytes, NoneType found");
+    __PYX_ERR(0, 97, __pyx_L1_error)
+  }
+  __pyx_t_2 = __Pyx_PyBytes_AsString(__pyx_v_byte_s); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_v_c_string = __pyx_t_2;
+
+  /* "_redukti.pyx":98
+ *     byte_s = to_bytes(s)
+ *     cdef const char* c_string = byte_s
+ *     if not date.parse_date(c_string, &d):             # <<<<<<<<<<<<<<
+ *         raise ValueError('Invalid date: cannot parse')
+ *     return Date(d)
+ */
+  __pyx_t_3 = ((!(redukti::parse_date(__pyx_v_c_string, (&__pyx_v_d)) != 0)) != 0);
+  if (unlikely(__pyx_t_3)) {
+
+    /* "_redukti.pyx":99
+ *     cdef const char* c_string = byte_s
+ *     if not date.parse_date(c_string, &d):
+ *         raise ValueError('Invalid date: cannot parse')             # <<<<<<<<<<<<<<
+ *     return Date(d)
+ * 
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 99, __pyx_L1_error)
+
+    /* "_redukti.pyx":98
+ *     byte_s = to_bytes(s)
+ *     cdef const char* c_string = byte_s
+ *     if not date.parse_date(c_string, &d):             # <<<<<<<<<<<<<<
+ *         raise ValueError('Invalid date: cannot parse')
+ *     return Date(d)
+ */
+  }
+
+  /* "_redukti.pyx":100
+ *     if not date.parse_date(c_string, &d):
+ *         raise ValueError('Invalid date: cannot parse')
+ *     return Date(d)             # <<<<<<<<<<<<<<
+ * 
+ * def generate_schedule(schedule_parameters):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_d); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":94
+ *         raise TypeError("Could not convert to bytes.")
+ * 
+ * def parse_date(s):             # <<<<<<<<<<<<<<
+ *     cdef int d
+ *     byte_s = to_bytes(s)
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("_redukti.parse_date", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_byte_s);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":102
+ *     return Date(d)
+ * 
+ * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
+ *     cdef string str = schedule_parameters.SerializeToString()
+ *     cdef schedule.ScheduleParameters _parameters
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_5generate_schedule(PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters); /*proto*/
+static PyMethodDef __pyx_mdef_8_redukti_5generate_schedule = {"generate_schedule", (PyCFunction)__pyx_pw_8_redukti_5generate_schedule, METH_O, 0};
+static PyObject *__pyx_pw_8_redukti_5generate_schedule(PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("generate_schedule (wrapper)", 0);
+  __pyx_r = __pyx_pf_8_redukti_4generate_schedule(__pyx_self, ((PyObject *)__pyx_v_schedule_parameters));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_4generate_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_schedule_parameters) {
   std::string __pyx_v_str;
   redukti::ScheduleParameters __pyx_v__parameters;
   redukti::Schedule __pyx_v__schedule;
@@ -3399,14 +3852,14 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("generate_schedule", 0);
 
-  /* "_redukti.pyx":82
+  /* "_redukti.pyx":103
  * 
  * def generate_schedule(schedule_parameters):
  *     cdef string str = schedule_parameters.SerializeToString()             # <<<<<<<<<<<<<<
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_schedule_parameters, __pyx_n_s_SerializeToString); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_schedule_parameters, __pyx_n_s_SerializeToString); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3420,14 +3873,14 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_str = __pyx_t_4;
 
-  /* "_redukti.pyx":84
+  /* "_redukti.pyx":105
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):             # <<<<<<<<<<<<<<
@@ -3437,20 +3890,20 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   __pyx_t_5 = ((!(__pyx_v__parameters.ParseFromString(__pyx_v_str) != 0)) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "_redukti.pyx":85
+    /* "_redukti.pyx":106
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):
  *         raise ValueError("Cannot parse the schedule parameters")             # <<<<<<<<<<<<<<
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 85, __pyx_L1_error)
+    __PYX_ERR(0, 106, __pyx_L1_error)
 
-    /* "_redukti.pyx":84
+    /* "_redukti.pyx":105
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):             # <<<<<<<<<<<<<<
@@ -3459,7 +3912,7 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
  */
   }
 
-  /* "_redukti.pyx":87
+  /* "_redukti.pyx":108
  *         raise ValueError("Cannot parse the schedule parameters")
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)             # <<<<<<<<<<<<<<
@@ -3468,7 +3921,7 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
  */
   __pyx_v_status = redukti::build_schedule(__pyx_v__parameters, __pyx_v__schedule);
 
-  /* "_redukti.pyx":88
+  /* "_redukti.pyx":109
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:             # <<<<<<<<<<<<<<
@@ -3478,20 +3931,20 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   __pyx_t_5 = ((!((__pyx_v_status == redukti::kOk) != 0)) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "_redukti.pyx":89
+    /* "_redukti.pyx":110
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:
  *         raise Exception('Failed to generate schedule')             # <<<<<<<<<<<<<<
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 89, __pyx_L1_error)
+    __PYX_ERR(0, 110, __pyx_L1_error)
 
-    /* "_redukti.pyx":88
+    /* "_redukti.pyx":109
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:             # <<<<<<<<<<<<<<
@@ -3500,16 +3953,16 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
  */
   }
 
-  /* "_redukti.pyx":90
+  /* "_redukti.pyx":111
  *     if not status == enums.ResponseSubCode.kOk:
  *         raise Exception('Failed to generate schedule')
  *     result = schedule_pb2.Schedule()             # <<<<<<<<<<<<<<
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_schedule_pb2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_schedule_pb2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_Schedule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_Schedule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3524,13 +3977,13 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_result = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":92
+  /* "_redukti.pyx":113
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):             # <<<<<<<<<<<<<<
@@ -3540,20 +3993,20 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   __pyx_t_5 = ((!(__pyx_v__schedule.SerializeToString((&__pyx_v_result_str)) != 0)) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "_redukti.pyx":93
+    /* "_redukti.pyx":114
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):
  *         raise Exception('Failed to parse result from api call')             # <<<<<<<<<<<<<<
  *     result.ParseFromString(result_str)
  *     return result
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 93, __pyx_L1_error)
+    __PYX_ERR(0, 114, __pyx_L1_error)
 
-    /* "_redukti.pyx":92
+    /* "_redukti.pyx":113
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):             # <<<<<<<<<<<<<<
@@ -3562,16 +4015,16 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
  */
   }
 
-  /* "_redukti.pyx":94
+  /* "_redukti.pyx":115
  *     if not _schedule.SerializeToString(&result_str):
  *         raise Exception('Failed to parse result from api call')
  *     result.ParseFromString(result_str)             # <<<<<<<<<<<<<<
  *     return result
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_ParseFromString); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_ParseFromString); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_result_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_result_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3586,12 +4039,12 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":95
+  /* "_redukti.pyx":116
  *         raise Exception('Failed to parse result from api call')
  *     result.ParseFromString(result_str)
  *     return result             # <<<<<<<<<<<<<<
@@ -3603,8 +4056,8 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":81
- *         return Date(date.make_date(d, m, y))
+  /* "_redukti.pyx":102
+ *     return Date(d)
  * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
  *     cdef string str = schedule_parameters.SerializeToString()
@@ -3626,7 +4079,7 @@ static PyObject *__pyx_pf_8_redukti_generate_schedule(CYTHON_UNUSED PyObject *__
   return __pyx_r;
 }
 
-/* "_redukti.pyx":97
+/* "_redukti.pyx":118
  *     return result
  * 
  * cdef validate_business_centers(list business_centres):             # <<<<<<<<<<<<<<
@@ -3646,7 +4099,7 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("validate_business_centers", 0);
 
-  /* "_redukti.pyx":98
+  /* "_redukti.pyx":119
  * 
  * cdef validate_business_centers(list business_centres):
  *     if len(business_centres) == 0:             # <<<<<<<<<<<<<<
@@ -3655,26 +4108,26 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 98, __pyx_L1_error)
+    __PYX_ERR(0, 119, __pyx_L1_error)
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_t_2 = ((__pyx_t_1 == 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "_redukti.pyx":99
+    /* "_redukti.pyx":120
  * cdef validate_business_centers(list business_centres):
  *     if len(business_centres) == 0:
  *         raise ValueError('Business centers must be specified')             # <<<<<<<<<<<<<<
  *     for center in business_centres:
  *         if center < 1 or center > enums.BRSP:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 99, __pyx_L1_error)
+    __PYX_ERR(0, 120, __pyx_L1_error)
 
-    /* "_redukti.pyx":98
+    /* "_redukti.pyx":119
  * 
  * cdef validate_business_centers(list business_centres):
  *     if len(business_centres) == 0:             # <<<<<<<<<<<<<<
@@ -3683,7 +4136,7 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
  */
   }
 
-  /* "_redukti.pyx":100
+  /* "_redukti.pyx":121
  *     if len(business_centres) == 0:
  *         raise ValueError('Business centers must be specified')
  *     for center in business_centres:             # <<<<<<<<<<<<<<
@@ -3692,59 +4145,59 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 100, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
   }
   __pyx_t_3 = __pyx_v_business_centres; __Pyx_INCREF(__pyx_t_3); __pyx_t_1 = 0;
   for (;;) {
     if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_4); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_4); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 121, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_center, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "_redukti.pyx":101
+    /* "_redukti.pyx":122
  *         raise ValueError('Business centers must be specified')
  *     for center in business_centres:
  *         if center < 1 or center > enums.BRSP:             # <<<<<<<<<<<<<<
  *             raise ValueError('Invalid business center')
  * 
  */
-    __pyx_t_4 = PyObject_RichCompare(__pyx_v_center, __pyx_int_1, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_v_center, __pyx_int_1, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (!__pyx_t_5) {
     } else {
       __pyx_t_2 = __pyx_t_5;
       goto __pyx_L7_bool_binop_done;
     }
-    __pyx_t_4 = __Pyx_PyInt_From_enum__redukti_3a__3a_BusinessCenter(redukti::BRSP); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_enum__redukti_3a__3a_BusinessCenter(redukti::BRSP); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_center, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_center, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_2 = __pyx_t_5;
     __pyx_L7_bool_binop_done:;
     if (unlikely(__pyx_t_2)) {
 
-      /* "_redukti.pyx":102
+      /* "_redukti.pyx":123
  *     for center in business_centres:
  *         if center < 1 or center > enums.BRSP:
  *             raise ValueError('Invalid business center')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_periodunit(enums.PeriodUnit unit):
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 102, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __PYX_ERR(0, 102, __pyx_L1_error)
+      __PYX_ERR(0, 123, __pyx_L1_error)
 
-      /* "_redukti.pyx":101
+      /* "_redukti.pyx":122
  *         raise ValueError('Business centers must be specified')
  *     for center in business_centres:
  *         if center < 1 or center > enums.BRSP:             # <<<<<<<<<<<<<<
@@ -3753,7 +4206,7 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
  */
     }
 
-    /* "_redukti.pyx":100
+    /* "_redukti.pyx":121
  *     if len(business_centres) == 0:
  *         raise ValueError('Business centers must be specified')
  *     for center in business_centres:             # <<<<<<<<<<<<<<
@@ -3763,7 +4216,7 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "_redukti.pyx":97
+  /* "_redukti.pyx":118
  *     return result
  * 
  * cdef validate_business_centers(list business_centres):             # <<<<<<<<<<<<<<
@@ -3787,7 +4240,7 @@ static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *__pyx_v_b
   return __pyx_r;
 }
 
-/* "_redukti.pyx":104
+/* "_redukti.pyx":125
  *             raise ValueError('Invalid business center')
  * 
  * cdef validate_periodunit(enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
@@ -3803,7 +4256,7 @@ static PyObject *__pyx_f_8_redukti_validate_periodunit(enum redukti::PeriodUnit 
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("validate_periodunit", 0);
 
-  /* "_redukti.pyx":105
+  /* "_redukti.pyx":126
  * 
  * cdef validate_periodunit(enums.PeriodUnit unit):
  *     if unit < 1 or unit > enums.YEARS:             # <<<<<<<<<<<<<<
@@ -3821,20 +4274,20 @@ static PyObject *__pyx_f_8_redukti_validate_periodunit(enum redukti::PeriodUnit 
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "_redukti.pyx":106
+    /* "_redukti.pyx":127
  * cdef validate_periodunit(enums.PeriodUnit unit):
  *     if unit < 1 or unit > enums.YEARS:
  *         raise ValueError('Invalid PeriodUnit specified')             # <<<<<<<<<<<<<<
  * 
  * cdef class Calendar:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 106, __pyx_L1_error)
+    __PYX_ERR(0, 127, __pyx_L1_error)
 
-    /* "_redukti.pyx":105
+    /* "_redukti.pyx":126
  * 
  * cdef validate_periodunit(enums.PeriodUnit unit):
  *     if unit < 1 or unit > enums.YEARS:             # <<<<<<<<<<<<<<
@@ -3843,7 +4296,7 @@ static PyObject *__pyx_f_8_redukti_validate_periodunit(enum redukti::PeriodUnit 
  */
   }
 
-  /* "_redukti.pyx":104
+  /* "_redukti.pyx":125
  *             raise ValueError('Invalid business center')
  * 
  * cdef validate_periodunit(enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
@@ -3864,7 +4317,7 @@ static PyObject *__pyx_f_8_redukti_validate_periodunit(enum redukti::PeriodUnit 
   return __pyx_r;
 }
 
-/* "_redukti.pyx":111
+/* "_redukti.pyx":132
  *     cdef const calendar.Calendar *_calendar
  * 
  *     def __cinit__(self, list business_centres):             # <<<<<<<<<<<<<<
@@ -3898,7 +4351,7 @@ static int __pyx_pw_8_redukti_8Calendar_1__cinit__(PyObject *__pyx_v_self, PyObj
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 132, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -3909,13 +4362,13 @@ static int __pyx_pw_8_redukti_8Calendar_1__cinit__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 132, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.Calendar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_business_centres), (&PyList_Type), 1, "business_centres", 1))) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_business_centres), (&PyList_Type), 1, "business_centres", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_8Calendar___cinit__(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), __pyx_v_business_centres);
 
   /* function exit code */
@@ -3940,18 +4393,18 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
   enum redukti::BusinessCenter __pyx_t_7;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_redukti.pyx":113
+  /* "_redukti.pyx":134
  *     def __cinit__(self, list business_centres):
  *         cdef calendar.JointCalendarParameters joint_calendars
  *         validate_business_centers(business_centres)             # <<<<<<<<<<<<<<
  *         if len(business_centres) == 0:
  *             raise ValueError('Business centers must be specified')
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_business_centers(__pyx_v_business_centres); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_business_centers(__pyx_v_business_centres); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":114
+  /* "_redukti.pyx":135
  *         cdef calendar.JointCalendarParameters joint_calendars
  *         validate_business_centers(business_centres)
  *         if len(business_centres) == 0:             # <<<<<<<<<<<<<<
@@ -3960,26 +4413,26 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 114, __pyx_L1_error)
+    __PYX_ERR(0, 135, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 135, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 == 0) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "_redukti.pyx":115
+    /* "_redukti.pyx":136
  *         validate_business_centers(business_centres)
  *         if len(business_centres) == 0:
  *             raise ValueError('Business centers must be specified')             # <<<<<<<<<<<<<<
  *         if len(business_centres) == 1:
  *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 115, __pyx_L1_error)
+    __PYX_ERR(0, 136, __pyx_L1_error)
 
-    /* "_redukti.pyx":114
+    /* "_redukti.pyx":135
  *         cdef calendar.JointCalendarParameters joint_calendars
  *         validate_business_centers(business_centres)
  *         if len(business_centres) == 0:             # <<<<<<<<<<<<<<
@@ -3988,7 +4441,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   }
 
-  /* "_redukti.pyx":116
+  /* "_redukti.pyx":137
  *         if len(business_centres) == 0:
  *             raise ValueError('Business centers must be specified')
  *         if len(business_centres) == 1:             # <<<<<<<<<<<<<<
@@ -3997,13 +4450,13 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 116, __pyx_L1_error)
+    __PYX_ERR(0, 137, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 137, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 == 1) != 0);
   if (__pyx_t_3) {
 
-    /* "_redukti.pyx":117
+    /* "_redukti.pyx":138
  *             raise ValueError('Business centers must be specified')
  *         if len(business_centres) == 1:
  *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])             # <<<<<<<<<<<<<<
@@ -4012,15 +4465,15 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 117, __pyx_L1_error)
+      __PYX_ERR(0, 138, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(((enum redukti::BusinessCenter)__pyx_t_4));
 
-    /* "_redukti.pyx":116
+    /* "_redukti.pyx":137
  *         if len(business_centres) == 0:
  *             raise ValueError('Business centers must be specified')
  *         if len(business_centres) == 1:             # <<<<<<<<<<<<<<
@@ -4030,7 +4483,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
     goto __pyx_L4;
   }
 
-  /* "_redukti.pyx":118
+  /* "_redukti.pyx":139
  *         if len(business_centres) == 1:
  *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
  *         elif len(business_centres) == 2:             # <<<<<<<<<<<<<<
@@ -4039,13 +4492,13 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 118, __pyx_L1_error)
+    __PYX_ERR(0, 139, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 139, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 == 2) != 0);
   if (__pyx_t_3) {
 
-    /* "_redukti.pyx":119
+    /* "_redukti.pyx":140
  *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
  *         elif len(business_centres) == 2:
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])             # <<<<<<<<<<<<<<
@@ -4054,23 +4507,23 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 119, __pyx_L1_error)
+      __PYX_ERR(0, 140, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 119, __pyx_L1_error)
+      __PYX_ERR(0, 140, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_joint_calendars = redukti::JointCalendarParameters(__pyx_t_4, __pyx_t_5);
 
-    /* "_redukti.pyx":120
+    /* "_redukti.pyx":141
  *         elif len(business_centres) == 2:
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)             # <<<<<<<<<<<<<<
@@ -4079,7 +4532,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(__pyx_v_joint_calendars);
 
-    /* "_redukti.pyx":118
+    /* "_redukti.pyx":139
  *         if len(business_centres) == 1:
  *             self._calendar = calendar.get_calendar_factory().get_calendar(<enums.BusinessCenter>business_centres[0])
  *         elif len(business_centres) == 2:             # <<<<<<<<<<<<<<
@@ -4089,7 +4542,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
     goto __pyx_L4;
   }
 
-  /* "_redukti.pyx":121
+  /* "_redukti.pyx":142
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         elif len(business_centres) == 3:             # <<<<<<<<<<<<<<
@@ -4098,13 +4551,13 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 121, __pyx_L1_error)
+    __PYX_ERR(0, 142, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 == 3) != 0);
   if (__pyx_t_3) {
 
-    /* "_redukti.pyx":122
+    /* "_redukti.pyx":143
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         elif len(business_centres) == 3:
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])             # <<<<<<<<<<<<<<
@@ -4113,31 +4566,31 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 122, __pyx_L1_error)
+      __PYX_ERR(0, 143, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 122, __pyx_L1_error)
+      __PYX_ERR(0, 143, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 122, __pyx_L1_error)
+      __PYX_ERR(0, 143, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_6 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_joint_calendars = redukti::JointCalendarParameters(__pyx_t_5, __pyx_t_4, __pyx_t_6);
 
-    /* "_redukti.pyx":123
+    /* "_redukti.pyx":144
  *         elif len(business_centres) == 3:
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)             # <<<<<<<<<<<<<<
@@ -4146,7 +4599,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(__pyx_v_joint_calendars);
 
-    /* "_redukti.pyx":121
+    /* "_redukti.pyx":142
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         elif len(business_centres) == 3:             # <<<<<<<<<<<<<<
@@ -4156,7 +4609,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
     goto __pyx_L4;
   }
 
-  /* "_redukti.pyx":124
+  /* "_redukti.pyx":145
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         elif len(business_centres) == 4:             # <<<<<<<<<<<<<<
@@ -4165,13 +4618,13 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   if (unlikely(__pyx_v_business_centres == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 124, __pyx_L1_error)
+    __PYX_ERR(0, 145, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_business_centres); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 145, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 == 4) != 0);
   if (likely(__pyx_t_3)) {
 
-    /* "_redukti.pyx":125
+    /* "_redukti.pyx":146
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         elif len(business_centres) == 4:
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])             # <<<<<<<<<<<<<<
@@ -4180,39 +4633,39 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 125, __pyx_L1_error)
+      __PYX_ERR(0, 146, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_6 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 125, __pyx_L1_error)
+      __PYX_ERR(0, 146, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_4 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 125, __pyx_L1_error)
+      __PYX_ERR(0, 146, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_5 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(__pyx_v_business_centres == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 125, __pyx_L1_error)
+      __PYX_ERR(0, 146, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 3, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_business_centres, 3, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_7 = ((enum redukti::BusinessCenter)__Pyx_PyInt_As_enum__redukti_3a__3a_BusinessCenter(__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_joint_calendars = redukti::JointCalendarParameters(__pyx_t_6, __pyx_t_4, __pyx_t_5, __pyx_t_7);
 
-    /* "_redukti.pyx":126
+    /* "_redukti.pyx":147
  *         elif len(business_centres) == 4:
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2], business_centres[3])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)             # <<<<<<<<<<<<<<
@@ -4221,7 +4674,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
     __pyx_v_self->_calendar = redukti::get_calendar_factory()->get_calendar(__pyx_v_joint_calendars);
 
-    /* "_redukti.pyx":124
+    /* "_redukti.pyx":145
  *             joint_calendars = calendar.JointCalendarParameters(business_centres[0], business_centres[1], business_centres[2])
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         elif len(business_centres) == 4:             # <<<<<<<<<<<<<<
@@ -4231,7 +4684,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
     goto __pyx_L4;
   }
 
-  /* "_redukti.pyx":128
+  /* "_redukti.pyx":149
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         else:
  *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')             # <<<<<<<<<<<<<<
@@ -4239,15 +4692,15 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  *             raise ValueError('Unable to construct a calendar from given parameters')
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 128, __pyx_L1_error)
+    __PYX_ERR(0, 149, __pyx_L1_error)
   }
   __pyx_L4:;
 
-  /* "_redukti.pyx":129
+  /* "_redukti.pyx":150
  *         else:
  *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
  *         if self._calendar is NULL:             # <<<<<<<<<<<<<<
@@ -4257,20 +4710,20 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
   __pyx_t_3 = ((__pyx_v_self->_calendar == NULL) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "_redukti.pyx":130
+    /* "_redukti.pyx":151
  *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
  *         if self._calendar is NULL:
  *             raise ValueError('Unable to construct a calendar from given parameters')             # <<<<<<<<<<<<<<
  * 
  *     cpdef bint is_holiday(self, Date d):
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 130, __pyx_L1_error)
+    __PYX_ERR(0, 151, __pyx_L1_error)
 
-    /* "_redukti.pyx":129
+    /* "_redukti.pyx":150
  *         else:
  *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
  *         if self._calendar is NULL:             # <<<<<<<<<<<<<<
@@ -4279,7 +4732,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
  */
   }
 
-  /* "_redukti.pyx":111
+  /* "_redukti.pyx":132
  *     cdef const calendar.Calendar *_calendar
  * 
  *     def __cinit__(self, list business_centres):             # <<<<<<<<<<<<<<
@@ -4299,7 +4752,7 @@ static int __pyx_pf_8_redukti_8Calendar___cinit__(struct __pyx_obj_8_redukti_Cal
   return __pyx_r;
 }
 
-/* "_redukti.pyx":132
+/* "_redukti.pyx":153
  *             raise ValueError('Unable to construct a calendar from given parameters')
  * 
  *     cpdef bint is_holiday(self, Date d):             # <<<<<<<<<<<<<<
@@ -4326,7 +4779,7 @@ static int __pyx_f_8_redukti_8Calendar_is_holiday(struct __pyx_obj_8_redukti_Cal
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_is_holiday); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_is_holiday); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_8Calendar_3is_holiday)) {
         __Pyx_INCREF(__pyx_t_1);
@@ -4342,10 +4795,10 @@ static int __pyx_f_8_redukti_8Calendar_is_holiday(struct __pyx_obj_8_redukti_Cal
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_d)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_d));
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 132, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_5;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4364,7 +4817,7 @@ static int __pyx_f_8_redukti_8Calendar_is_holiday(struct __pyx_obj_8_redukti_Cal
     #endif
   }
 
-  /* "_redukti.pyx":133
+  /* "_redukti.pyx":154
  * 
  *     cpdef bint is_holiday(self, Date d):
  *         return self._calendar.is_holiday(d.serial())             # <<<<<<<<<<<<<<
@@ -4374,7 +4827,7 @@ static int __pyx_f_8_redukti_8Calendar_is_holiday(struct __pyx_obj_8_redukti_Cal
   __pyx_r = __pyx_v_self->_calendar->is_holiday(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d->__pyx_vtab)->serial(__pyx_v_d, 0));
   goto __pyx_L0;
 
-  /* "_redukti.pyx":132
+  /* "_redukti.pyx":153
  *             raise ValueError('Unable to construct a calendar from given parameters')
  * 
  *     cpdef bint is_holiday(self, Date d):             # <<<<<<<<<<<<<<
@@ -4401,7 +4854,7 @@ static PyObject *__pyx_pw_8_redukti_8Calendar_3is_holiday(PyObject *__pyx_v_self
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("is_holiday (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d), __pyx_ptype_8_redukti_Date, 1, "d", 0))) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d), __pyx_ptype_8_redukti_Date, 1, "d", 0))) __PYX_ERR(0, 153, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_8Calendar_2is_holiday(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_d));
 
   /* function exit code */
@@ -4419,7 +4872,7 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_2is_holiday(struct __pyx_obj_8_red
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("is_holiday", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_8_redukti_8Calendar_is_holiday(__pyx_v_self, __pyx_v_d, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_8_redukti_8Calendar_is_holiday(__pyx_v_self, __pyx_v_d, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4436,7 +4889,7 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_2is_holiday(struct __pyx_obj_8_red
   return __pyx_r;
 }
 
-/* "_redukti.pyx":135
+/* "_redukti.pyx":156
  *         return self._calendar.is_holiday(d.serial())
  * 
  *     def advance(self, Date date, int n, enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
@@ -4478,17 +4931,17 @@ static PyObject *__pyx_pw_8_redukti_8Calendar_5advance(PyObject *__pyx_v_self, P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, 1); __PYX_ERR(0, 135, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, 1); __PYX_ERR(0, 156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_unit)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, 2); __PYX_ERR(0, 135, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, 2); __PYX_ERR(0, 156, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "advance") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "advance") < 0)) __PYX_ERR(0, 156, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4498,18 +4951,18 @@ static PyObject *__pyx_pw_8_redukti_8Calendar_5advance(PyObject *__pyx_v_self, P
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_date = ((struct __pyx_obj_8_redukti_Date *)values[0]);
-    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
-    __pyx_v_unit = ((enum redukti::PeriodUnit)__Pyx_PyInt_As_enum__redukti_3a__3a_PeriodUnit(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 156, __pyx_L3_error)
+    __pyx_v_unit = ((enum redukti::PeriodUnit)__Pyx_PyInt_As_enum__redukti_3a__3a_PeriodUnit(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 156, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("advance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 156, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.Calendar.advance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_date), __pyx_ptype_8_redukti_Date, 1, "date", 0))) __PYX_ERR(0, 135, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_date), __pyx_ptype_8_redukti_Date, 1, "date", 0))) __PYX_ERR(0, 156, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_8Calendar_4advance(((struct __pyx_obj_8_redukti_Calendar *)__pyx_v_self), __pyx_v_date, __pyx_v_n, __pyx_v_unit);
 
   /* function exit code */
@@ -4528,18 +4981,18 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_4advance(struct __pyx_obj_8_redukt
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("advance", 0);
 
-  /* "_redukti.pyx":136
+  /* "_redukti.pyx":157
  * 
  *     def advance(self, Date date, int n, enums.PeriodUnit unit):
  *         validate_periodunit(unit)             # <<<<<<<<<<<<<<
  *         return Date(self._calendar.advance(date.serial(), n, unit))
  * 
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_periodunit(__pyx_v_unit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_periodunit(__pyx_v_unit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":137
+  /* "_redukti.pyx":158
  *     def advance(self, Date date, int n, enums.PeriodUnit unit):
  *         validate_periodunit(unit)
  *         return Date(self._calendar.advance(date.serial(), n, unit))             # <<<<<<<<<<<<<<
@@ -4547,16 +5000,16 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_4advance(struct __pyx_obj_8_redukt
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_calendar->advance(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_date->__pyx_vtab)->serial(__pyx_v_date, 0), __pyx_v_n, __pyx_v_unit)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_calendar->advance(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_date->__pyx_vtab)->serial(__pyx_v_date, 0), __pyx_v_n, __pyx_v_unit)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":135
+  /* "_redukti.pyx":156
  *         return self._calendar.is_holiday(d.serial())
  * 
  *     def advance(self, Date date, int n, enums.PeriodUnit unit):             # <<<<<<<<<<<<<<
@@ -4607,7 +5060,7 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_6__reduce_cython__(CYTHON_UNUSED s
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4660,7 +5113,7 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_8__setstate_cython__(CYTHON_UNUSED
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4683,7 +5136,7 @@ static PyObject *__pyx_pf_8_redukti_8Calendar_8__setstate_cython__(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "_redukti.pyx":139
+/* "_redukti.pyx":160
  *         return Date(self._calendar.advance(date.serial(), n, unit))
  * 
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):             # <<<<<<<<<<<<<<
@@ -4699,7 +5152,7 @@ static PyObject *__pyx_f_8_redukti_validate_daycountfraction(enum redukti::DayCo
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("validate_daycountfraction", 0);
 
-  /* "_redukti.pyx":140
+  /* "_redukti.pyx":161
  * 
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):
  *     if dfc < 1 or dfc > enums.BUS_252:             # <<<<<<<<<<<<<<
@@ -4717,20 +5170,20 @@ static PyObject *__pyx_f_8_redukti_validate_daycountfraction(enum redukti::DayCo
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "_redukti.pyx":141
+    /* "_redukti.pyx":162
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):
  *     if dfc < 1 or dfc > enums.BUS_252:
  *         raise ValueError('Invalid DayCountFraction specified')             # <<<<<<<<<<<<<<
  * 
  * cdef class DayFraction:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 141, __pyx_L1_error)
+    __PYX_ERR(0, 162, __pyx_L1_error)
 
-    /* "_redukti.pyx":140
+    /* "_redukti.pyx":161
  * 
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):
  *     if dfc < 1 or dfc > enums.BUS_252:             # <<<<<<<<<<<<<<
@@ -4739,7 +5192,7 @@ static PyObject *__pyx_f_8_redukti_validate_daycountfraction(enum redukti::DayCo
  */
   }
 
-  /* "_redukti.pyx":139
+  /* "_redukti.pyx":160
  *         return Date(self._calendar.advance(date.serial(), n, unit))
  * 
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):             # <<<<<<<<<<<<<<
@@ -4760,7 +5213,7 @@ static PyObject *__pyx_f_8_redukti_validate_daycountfraction(enum redukti::DayCo
   return __pyx_r;
 }
 
-/* "_redukti.pyx":146
+/* "_redukti.pyx":167
  *     cdef const dayfraction.DayFraction *_dayfraction
  * 
  *     def __cinit__(self, enums.DayCountFraction dfc):             # <<<<<<<<<<<<<<
@@ -4794,18 +5247,18 @@ static int __pyx_pw_8_redukti_11DayFraction_1__cinit__(PyObject *__pyx_v_self, P
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 146, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 167, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_dfc = ((enum redukti::DayCountFraction)__Pyx_PyInt_As_enum__redukti_3a__3a_DayCountFraction(values[0])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L3_error)
+    __pyx_v_dfc = ((enum redukti::DayCountFraction)__Pyx_PyInt_As_enum__redukti_3a__3a_DayCountFraction(values[0])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 167, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 146, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 167, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.DayFraction.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4824,18 +5277,18 @@ static int __pyx_pf_8_redukti_11DayFraction___cinit__(struct __pyx_obj_8_redukti
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_redukti.pyx":147
+  /* "_redukti.pyx":168
  * 
  *     def __cinit__(self, enums.DayCountFraction dfc):
  *         validate_daycountfraction(dfc)             # <<<<<<<<<<<<<<
  *         self._dayfraction = dayfraction.get_day_fraction(dfc)
  * 
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_daycountfraction(__pyx_v_dfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_daycountfraction(__pyx_v_dfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":148
+  /* "_redukti.pyx":169
  *     def __cinit__(self, enums.DayCountFraction dfc):
  *         validate_daycountfraction(dfc)
  *         self._dayfraction = dayfraction.get_day_fraction(dfc)             # <<<<<<<<<<<<<<
@@ -4844,7 +5297,7 @@ static int __pyx_pf_8_redukti_11DayFraction___cinit__(struct __pyx_obj_8_redukti
  */
   __pyx_v_self->_dayfraction = redukti::get_day_fraction(__pyx_v_dfc);
 
-  /* "_redukti.pyx":146
+  /* "_redukti.pyx":167
  *     cdef const dayfraction.DayFraction *_dayfraction
  * 
  *     def __cinit__(self, enums.DayCountFraction dfc):             # <<<<<<<<<<<<<<
@@ -4864,7 +5317,7 @@ static int __pyx_pf_8_redukti_11DayFraction___cinit__(struct __pyx_obj_8_redukti
   return __pyx_r;
 }
 
-/* "_redukti.pyx":150
+/* "_redukti.pyx":171
  *         self._dayfraction = dayfraction.get_day_fraction(dfc)
  * 
  *     cpdef double year_fraction(self, Date d1, Date d2):             # <<<<<<<<<<<<<<
@@ -4893,7 +5346,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction(struct __pyx_obj_8_r
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year_fraction); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 150, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year_fraction); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_11DayFraction_3year_fraction)) {
         __Pyx_INCREF(__pyx_t_1);
@@ -4912,7 +5365,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction(struct __pyx_obj_8_r
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -4920,13 +5373,13 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction(struct __pyx_obj_8_r
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -4937,12 +5390,12 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction(struct __pyx_obj_8_r
           __Pyx_INCREF(((PyObject *)__pyx_v_d2));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_d2));
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_d2));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 150, __pyx_L1_error)
+        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_7;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4961,7 +5414,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction(struct __pyx_obj_8_r
     #endif
   }
 
-  /* "_redukti.pyx":151
+  /* "_redukti.pyx":172
  * 
  *     cpdef double year_fraction(self, Date d1, Date d2):
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial())             # <<<<<<<<<<<<<<
@@ -4971,7 +5424,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction(struct __pyx_obj_8_r
   __pyx_r = __pyx_v_self->_dayfraction->year_fraction(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d1->__pyx_vtab)->serial(__pyx_v_d1, 0), ((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d2->__pyx_vtab)->serial(__pyx_v_d2, 0));
   goto __pyx_L0;
 
-  /* "_redukti.pyx":150
+  /* "_redukti.pyx":171
  *         self._dayfraction = dayfraction.get_day_fraction(dfc)
  * 
  *     cpdef double year_fraction(self, Date d1, Date d2):             # <<<<<<<<<<<<<<
@@ -5024,11 +5477,11 @@ static PyObject *__pyx_pw_8_redukti_11DayFraction_3year_fraction(PyObject *__pyx
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("year_fraction", 1, 2, 2, 1); __PYX_ERR(0, 150, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("year_fraction", 1, 2, 2, 1); __PYX_ERR(0, 171, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "year_fraction") < 0)) __PYX_ERR(0, 150, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "year_fraction") < 0)) __PYX_ERR(0, 171, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5041,14 +5494,14 @@ static PyObject *__pyx_pw_8_redukti_11DayFraction_3year_fraction(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("year_fraction", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 150, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("year_fraction", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 171, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.DayFraction.year_fraction", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 150, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 150, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 171, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 171, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_11DayFraction_2year_fraction(((struct __pyx_obj_8_redukti_DayFraction *)__pyx_v_self), __pyx_v_d1, __pyx_v_d2);
 
   /* function exit code */
@@ -5066,7 +5519,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_2year_fraction(struct __pyx_ob
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("year_fraction", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_11DayFraction_year_fraction(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_11DayFraction_year_fraction(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5083,7 +5536,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_2year_fraction(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "_redukti.pyx":153
+/* "_redukti.pyx":174
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial())
  * 
  *     cpdef double year_fraction_with_finalperiod(self, Date d1, Date d2, bint final_period):             # <<<<<<<<<<<<<<
@@ -5113,10 +5566,10 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(str
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year_fraction_with_finalperiod); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year_fraction_with_finalperiod); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_11DayFraction_5year_fraction_with_finalperiod)) {
-        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_final_period); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_final_period); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -5134,7 +5587,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(str
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2), __pyx_t_3};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5143,14 +5596,14 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(str
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2), __pyx_t_3};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         } else
         #endif
         {
-          __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
+          __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           if (__pyx_t_5) {
             __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -5164,12 +5617,12 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(str
           __Pyx_GIVEREF(__pyx_t_3);
           PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_t_3);
           __pyx_t_3 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         }
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L1_error)
+        __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 174, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_8;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5188,7 +5641,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(str
     #endif
   }
 
-  /* "_redukti.pyx":154
+  /* "_redukti.pyx":175
  * 
  *     cpdef double year_fraction_with_finalperiod(self, Date d1, Date d2, bint final_period):
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), final_period)             # <<<<<<<<<<<<<<
@@ -5198,7 +5651,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(str
   __pyx_r = __pyx_v_self->_dayfraction->year_fraction(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d1->__pyx_vtab)->serial(__pyx_v_d1, 0), ((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d2->__pyx_vtab)->serial(__pyx_v_d2, 0), __pyx_v_final_period);
   goto __pyx_L0;
 
-  /* "_redukti.pyx":153
+  /* "_redukti.pyx":174
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial())
  * 
  *     cpdef double year_fraction_with_finalperiod(self, Date d1, Date d2, bint final_period):             # <<<<<<<<<<<<<<
@@ -5255,17 +5708,17 @@ static PyObject *__pyx_pw_8_redukti_11DayFraction_5year_fraction_with_finalperio
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("year_fraction_with_finalperiod", 1, 3, 3, 1); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("year_fraction_with_finalperiod", 1, 3, 3, 1); __PYX_ERR(0, 174, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_final_period)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("year_fraction_with_finalperiod", 1, 3, 3, 2); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("year_fraction_with_finalperiod", 1, 3, 3, 2); __PYX_ERR(0, 174, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "year_fraction_with_finalperiod") < 0)) __PYX_ERR(0, 153, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "year_fraction_with_finalperiod") < 0)) __PYX_ERR(0, 174, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5276,18 +5729,18 @@ static PyObject *__pyx_pw_8_redukti_11DayFraction_5year_fraction_with_finalperio
     }
     __pyx_v_d1 = ((struct __pyx_obj_8_redukti_Date *)values[0]);
     __pyx_v_d2 = ((struct __pyx_obj_8_redukti_Date *)values[1]);
-    __pyx_v_final_period = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_final_period == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
+    __pyx_v_final_period = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_final_period == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 174, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("year_fraction_with_finalperiod", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 153, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("year_fraction_with_finalperiod", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 174, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.DayFraction.year_fraction_with_finalperiod", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 153, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 153, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 174, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 174, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_11DayFraction_4year_fraction_with_finalperiod(((struct __pyx_obj_8_redukti_DayFraction *)__pyx_v_self), __pyx_v_d1, __pyx_v_d2, __pyx_v_final_period);
 
   /* function exit code */
@@ -5305,7 +5758,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_4year_fraction_with_finalperio
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("year_fraction_with_finalperiod", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, __pyx_v_final_period, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, __pyx_v_final_period, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5322,7 +5775,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_4year_fraction_with_finalperio
   return __pyx_r;
 }
 
-/* "_redukti.pyx":156
+/* "_redukti.pyx":177
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), final_period)
  * 
  *     cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):             # <<<<<<<<<<<<<<
@@ -5351,7 +5804,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(struct
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year_fraction_with_refdates); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_year_fraction_with_refdates); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_11DayFraction_7year_fraction_with_refdates)) {
         __Pyx_INCREF(__pyx_t_1);
@@ -5370,7 +5823,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(struct
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[5] = {__pyx_t_4, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2), ((PyObject *)__pyx_v_ref_date1), ((PyObject *)__pyx_v_ref_date2)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 4+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 4+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -5378,13 +5831,13 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(struct
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[5] = {__pyx_t_4, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2), ((PyObject *)__pyx_v_ref_date1), ((PyObject *)__pyx_v_ref_date2)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 4+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 4+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -5401,12 +5854,12 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(struct
           __Pyx_INCREF(((PyObject *)__pyx_v_ref_date2));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_ref_date2));
           PyTuple_SET_ITEM(__pyx_t_6, 3+__pyx_t_5, ((PyObject *)__pyx_v_ref_date2));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 156, __pyx_L1_error)
+        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_7;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5425,7 +5878,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(struct
     #endif
   }
 
-  /* "_redukti.pyx":157
+  /* "_redukti.pyx":178
  * 
  *     cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), ref_date1.serial(), ref_date2.serial())             # <<<<<<<<<<<<<<
@@ -5435,7 +5888,7 @@ static double __pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(struct
   __pyx_r = __pyx_v_self->_dayfraction->year_fraction(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d1->__pyx_vtab)->serial(__pyx_v_d1, 0), ((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d2->__pyx_vtab)->serial(__pyx_v_d2, 0), ((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_ref_date1->__pyx_vtab)->serial(__pyx_v_ref_date1, 0), ((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_ref_date2->__pyx_vtab)->serial(__pyx_v_ref_date2, 0));
   goto __pyx_L0;
 
-  /* "_redukti.pyx":156
+  /* "_redukti.pyx":177
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), final_period)
  * 
  *     cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):             # <<<<<<<<<<<<<<
@@ -5494,23 +5947,23 @@ static PyObject *__pyx_pw_8_redukti_11DayFraction_7year_fraction_with_refdates(P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, 1); __PYX_ERR(0, 156, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, 1); __PYX_ERR(0, 177, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ref_date1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, 2); __PYX_ERR(0, 156, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, 2); __PYX_ERR(0, 177, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ref_date2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, 3); __PYX_ERR(0, 156, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, 3); __PYX_ERR(0, 177, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "year_fraction_with_refdates") < 0)) __PYX_ERR(0, 156, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "year_fraction_with_refdates") < 0)) __PYX_ERR(0, 177, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5527,16 +5980,16 @@ static PyObject *__pyx_pw_8_redukti_11DayFraction_7year_fraction_with_refdates(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 156, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("year_fraction_with_refdates", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 177, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.DayFraction.year_fraction_with_refdates", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 156, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 156, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ref_date1), __pyx_ptype_8_redukti_Date, 1, "ref_date1", 0))) __PYX_ERR(0, 156, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ref_date2), __pyx_ptype_8_redukti_Date, 1, "ref_date2", 0))) __PYX_ERR(0, 156, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 177, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 177, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ref_date1), __pyx_ptype_8_redukti_Date, 1, "ref_date1", 0))) __PYX_ERR(0, 177, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ref_date2), __pyx_ptype_8_redukti_Date, 1, "ref_date2", 0))) __PYX_ERR(0, 177, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_11DayFraction_6year_fraction_with_refdates(((struct __pyx_obj_8_redukti_DayFraction *)__pyx_v_self), __pyx_v_d1, __pyx_v_d2, __pyx_v_ref_date1, __pyx_v_ref_date2);
 
   /* function exit code */
@@ -5554,7 +6007,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_6year_fraction_with_refdates(s
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("year_fraction_with_refdates", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, __pyx_v_ref_date1, __pyx_v_ref_date2, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, __pyx_v_ref_date1, __pyx_v_ref_date2, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5602,7 +6055,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_8__reduce_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5655,7 +6108,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_10__setstate_cython__(CYTHON_U
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5678,7 +6131,7 @@ static PyObject *__pyx_pf_8_redukti_11DayFraction_10__setstate_cython__(CYTHON_U
   return __pyx_r;
 }
 
-/* "_redukti.pyx":159
+/* "_redukti.pyx":180
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), ref_date1.serial(), ref_date2.serial())
  * 
  * cdef validate_isda_index(enums.IsdaIndex index):             # <<<<<<<<<<<<<<
@@ -5694,7 +6147,7 @@ static PyObject *__pyx_f_8_redukti_validate_isda_index(enum redukti::IsdaIndex _
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("validate_isda_index", 0);
 
-  /* "_redukti.pyx":160
+  /* "_redukti.pyx":181
  * 
  * cdef validate_isda_index(enums.IsdaIndex index):
  *     if index < 1 or index > enums.ZAR_JIBAR_SAFEX:             # <<<<<<<<<<<<<<
@@ -5712,20 +6165,20 @@ static PyObject *__pyx_f_8_redukti_validate_isda_index(enum redukti::IsdaIndex _
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "_redukti.pyx":161
+    /* "_redukti.pyx":182
  * cdef validate_isda_index(enums.IsdaIndex index):
  *     if index < 1 or index > enums.ZAR_JIBAR_SAFEX:
  *         raise ValueError('Invalid IsdaIndex specified')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_index_family(enums.IndexFamily family):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 161, __pyx_L1_error)
+    __PYX_ERR(0, 182, __pyx_L1_error)
 
-    /* "_redukti.pyx":160
+    /* "_redukti.pyx":181
  * 
  * cdef validate_isda_index(enums.IsdaIndex index):
  *     if index < 1 or index > enums.ZAR_JIBAR_SAFEX:             # <<<<<<<<<<<<<<
@@ -5734,7 +6187,7 @@ static PyObject *__pyx_f_8_redukti_validate_isda_index(enum redukti::IsdaIndex _
  */
   }
 
-  /* "_redukti.pyx":159
+  /* "_redukti.pyx":180
  *         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), ref_date1.serial(), ref_date2.serial())
  * 
  * cdef validate_isda_index(enums.IsdaIndex index):             # <<<<<<<<<<<<<<
@@ -5755,7 +6208,7 @@ static PyObject *__pyx_f_8_redukti_validate_isda_index(enum redukti::IsdaIndex _
   return __pyx_r;
 }
 
-/* "_redukti.pyx":163
+/* "_redukti.pyx":184
  *         raise ValueError('Invalid IsdaIndex specified')
  * 
  * cdef validate_index_family(enums.IndexFamily family):             # <<<<<<<<<<<<<<
@@ -5771,7 +6224,7 @@ static PyObject *__pyx_f_8_redukti_validate_index_family(enum redukti::IndexFami
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("validate_index_family", 0);
 
-  /* "_redukti.pyx":164
+  /* "_redukti.pyx":185
  * 
  * cdef validate_index_family(enums.IndexFamily family):
  *     if family < 1 or family > enums.REPO_CURVE:             # <<<<<<<<<<<<<<
@@ -5789,20 +6242,20 @@ static PyObject *__pyx_f_8_redukti_validate_index_family(enum redukti::IndexFami
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "_redukti.pyx":165
+    /* "_redukti.pyx":186
  * cdef validate_index_family(enums.IndexFamily family):
  *     if family < 1 or family > enums.REPO_CURVE:
  *         raise ValueError('Invalid IndexFamily specified')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_tenor(enums.Tenor tenor):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 165, __pyx_L1_error)
+    __PYX_ERR(0, 186, __pyx_L1_error)
 
-    /* "_redukti.pyx":164
+    /* "_redukti.pyx":185
  * 
  * cdef validate_index_family(enums.IndexFamily family):
  *     if family < 1 or family > enums.REPO_CURVE:             # <<<<<<<<<<<<<<
@@ -5811,7 +6264,7 @@ static PyObject *__pyx_f_8_redukti_validate_index_family(enum redukti::IndexFami
  */
   }
 
-  /* "_redukti.pyx":163
+  /* "_redukti.pyx":184
  *         raise ValueError('Invalid IsdaIndex specified')
  * 
  * cdef validate_index_family(enums.IndexFamily family):             # <<<<<<<<<<<<<<
@@ -5832,7 +6285,7 @@ static PyObject *__pyx_f_8_redukti_validate_index_family(enum redukti::IndexFami
   return __pyx_r;
 }
 
-/* "_redukti.pyx":167
+/* "_redukti.pyx":188
  *         raise ValueError('Invalid IndexFamily specified')
  * 
  * cdef validate_tenor(enums.Tenor tenor):             # <<<<<<<<<<<<<<
@@ -5848,7 +6301,7 @@ static PyObject *__pyx_f_8_redukti_validate_tenor(enum redukti::Tenor __pyx_v_te
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("validate_tenor", 0);
 
-  /* "_redukti.pyx":168
+  /* "_redukti.pyx":189
  * 
  * cdef validate_tenor(enums.Tenor tenor):
  *     if tenor < 0 or tenor > enums.TENOR_1T:             # <<<<<<<<<<<<<<
@@ -5866,20 +6319,20 @@ static PyObject *__pyx_f_8_redukti_validate_tenor(enum redukti::Tenor __pyx_v_te
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "_redukti.pyx":169
+    /* "_redukti.pyx":190
  * cdef validate_tenor(enums.Tenor tenor):
  *     if tenor < 0 or tenor > enums.TENOR_1T:
  *         raise ValueError('Invalid Tenor specified')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_currency(enums.Currency ccy):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 169, __pyx_L1_error)
+    __PYX_ERR(0, 190, __pyx_L1_error)
 
-    /* "_redukti.pyx":168
+    /* "_redukti.pyx":189
  * 
  * cdef validate_tenor(enums.Tenor tenor):
  *     if tenor < 0 or tenor > enums.TENOR_1T:             # <<<<<<<<<<<<<<
@@ -5888,7 +6341,7 @@ static PyObject *__pyx_f_8_redukti_validate_tenor(enum redukti::Tenor __pyx_v_te
  */
   }
 
-  /* "_redukti.pyx":167
+  /* "_redukti.pyx":188
  *         raise ValueError('Invalid IndexFamily specified')
  * 
  * cdef validate_tenor(enums.Tenor tenor):             # <<<<<<<<<<<<<<
@@ -5909,7 +6362,7 @@ static PyObject *__pyx_f_8_redukti_validate_tenor(enum redukti::Tenor __pyx_v_te
   return __pyx_r;
 }
 
-/* "_redukti.pyx":171
+/* "_redukti.pyx":192
  *         raise ValueError('Invalid Tenor specified')
  * 
  * cdef validate_currency(enums.Currency ccy):             # <<<<<<<<<<<<<<
@@ -5925,7 +6378,7 @@ static PyObject *__pyx_f_8_redukti_validate_currency(enum redukti::Currency __py
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("validate_currency", 0);
 
-  /* "_redukti.pyx":172
+  /* "_redukti.pyx":193
  * 
  * cdef validate_currency(enums.Currency ccy):
  *     if ccy < 0 or ccy > enums.PLN:             # <<<<<<<<<<<<<<
@@ -5943,20 +6396,20 @@ static PyObject *__pyx_f_8_redukti_validate_currency(enum redukti::Currency __py
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "_redukti.pyx":173
+    /* "_redukti.pyx":194
  * cdef validate_currency(enums.Currency ccy):
  *     if ccy < 0 or ccy > enums.PLN:
  *         raise ValueError('Invalid Currency specified')             # <<<<<<<<<<<<<<
  * 
  * cdef class InterestRateIndex:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 194, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 173, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
 
-    /* "_redukti.pyx":172
+    /* "_redukti.pyx":193
  * 
  * cdef validate_currency(enums.Currency ccy):
  *     if ccy < 0 or ccy > enums.PLN:             # <<<<<<<<<<<<<<
@@ -5965,7 +6418,7 @@ static PyObject *__pyx_f_8_redukti_validate_currency(enum redukti::Currency __py
  */
   }
 
-  /* "_redukti.pyx":171
+  /* "_redukti.pyx":192
  *         raise ValueError('Invalid Tenor specified')
  * 
  * cdef validate_currency(enums.Currency ccy):             # <<<<<<<<<<<<<<
@@ -5986,7 +6439,7 @@ static PyObject *__pyx_f_8_redukti_validate_currency(enum redukti::Currency __py
   return __pyx_r;
 }
 
-/* "_redukti.pyx":178
+/* "_redukti.pyx":199
  *     cdef const index.InterestRateIndex *_index
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -6015,7 +6468,7 @@ static int __pyx_pf_8_redukti_17InterestRateIndex___cinit__(struct __pyx_obj_8_r
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_redukti.pyx":179
+  /* "_redukti.pyx":200
  * 
  *     def __cinit__(self):
  *         self._index = NULL             # <<<<<<<<<<<<<<
@@ -6024,7 +6477,7 @@ static int __pyx_pf_8_redukti_17InterestRateIndex___cinit__(struct __pyx_obj_8_r
  */
   __pyx_v_self->_index = NULL;
 
-  /* "_redukti.pyx":178
+  /* "_redukti.pyx":199
  *     cdef const index.InterestRateIndex *_index
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -6038,7 +6491,7 @@ static int __pyx_pf_8_redukti_17InterestRateIndex___cinit__(struct __pyx_obj_8_r
   return __pyx_r;
 }
 
-/* "_redukti.pyx":182
+/* "_redukti.pyx":203
  * 
  *     @staticmethod
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):             # <<<<<<<<<<<<<<
@@ -6078,11 +6531,11 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_3get_index_by_isdaindex(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tenor)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_index_by_isdaindex", 1, 2, 2, 1); __PYX_ERR(0, 182, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_index_by_isdaindex", 1, 2, 2, 1); __PYX_ERR(0, 203, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_index_by_isdaindex") < 0)) __PYX_ERR(0, 182, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_index_by_isdaindex") < 0)) __PYX_ERR(0, 203, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6090,12 +6543,12 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_3get_index_by_isdaindex(
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_isda_index = ((enum redukti::IsdaIndex)__Pyx_PyInt_As_enum__redukti_3a__3a_IsdaIndex(values[0])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 182, __pyx_L3_error)
-    __pyx_v_tenor = ((enum redukti::Tenor)__Pyx_PyInt_As_enum__redukti_3a__3a_Tenor(values[1])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 182, __pyx_L3_error)
+    __pyx_v_isda_index = ((enum redukti::IsdaIndex)__Pyx_PyInt_As_enum__redukti_3a__3a_IsdaIndex(values[0])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 203, __pyx_L3_error)
+    __pyx_v_tenor = ((enum redukti::Tenor)__Pyx_PyInt_As_enum__redukti_3a__3a_Tenor(values[1])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 203, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_index_by_isdaindex", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 182, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_index_by_isdaindex", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 203, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.InterestRateIndex.get_index_by_isdaindex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6117,29 +6570,29 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("get_index_by_isdaindex", 0);
 
-  /* "_redukti.pyx":183
+  /* "_redukti.pyx":204
  *     @staticmethod
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):
  *         validate_isda_index(isda_index)             # <<<<<<<<<<<<<<
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_isda_index(__pyx_v_isda_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_isda_index(__pyx_v_isda_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":184
+  /* "_redukti.pyx":205
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):
  *         validate_isda_index(isda_index)
  *         validate_tenor(tenor)             # <<<<<<<<<<<<<<
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
  *         if idx is NULL:
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_tenor(__pyx_v_tenor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_tenor(__pyx_v_tenor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":185
+  /* "_redukti.pyx":206
  *         validate_isda_index(isda_index)
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)             # <<<<<<<<<<<<<<
@@ -6148,7 +6601,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
  */
   __pyx_v_idx = redukti::get_default_index_service()->get_index(__pyx_v_isda_index, __pyx_v_tenor);
 
-  /* "_redukti.pyx":186
+  /* "_redukti.pyx":207
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
  *         if idx is NULL:             # <<<<<<<<<<<<<<
@@ -6158,20 +6611,20 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
   __pyx_t_2 = ((__pyx_v_idx == NULL) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "_redukti.pyx":187
+    /* "_redukti.pyx":208
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
  *         if idx is NULL:
  *             raise ValueError('Index not defined for given IsdaIndex and Tenor')             # <<<<<<<<<<<<<<
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 187, __pyx_L1_error)
+    __PYX_ERR(0, 208, __pyx_L1_error)
 
-    /* "_redukti.pyx":186
+    /* "_redukti.pyx":207
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
  *         if idx is NULL:             # <<<<<<<<<<<<<<
@@ -6180,19 +6633,19 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
  */
   }
 
-  /* "_redukti.pyx":188
+  /* "_redukti.pyx":209
  *         if idx is NULL:
  *             raise ValueError('Index not defined for given IsdaIndex and Tenor')
  *         cdef InterestRateIndex obj = InterestRateIndex()             # <<<<<<<<<<<<<<
  *         obj._index = idx
  *         return obj
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_obj = ((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":189
+  /* "_redukti.pyx":210
  *             raise ValueError('Index not defined for given IsdaIndex and Tenor')
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx             # <<<<<<<<<<<<<<
@@ -6201,7 +6654,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
  */
   __pyx_v_obj->_index = __pyx_v_idx;
 
-  /* "_redukti.pyx":190
+  /* "_redukti.pyx":211
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx
  *         return obj             # <<<<<<<<<<<<<<
@@ -6213,7 +6666,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
   __pyx_r = ((PyObject *)__pyx_v_obj);
   goto __pyx_L0;
 
-  /* "_redukti.pyx":182
+  /* "_redukti.pyx":203
  * 
  *     @staticmethod
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):             # <<<<<<<<<<<<<<
@@ -6233,7 +6686,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_2get_index_by_isdaindex(
   return __pyx_r;
 }
 
-/* "_redukti.pyx":193
+/* "_redukti.pyx":214
  * 
  *     @staticmethod
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):             # <<<<<<<<<<<<<<
@@ -6276,17 +6729,17 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_5get_index(CYTHON_UNUSED
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_index_family)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_index", 1, 3, 3, 1); __PYX_ERR(0, 193, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_index", 1, 3, 3, 1); __PYX_ERR(0, 214, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tenor)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_index", 1, 3, 3, 2); __PYX_ERR(0, 193, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_index", 1, 3, 3, 2); __PYX_ERR(0, 214, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_index") < 0)) __PYX_ERR(0, 193, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_index") < 0)) __PYX_ERR(0, 214, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -6295,13 +6748,13 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_5get_index(CYTHON_UNUSED
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_currency = ((enum redukti::Currency)__Pyx_PyInt_As_enum__redukti_3a__3a_Currency(values[0])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 193, __pyx_L3_error)
-    __pyx_v_index_family = ((enum redukti::IndexFamily)__Pyx_PyInt_As_enum__redukti_3a__3a_IndexFamily(values[1])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 193, __pyx_L3_error)
-    __pyx_v_tenor = ((enum redukti::Tenor)__Pyx_PyInt_As_enum__redukti_3a__3a_Tenor(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 193, __pyx_L3_error)
+    __pyx_v_currency = ((enum redukti::Currency)__Pyx_PyInt_As_enum__redukti_3a__3a_Currency(values[0])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L3_error)
+    __pyx_v_index_family = ((enum redukti::IndexFamily)__Pyx_PyInt_As_enum__redukti_3a__3a_IndexFamily(values[1])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L3_error)
+    __pyx_v_tenor = ((enum redukti::Tenor)__Pyx_PyInt_As_enum__redukti_3a__3a_Tenor(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_index", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 193, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_index", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 214, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.InterestRateIndex.get_index", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6323,40 +6776,40 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("get_index", 0);
 
-  /* "_redukti.pyx":194
+  /* "_redukti.pyx":215
  *     @staticmethod
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):
  *         validate_currency(currency)             # <<<<<<<<<<<<<<
  *         validate_index_family(index_family)
  *         validate_tenor(tenor)
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_currency(__pyx_v_currency); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_currency(__pyx_v_currency); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":195
+  /* "_redukti.pyx":216
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):
  *         validate_currency(currency)
  *         validate_index_family(index_family)             # <<<<<<<<<<<<<<
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_index_family(__pyx_v_index_family); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_index_family(__pyx_v_index_family); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":196
+  /* "_redukti.pyx":217
  *         validate_currency(currency)
  *         validate_index_family(index_family)
  *         validate_tenor(tenor)             # <<<<<<<<<<<<<<
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
  *         if idx is NULL:
  */
-  __pyx_t_1 = __pyx_f_8_redukti_validate_tenor(__pyx_v_tenor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8_redukti_validate_tenor(__pyx_v_tenor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":197
+  /* "_redukti.pyx":218
  *         validate_index_family(index_family)
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)             # <<<<<<<<<<<<<<
@@ -6365,7 +6818,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
  */
   __pyx_v_idx = redukti::get_default_index_service()->get_index(__pyx_v_currency, __pyx_v_index_family, __pyx_v_tenor);
 
-  /* "_redukti.pyx":198
+  /* "_redukti.pyx":219
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
  *         if idx is NULL:             # <<<<<<<<<<<<<<
@@ -6375,20 +6828,20 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
   __pyx_t_2 = ((__pyx_v_idx == NULL) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "_redukti.pyx":199
+    /* "_redukti.pyx":220
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
  *         if idx is NULL:
  *             raise ValueError('Index not defined for given Currency, IndexFamily and Tenor')             # <<<<<<<<<<<<<<
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 199, __pyx_L1_error)
+    __PYX_ERR(0, 220, __pyx_L1_error)
 
-    /* "_redukti.pyx":198
+    /* "_redukti.pyx":219
  *         validate_tenor(tenor)
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
  *         if idx is NULL:             # <<<<<<<<<<<<<<
@@ -6397,19 +6850,19 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
  */
   }
 
-  /* "_redukti.pyx":200
+  /* "_redukti.pyx":221
  *         if idx is NULL:
  *             raise ValueError('Index not defined for given Currency, IndexFamily and Tenor')
  *         cdef InterestRateIndex obj = InterestRateIndex()             # <<<<<<<<<<<<<<
  *         obj._index = idx
  *         return obj
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_obj = ((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":201
+  /* "_redukti.pyx":222
  *             raise ValueError('Index not defined for given Currency, IndexFamily and Tenor')
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx             # <<<<<<<<<<<<<<
@@ -6418,7 +6871,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
  */
   __pyx_v_obj->_index = __pyx_v_idx;
 
-  /* "_redukti.pyx":202
+  /* "_redukti.pyx":223
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx
  *         return obj             # <<<<<<<<<<<<<<
@@ -6430,7 +6883,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
   __pyx_r = ((PyObject *)__pyx_v_obj);
   goto __pyx_L0;
 
-  /* "_redukti.pyx":193
+  /* "_redukti.pyx":214
  * 
  *     @staticmethod
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):             # <<<<<<<<<<<<<<
@@ -6450,7 +6903,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_4get_index(enum redukti:
   return __pyx_r;
 }
 
-/* "_redukti.pyx":204
+/* "_redukti.pyx":225
  *         return obj
  * 
  *     cpdef Date value_date(self, Date fixing_date):             # <<<<<<<<<<<<<<
@@ -6477,7 +6930,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_value_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_value_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_17InterestRateIndex_7value_date)) {
         __Pyx_XDECREF(((PyObject *)__pyx_r));
@@ -6494,10 +6947,10 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_fixing_date)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_fixing_date));
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 204, __pyx_L1_error)
+        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 225, __pyx_L1_error)
         __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6516,7 +6969,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
     #endif
   }
 
-  /* "_redukti.pyx":205
+  /* "_redukti.pyx":226
  * 
  *     cpdef Date value_date(self, Date fixing_date):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -6526,7 +6979,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
   __pyx_t_5 = ((__pyx_v_self->_index == NULL) != 0);
   if (__pyx_t_5) {
 
-    /* "_redukti.pyx":206
+    /* "_redukti.pyx":227
  *     cpdef Date value_date(self, Date fixing_date):
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')             # <<<<<<<<<<<<<<
@@ -6534,14 +6987,14 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
  * 
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 206, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 227, __pyx_L1_error)
     __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_1);
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "_redukti.pyx":205
+    /* "_redukti.pyx":226
  * 
  *     cpdef Date value_date(self, Date fixing_date):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -6550,7 +7003,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
  */
   }
 
-  /* "_redukti.pyx":207
+  /* "_redukti.pyx":228
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')
  *         return Date(self._index.value_date(fixing_date.serial()))             # <<<<<<<<<<<<<<
@@ -6558,16 +7011,16 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_va
  *     cpdef Date fixing_date(self, Date accrual_start_date):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->value_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_fixing_date->__pyx_vtab)->serial(__pyx_v_fixing_date, 0))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->value_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_fixing_date->__pyx_vtab)->serial(__pyx_v_fixing_date, 0))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":204
+  /* "_redukti.pyx":225
  *         return obj
  * 
  *     cpdef Date value_date(self, Date fixing_date):             # <<<<<<<<<<<<<<
@@ -6595,7 +7048,7 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_7value_date(PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("value_date (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fixing_date), __pyx_ptype_8_redukti_Date, 1, "fixing_date", 0))) __PYX_ERR(0, 204, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fixing_date), __pyx_ptype_8_redukti_Date, 1, "fixing_date", 0))) __PYX_ERR(0, 225, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_17InterestRateIndex_6value_date(((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_fixing_date));
 
   /* function exit code */
@@ -6613,7 +7066,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_6value_date(struct __pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("value_date", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_value_date(__pyx_v_self, __pyx_v_fixing_date, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_value_date(__pyx_v_self, __pyx_v_fixing_date, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6630,7 +7083,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_6value_date(struct __pyx
   return __pyx_r;
 }
 
-/* "_redukti.pyx":209
+/* "_redukti.pyx":230
  *         return Date(self._index.value_date(fixing_date.serial()))
  * 
  *     cpdef Date fixing_date(self, Date accrual_start_date):             # <<<<<<<<<<<<<<
@@ -6657,7 +7110,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fixing_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fixing_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_17InterestRateIndex_9fixing_date)) {
         __Pyx_XDECREF(((PyObject *)__pyx_r));
@@ -6674,10 +7127,10 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_accrual_start_date)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_accrual_start_date));
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 209, __pyx_L1_error)
+        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 230, __pyx_L1_error)
         __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6696,7 +7149,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
     #endif
   }
 
-  /* "_redukti.pyx":210
+  /* "_redukti.pyx":231
  * 
  *     cpdef Date fixing_date(self, Date accrual_start_date):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -6706,7 +7159,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
   __pyx_t_5 = ((__pyx_v_self->_index == NULL) != 0);
   if (__pyx_t_5) {
 
-    /* "_redukti.pyx":211
+    /* "_redukti.pyx":232
  *     cpdef Date fixing_date(self, Date accrual_start_date):
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')             # <<<<<<<<<<<<<<
@@ -6714,14 +7167,14 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
  * 
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 211, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 232, __pyx_L1_error)
     __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_1);
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "_redukti.pyx":210
+    /* "_redukti.pyx":231
  * 
  *     cpdef Date fixing_date(self, Date accrual_start_date):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -6730,7 +7183,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
  */
   }
 
-  /* "_redukti.pyx":212
+  /* "_redukti.pyx":233
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')
  *         return Date(self._index.fixing_date(accrual_start_date.serial()))             # <<<<<<<<<<<<<<
@@ -6738,16 +7191,16 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_fi
  *     cpdef Date maturity_date(self, Date value_date):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->fixing_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_accrual_start_date->__pyx_vtab)->serial(__pyx_v_accrual_start_date, 0))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->fixing_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_accrual_start_date->__pyx_vtab)->serial(__pyx_v_accrual_start_date, 0))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":209
+  /* "_redukti.pyx":230
  *         return Date(self._index.value_date(fixing_date.serial()))
  * 
  *     cpdef Date fixing_date(self, Date accrual_start_date):             # <<<<<<<<<<<<<<
@@ -6775,7 +7228,7 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_9fixing_date(PyObject *_
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("fixing_date (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_accrual_start_date), __pyx_ptype_8_redukti_Date, 1, "accrual_start_date", 0))) __PYX_ERR(0, 209, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_accrual_start_date), __pyx_ptype_8_redukti_Date, 1, "accrual_start_date", 0))) __PYX_ERR(0, 230, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_17InterestRateIndex_8fixing_date(((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_accrual_start_date));
 
   /* function exit code */
@@ -6793,7 +7246,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_8fixing_date(struct __py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("fixing_date", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_fixing_date(__pyx_v_self, __pyx_v_accrual_start_date, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_fixing_date(__pyx_v_self, __pyx_v_accrual_start_date, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6810,7 +7263,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_8fixing_date(struct __py
   return __pyx_r;
 }
 
-/* "_redukti.pyx":214
+/* "_redukti.pyx":235
  *         return Date(self._index.fixing_date(accrual_start_date.serial()))
  * 
  *     cpdef Date maturity_date(self, Date value_date):             # <<<<<<<<<<<<<<
@@ -6837,7 +7290,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_maturity_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_maturity_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_17InterestRateIndex_11maturity_date)) {
         __Pyx_XDECREF(((PyObject *)__pyx_r));
@@ -6854,10 +7307,10 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_value_date)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_value_date));
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 235, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 214, __pyx_L1_error)
+        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 235, __pyx_L1_error)
         __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6876,7 +7329,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
     #endif
   }
 
-  /* "_redukti.pyx":215
+  /* "_redukti.pyx":236
  * 
  *     cpdef Date maturity_date(self, Date value_date):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -6886,7 +7339,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
   __pyx_t_5 = ((__pyx_v_self->_index == NULL) != 0);
   if (__pyx_t_5) {
 
-    /* "_redukti.pyx":216
+    /* "_redukti.pyx":237
  *     cpdef Date maturity_date(self, Date value_date):
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')             # <<<<<<<<<<<<<<
@@ -6894,14 +7347,14 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
  * 
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 216, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 237, __pyx_L1_error)
     __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_1);
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "_redukti.pyx":215
+    /* "_redukti.pyx":236
  * 
  *     cpdef Date maturity_date(self, Date value_date):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -6910,7 +7363,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
  */
   }
 
-  /* "_redukti.pyx":217
+  /* "_redukti.pyx":238
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')
  *         return Date(self._index.maturity_date(value_date.serial()))             # <<<<<<<<<<<<<<
@@ -6918,16 +7371,16 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ma
  *     def date_components(self, Date adjusted):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->maturity_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_value_date->__pyx_vtab)->serial(__pyx_v_value_date, 0))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->maturity_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_value_date->__pyx_vtab)->serial(__pyx_v_value_date, 0))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":214
+  /* "_redukti.pyx":235
  *         return Date(self._index.fixing_date(accrual_start_date.serial()))
  * 
  *     cpdef Date maturity_date(self, Date value_date):             # <<<<<<<<<<<<<<
@@ -6955,7 +7408,7 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_11maturity_date(PyObject
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("maturity_date (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_value_date), __pyx_ptype_8_redukti_Date, 1, "value_date", 0))) __PYX_ERR(0, 214, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_value_date), __pyx_ptype_8_redukti_Date, 1, "value_date", 0))) __PYX_ERR(0, 235, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_17InterestRateIndex_10maturity_date(((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_value_date));
 
   /* function exit code */
@@ -6973,7 +7426,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_10maturity_date(struct _
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("maturity_date", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_maturity_date(__pyx_v_self, __pyx_v_value_date, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_maturity_date(__pyx_v_self, __pyx_v_value_date, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6990,7 +7443,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_10maturity_date(struct _
   return __pyx_r;
 }
 
-/* "_redukti.pyx":219
+/* "_redukti.pyx":240
  *         return Date(self._index.maturity_date(value_date.serial()))
  * 
  *     def date_components(self, Date adjusted):             # <<<<<<<<<<<<<<
@@ -7004,7 +7457,7 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_13date_components(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("date_components (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_adjusted), __pyx_ptype_8_redukti_Date, 1, "adjusted", 0))) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_adjusted), __pyx_ptype_8_redukti_Date, 1, "adjusted", 0))) __PYX_ERR(0, 240, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_17InterestRateIndex_12date_components(((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_adjusted));
 
   /* function exit code */
@@ -7029,7 +7482,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("date_components", 0);
 
-  /* "_redukti.pyx":220
+  /* "_redukti.pyx":241
  * 
  *     def date_components(self, Date adjusted):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -7039,7 +7492,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
   __pyx_t_1 = ((__pyx_v_self->_index == NULL) != 0);
   if (__pyx_t_1) {
 
-    /* "_redukti.pyx":221
+    /* "_redukti.pyx":242
  *     def date_components(self, Date adjusted):
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')             # <<<<<<<<<<<<<<
@@ -7047,13 +7500,13 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
  *         cdef int value_dt = self._index.value_date(fixing)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_r = __pyx_t_2;
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "_redukti.pyx":220
+    /* "_redukti.pyx":241
  * 
  *     def date_components(self, Date adjusted):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -7062,7 +7515,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
  */
   }
 
-  /* "_redukti.pyx":222
+  /* "_redukti.pyx":243
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')
  *         cdef int fixing = self._index.fixing_date(adjusted.serial())             # <<<<<<<<<<<<<<
@@ -7071,7 +7524,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
  */
   __pyx_v_fixing = __pyx_v_self->_index->fixing_date(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_adjusted->__pyx_vtab)->serial(__pyx_v_adjusted, 0));
 
-  /* "_redukti.pyx":223
+  /* "_redukti.pyx":244
  *             return Exception('Index object is not initialized')
  *         cdef int fixing = self._index.fixing_date(adjusted.serial())
  *         cdef int value_dt = self._index.value_date(fixing)             # <<<<<<<<<<<<<<
@@ -7080,7 +7533,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
  */
   __pyx_v_value_dt = __pyx_v_self->_index->value_date(__pyx_v_fixing);
 
-  /* "_redukti.pyx":224
+  /* "_redukti.pyx":245
  *         cdef int fixing = self._index.fixing_date(adjusted.serial())
  *         cdef int value_dt = self._index.value_date(fixing)
  *         cdef int maturity_dt = self._index.maturity_date(value_dt)             # <<<<<<<<<<<<<<
@@ -7089,7 +7542,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
  */
   __pyx_v_maturity_dt = __pyx_v_self->_index->maturity_date(__pyx_v_value_dt);
 
-  /* "_redukti.pyx":225
+  /* "_redukti.pyx":246
  *         cdef int value_dt = self._index.value_date(fixing)
  *         cdef int maturity_dt = self._index.maturity_date(value_dt)
  *         return Date(fixing), Date(value_dt), Date(maturity_dt)             # <<<<<<<<<<<<<<
@@ -7097,22 +7550,22 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
  *     cpdef Date adjust_date(self, Date unadjusted, int days):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_fixing); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_fixing); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_value_dt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_value_dt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_maturity_dt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_maturity_dt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
@@ -7127,7 +7580,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":219
+  /* "_redukti.pyx":240
  *         return Date(self._index.maturity_date(value_date.serial()))
  * 
  *     def date_components(self, Date adjusted):             # <<<<<<<<<<<<<<
@@ -7149,7 +7602,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_12date_components(struct
   return __pyx_r;
 }
 
-/* "_redukti.pyx":227
+/* "_redukti.pyx":248
  *         return Date(fixing), Date(value_dt), Date(maturity_dt)
  * 
  *     cpdef Date adjust_date(self, Date unadjusted, int days):             # <<<<<<<<<<<<<<
@@ -7179,11 +7632,11 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adjust_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adjust_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_17InterestRateIndex_15adjust_date)) {
         __Pyx_XDECREF(((PyObject *)__pyx_r));
-        __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_days); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 227, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_days); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -7201,7 +7654,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, ((PyObject *)__pyx_v_unadjusted), __pyx_t_3};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7210,14 +7663,14 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, ((PyObject *)__pyx_v_unadjusted), __pyx_t_3};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         } else
         #endif
         {
-          __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 227, __pyx_L1_error)
+          __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           if (__pyx_t_5) {
             __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -7228,12 +7681,12 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
           __Pyx_GIVEREF(__pyx_t_3);
           PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_3);
           __pyx_t_3 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         }
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 227, __pyx_L1_error)
+        if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 248, __pyx_L1_error)
         __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7252,7 +7705,7 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
     #endif
   }
 
-  /* "_redukti.pyx":228
+  /* "_redukti.pyx":249
  * 
  *     cpdef Date adjust_date(self, Date unadjusted, int days):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -7262,21 +7715,21 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
   __pyx_t_8 = ((__pyx_v_self->_index == NULL) != 0);
   if (__pyx_t_8) {
 
-    /* "_redukti.pyx":229
+    /* "_redukti.pyx":250
  *     cpdef Date adjust_date(self, Date unadjusted, int days):
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')             # <<<<<<<<<<<<<<
  *         return Date(self._index.fixing_calendar().advance(unadjusted.serial(), days, enums.DAYS, self._index.day_convention()))
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 229, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8_redukti_Date))))) __PYX_ERR(0, 250, __pyx_L1_error)
     __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_1);
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "_redukti.pyx":228
+    /* "_redukti.pyx":249
  * 
  *     cpdef Date adjust_date(self, Date unadjusted, int days):
  *         if self._index is NULL:             # <<<<<<<<<<<<<<
@@ -7285,22 +7738,22 @@ static struct __pyx_obj_8_redukti_Date *__pyx_f_8_redukti_17InterestRateIndex_ad
  */
   }
 
-  /* "_redukti.pyx":230
+  /* "_redukti.pyx":251
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')
  *         return Date(self._index.fixing_calendar().advance(unadjusted.serial(), days, enums.DAYS, self._index.day_convention()))             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->fixing_calendar()->advance(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_unadjusted->__pyx_vtab)->serial(__pyx_v_unadjusted, 0), __pyx_v_days, redukti::DAYS, __pyx_v_self->_index->day_convention())); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_index->fixing_calendar()->advance(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_unadjusted->__pyx_vtab)->serial(__pyx_v_unadjusted, 0), __pyx_v_days, redukti::DAYS, __pyx_v_self->_index->day_convention())); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_8_redukti_Date), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((struct __pyx_obj_8_redukti_Date *)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "_redukti.pyx":227
+  /* "_redukti.pyx":248
  *         return Date(fixing), Date(value_dt), Date(maturity_dt)
  * 
  *     cpdef Date adjust_date(self, Date unadjusted, int days):             # <<<<<<<<<<<<<<
@@ -7355,11 +7808,11 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_15adjust_date(PyObject *
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_days)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("adjust_date", 1, 2, 2, 1); __PYX_ERR(0, 227, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("adjust_date", 1, 2, 2, 1); __PYX_ERR(0, 248, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "adjust_date") < 0)) __PYX_ERR(0, 227, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "adjust_date") < 0)) __PYX_ERR(0, 248, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -7368,17 +7821,17 @@ static PyObject *__pyx_pw_8_redukti_17InterestRateIndex_15adjust_date(PyObject *
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_unadjusted = ((struct __pyx_obj_8_redukti_Date *)values[0]);
-    __pyx_v_days = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_days == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 227, __pyx_L3_error)
+    __pyx_v_days = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_days == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("adjust_date", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 227, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("adjust_date", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 248, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_redukti.InterestRateIndex.adjust_date", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_unadjusted), __pyx_ptype_8_redukti_Date, 1, "unadjusted", 0))) __PYX_ERR(0, 227, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_unadjusted), __pyx_ptype_8_redukti_Date, 1, "unadjusted", 0))) __PYX_ERR(0, 248, __pyx_L1_error)
   __pyx_r = __pyx_pf_8_redukti_17InterestRateIndex_14adjust_date(((struct __pyx_obj_8_redukti_InterestRateIndex *)__pyx_v_self), __pyx_v_unadjusted, __pyx_v_days);
 
   /* function exit code */
@@ -7396,7 +7849,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_14adjust_date(struct __p
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("adjust_date", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_adjust_date(__pyx_v_self, __pyx_v_unadjusted, __pyx_v_days, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_8_redukti_17InterestRateIndex_adjust_date(__pyx_v_self, __pyx_v_unadjusted, __pyx_v_days, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7444,7 +7897,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_16__reduce_cython__(CYTH
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7497,7 +7950,7 @@ static PyObject *__pyx_pf_8_redukti_17InterestRateIndex_18__setstate_cython__(CY
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8356,6 +8809,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Business_centers_must_be_specifi, __pyx_k_Business_centers_must_be_specifi, sizeof(__pyx_k_Business_centers_must_be_specifi), 0, 1, 0, 0},
   {&__pyx_n_s_Calendar, __pyx_k_Calendar, sizeof(__pyx_k_Calendar), 0, 0, 1, 1},
   {&__pyx_kp_u_Cannot_parse_the_schedule_parame, __pyx_k_Cannot_parse_the_schedule_parame, sizeof(__pyx_k_Cannot_parse_the_schedule_parame), 0, 1, 0, 0},
+  {&__pyx_kp_u_Could_not_convert_to_bytes, __pyx_k_Could_not_convert_to_bytes, sizeof(__pyx_k_Could_not_convert_to_bytes), 0, 1, 0, 0},
   {&__pyx_n_s_Date, __pyx_k_Date, sizeof(__pyx_k_Date), 0, 0, 1, 1},
   {&__pyx_n_s_DayFraction, __pyx_k_DayFraction, sizeof(__pyx_k_DayFraction), 0, 0, 1, 1},
   {&__pyx_kp_u_Failed_to_generate_schedule, __pyx_k_Failed_to_generate_schedule, sizeof(__pyx_k_Failed_to_generate_schedule), 0, 1, 0, 0},
@@ -8372,6 +8826,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Invalid_PeriodUnit_specified, __pyx_k_Invalid_PeriodUnit_specified, sizeof(__pyx_k_Invalid_PeriodUnit_specified), 0, 1, 0, 0},
   {&__pyx_kp_u_Invalid_Tenor_specified, __pyx_k_Invalid_Tenor_specified, sizeof(__pyx_k_Invalid_Tenor_specified), 0, 1, 0, 0},
   {&__pyx_kp_u_Invalid_business_center, __pyx_k_Invalid_business_center, sizeof(__pyx_k_Invalid_business_center), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_date_cannot_parse, __pyx_k_Invalid_date_cannot_parse, sizeof(__pyx_k_Invalid_date_cannot_parse), 0, 1, 0, 0},
   {&__pyx_kp_u_Number_of_variables_in_AdVar_mus, __pyx_k_Number_of_variables_in_AdVar_mus, sizeof(__pyx_k_Number_of_variables_in_AdVar_mus), 0, 1, 0, 0},
   {&__pyx_kp_u_Order_must_be_between_0_and_2, __pyx_k_Order_must_be_between_0_and_2, sizeof(__pyx_k_Order_must_be_between_0_and_2), 0, 1, 0, 0},
   {&__pyx_n_s_ParseFromString, __pyx_k_ParseFromString, sizeof(__pyx_k_ParseFromString), 0, 0, 1, 1},
@@ -8379,11 +8834,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SerializeToString, __pyx_k_SerializeToString, sizeof(__pyx_k_SerializeToString), 0, 0, 1, 1},
   {&__pyx_kp_u_Supplied_values_are_not_of_the_s, __pyx_k_Supplied_values_are_not_of_the_s, sizeof(__pyx_k_Supplied_values_are_not_of_the_s), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
+  {&__pyx_kp_u_UTF_8, __pyx_k_UTF_8, sizeof(__pyx_k_UTF_8), 0, 1, 0, 0},
   {&__pyx_kp_u_Unable_to_construct_a_calendar_f, __pyx_k_Unable_to_construct_a_calendar_f, sizeof(__pyx_k_Unable_to_construct_a_calendar_f), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_u_Variable_index_is_out_of_range, __pyx_k_Variable_index_is_out_of_range, sizeof(__pyx_k_Variable_index_is_out_of_range), 0, 1, 0, 0},
   {&__pyx_n_s_adjust_date, __pyx_k_adjust_date, sizeof(__pyx_k_adjust_date), 0, 0, 1, 1},
   {&__pyx_n_s_business_centres, __pyx_k_business_centres, sizeof(__pyx_k_business_centres), 0, 0, 1, 1},
+  {&__pyx_n_s_byte_s, __pyx_k_byte_s, sizeof(__pyx_k_byte_s), 0, 0, 1, 1},
+  {&__pyx_n_s_c_string, __pyx_k_c_string, sizeof(__pyx_k_c_string), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_currency, __pyx_k_currency, sizeof(__pyx_k_currency), 0, 0, 1, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
@@ -8393,6 +8851,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_day, __pyx_k_day, sizeof(__pyx_k_day), 0, 0, 1, 1},
   {&__pyx_n_s_days, __pyx_k_days, sizeof(__pyx_k_days), 0, 0, 1, 1},
   {&__pyx_n_s_dfc, __pyx_k_dfc, sizeof(__pyx_k_dfc), 0, 0, 1, 1},
+  {&__pyx_n_s_dmy, __pyx_k_dmy, sizeof(__pyx_k_dmy), 0, 0, 1, 1},
+  {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_final_period, __pyx_k_final_period, sizeof(__pyx_k_final_period), 0, 0, 1, 1},
   {&__pyx_n_s_fixing_date, __pyx_k_fixing_date, sizeof(__pyx_k_fixing_date), 0, 0, 1, 1},
   {&__pyx_n_s_from_dmy, __pyx_k_from_dmy, sizeof(__pyx_k_from_dmy), 0, 0, 1, 1},
@@ -8417,6 +8877,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_order, __pyx_k_order, sizeof(__pyx_k_order), 0, 0, 1, 1},
   {&__pyx_n_s_parameters, __pyx_k_parameters, sizeof(__pyx_k_parameters), 0, 0, 1, 1},
+  {&__pyx_n_s_parse_date, __pyx_k_parse_date, sizeof(__pyx_k_parse_date), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
@@ -8429,6 +8890,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ref_date2, __pyx_k_ref_date2, sizeof(__pyx_k_ref_date2), 0, 0, 1, 1},
   {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
   {&__pyx_n_s_result_str, __pyx_k_result_str, sizeof(__pyx_k_result_str), 0, 0, 1, 1},
+  {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_schedule, __pyx_k_schedule, sizeof(__pyx_k_schedule), 0, 0, 1, 1},
   {&__pyx_n_s_schedule_parameters, __pyx_k_schedule_parameters, sizeof(__pyx_k_schedule_parameters), 0, 0, 1, 1},
   {&__pyx_n_s_schedule_pb2, __pyx_k_schedule_pb2, sizeof(__pyx_k_schedule_pb2), 0, 0, 1, 1},
@@ -8548,93 +9010,115 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "_redukti.pyx":85
+  /* "_redukti.pyx":92
+ *         return bytes(s)
+ *     else:
+ *         raise TypeError("Could not convert to bytes.")             # <<<<<<<<<<<<<<
+ * 
+ * def parse_date(s):
+ */
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Could_not_convert_to_bytes); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+
+  /* "_redukti.pyx":99
+ *     cdef const char* c_string = byte_s
+ *     if not date.parse_date(c_string, &d):
+ *         raise ValueError('Invalid date: cannot parse')             # <<<<<<<<<<<<<<
+ *     return Date(d)
+ * 
+ */
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Invalid_date_cannot_parse); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+
+  /* "_redukti.pyx":106
  *     cdef schedule.ScheduleParameters _parameters
  *     if not _parameters.ParseFromString(str):
  *         raise ValueError("Cannot parse the schedule parameters")             # <<<<<<<<<<<<<<
  *     cdef schedule.Schedule _schedule
  *     status = schedule.build_schedule(_parameters, _schedule)
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Cannot_parse_the_schedule_parame); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 85, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Cannot_parse_the_schedule_parame); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "_redukti.pyx":89
+  /* "_redukti.pyx":110
  *     status = schedule.build_schedule(_parameters, _schedule)
  *     if not status == enums.ResponseSubCode.kOk:
  *         raise Exception('Failed to generate schedule')             # <<<<<<<<<<<<<<
  *     result = schedule_pb2.Schedule()
  *     cdef string result_str
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_generate_schedule); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 89, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_generate_schedule); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "_redukti.pyx":93
+  /* "_redukti.pyx":114
  *     cdef string result_str
  *     if not _schedule.SerializeToString(&result_str):
  *         raise Exception('Failed to parse result from api call')             # <<<<<<<<<<<<<<
  *     result.ParseFromString(result_str)
  *     return result
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_parse_result_from_api); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 93, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Failed_to_parse_result_from_api); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
-  /* "_redukti.pyx":99
+  /* "_redukti.pyx":120
  * cdef validate_business_centers(list business_centres):
  *     if len(business_centres) == 0:
  *         raise ValueError('Business centers must be specified')             # <<<<<<<<<<<<<<
  *     for center in business_centres:
  *         if center < 1 or center > enums.BRSP:
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Business_centers_must_be_specifi); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_Business_centers_must_be_specifi); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
-  /* "_redukti.pyx":102
+  /* "_redukti.pyx":123
  *     for center in business_centres:
  *         if center < 1 or center > enums.BRSP:
  *             raise ValueError('Invalid business center')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_periodunit(enums.PeriodUnit unit):
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Invalid_business_center); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 102, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Invalid_business_center); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
-  /* "_redukti.pyx":106
+  /* "_redukti.pyx":127
  * cdef validate_periodunit(enums.PeriodUnit unit):
  *     if unit < 1 or unit > enums.YEARS:
  *         raise ValueError('Invalid PeriodUnit specified')             # <<<<<<<<<<<<<<
  * 
  * cdef class Calendar:
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_Invalid_PeriodUnit_specified); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Invalid_PeriodUnit_specified); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
-  /* "_redukti.pyx":128
+  /* "_redukti.pyx":149
  *             self._calendar = calendar.get_calendar_factory().get_calendar(joint_calendars)
  *         else:
  *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')             # <<<<<<<<<<<<<<
  *         if self._calendar is NULL:
  *             raise ValueError('Unable to construct a calendar from given parameters')
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Incorrect_number_of_values_in_bu); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 128, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_Incorrect_number_of_values_in_bu); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "_redukti.pyx":130
+  /* "_redukti.pyx":151
  *             raise ValueError('Incorrect number of values in business centres list, max of 4 allowed')
  *         if self._calendar is NULL:
  *             raise ValueError('Unable to construct a calendar from given parameters')             # <<<<<<<<<<<<<<
  * 
  *     cpdef bint is_holiday(self, Date d):
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Unable_to_construct_a_calendar_f); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 130, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Unable_to_construct_a_calendar_f); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -8642,29 +9126,29 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "_redukti.pyx":141
+  /* "_redukti.pyx":162
  * cdef validate_daycountfraction(enums.DayCountFraction dfc):
  *     if dfc < 1 or dfc > enums.BUS_252:
  *         raise ValueError('Invalid DayCountFraction specified')             # <<<<<<<<<<<<<<
  * 
  * cdef class DayFraction:
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_Invalid_DayCountFraction_specifi); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 141, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_u_Invalid_DayCountFraction_specifi); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -8672,95 +9156,95 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "_redukti.pyx":161
+  /* "_redukti.pyx":182
  * cdef validate_isda_index(enums.IsdaIndex index):
  *     if index < 1 or index > enums.ZAR_JIBAR_SAFEX:
  *         raise ValueError('Invalid IsdaIndex specified')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_index_family(enums.IndexFamily family):
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_Invalid_IsdaIndex_specified); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_Invalid_IsdaIndex_specified); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
-  /* "_redukti.pyx":165
+  /* "_redukti.pyx":186
  * cdef validate_index_family(enums.IndexFamily family):
  *     if family < 1 or family > enums.REPO_CURVE:
  *         raise ValueError('Invalid IndexFamily specified')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_tenor(enums.Tenor tenor):
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_Invalid_IndexFamily_specified); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 165, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Invalid_IndexFamily_specified); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
-  /* "_redukti.pyx":169
+  /* "_redukti.pyx":190
  * cdef validate_tenor(enums.Tenor tenor):
  *     if tenor < 0 or tenor > enums.TENOR_1T:
  *         raise ValueError('Invalid Tenor specified')             # <<<<<<<<<<<<<<
  * 
  * cdef validate_currency(enums.Currency ccy):
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_Invalid_Tenor_specified); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 169, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Invalid_Tenor_specified); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
-  /* "_redukti.pyx":173
+  /* "_redukti.pyx":194
  * cdef validate_currency(enums.Currency ccy):
  *     if ccy < 0 or ccy > enums.PLN:
  *         raise ValueError('Invalid Currency specified')             # <<<<<<<<<<<<<<
  * 
  * cdef class InterestRateIndex:
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Invalid_Currency_specified); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 173, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Invalid_Currency_specified); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
-  /* "_redukti.pyx":187
+  /* "_redukti.pyx":208
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
  *         if idx is NULL:
  *             raise ValueError('Index not defined for given IsdaIndex and Tenor')             # <<<<<<<<<<<<<<
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Index_not_defined_for_given_Isda); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 187, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Index_not_defined_for_given_Isda); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
-  /* "_redukti.pyx":199
+  /* "_redukti.pyx":220
  *         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(currency, index_family, tenor)
  *         if idx is NULL:
  *             raise ValueError('Index not defined for given Currency, IndexFamily and Tenor')             # <<<<<<<<<<<<<<
  *         cdef InterestRateIndex obj = InterestRateIndex()
  *         obj._index = idx
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Index_not_defined_for_given_Curr); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 199, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Index_not_defined_for_given_Curr); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
-  /* "_redukti.pyx":206
+  /* "_redukti.pyx":227
  *     cpdef Date value_date(self, Date fixing_date):
  *         if self._index is NULL:
  *             return Exception('Index object is not initialized')             # <<<<<<<<<<<<<<
  *         return Date(self._index.value_date(fixing_date.serial()))
  * 
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Index_object_is_not_initialized); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 206, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_u_Index_object_is_not_initialized); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -8768,18 +9252,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "_redukti.pyx":78
  * 
@@ -8788,46 +9272,70 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return Date(date.make_date(d, m, y))
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_from_dmy, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_from_dmy, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 78, __pyx_L1_error)
 
   /* "_redukti.pyx":81
  *         return Date(date.make_date(d, m, y))
+ * 
+ * def dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
+ *     return Date(date.make_date(d, m, y))
+ * 
+ */
+  __pyx_tuple__35 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_dmy, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 81, __pyx_L1_error)
+
+  /* "_redukti.pyx":94
+ *         raise TypeError("Could not convert to bytes.")
+ * 
+ * def parse_date(s):             # <<<<<<<<<<<<<<
+ *     cdef int d
+ *     byte_s = to_bytes(s)
+ */
+  __pyx_tuple__37 = PyTuple_Pack(4, __pyx_n_s_s, __pyx_n_s_d, __pyx_n_s_byte_s, __pyx_n_s_c_string); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_parse_date, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 94, __pyx_L1_error)
+
+  /* "_redukti.pyx":102
+ *     return Date(d)
  * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  */
-  __pyx_tuple__33 = PyTuple_Pack(7, __pyx_n_s_schedule_parameters, __pyx_n_s_str, __pyx_n_s_parameters, __pyx_n_s_schedule, __pyx_n_s_status, __pyx_n_s_result, __pyx_n_s_result_str); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 81, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_generate_schedule, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(7, __pyx_n_s_schedule_parameters, __pyx_n_s_str, __pyx_n_s_parameters, __pyx_n_s_schedule, __pyx_n_s_status, __pyx_n_s_result, __pyx_n_s_result_str); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_generate_schedule, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 102, __pyx_L1_error)
 
-  /* "_redukti.pyx":182
+  /* "_redukti.pyx":203
  * 
  *     @staticmethod
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):             # <<<<<<<<<<<<<<
  *         validate_isda_index(isda_index)
  *         validate_tenor(tenor)
  */
-  __pyx_tuple__35 = PyTuple_Pack(4, __pyx_n_s_isda_index, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 182, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index_by_isdaindex, 182, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(4, __pyx_n_s_isda_index, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index_by_isdaindex, 203, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 203, __pyx_L1_error)
 
-  /* "_redukti.pyx":193
+  /* "_redukti.pyx":214
  * 
  *     @staticmethod
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):             # <<<<<<<<<<<<<<
  *         validate_currency(currency)
  *         validate_index_family(index_family)
  */
-  __pyx_tuple__37 = PyTuple_Pack(5, __pyx_n_s_currency, __pyx_n_s_index_family, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 193, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index, 193, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(5, __pyx_n_s_currency, __pyx_n_s_index_family, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index, 214, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8907,47 +9415,47 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_8_redukti_Date = &__pyx_type_8_redukti_Date;
   __pyx_vtabptr_8_redukti_Calendar = &__pyx_vtable_8_redukti_Calendar;
   __pyx_vtable_8_redukti_Calendar.is_holiday = (int (*)(struct __pyx_obj_8_redukti_Calendar *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_8Calendar_is_holiday;
-  if (PyType_Ready(&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_8_redukti_Calendar.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_Calendar.tp_dictoffset && __pyx_type_8_redukti_Calendar.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8_redukti_Calendar.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_8_redukti_Calendar.tp_dict, __pyx_vtabptr_8_redukti_Calendar) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Calendar, (PyObject *)&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_8_redukti_Calendar.tp_dict, __pyx_vtabptr_8_redukti_Calendar) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Calendar, (PyObject *)&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_Calendar) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
   __pyx_ptype_8_redukti_Calendar = &__pyx_type_8_redukti_Calendar;
   __pyx_vtabptr_8_redukti_DayFraction = &__pyx_vtable_8_redukti_DayFraction;
   __pyx_vtable_8_redukti_DayFraction.year_fraction = (double (*)(struct __pyx_obj_8_redukti_DayFraction *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_11DayFraction_year_fraction;
   __pyx_vtable_8_redukti_DayFraction.year_fraction_with_finalperiod = (double (*)(struct __pyx_obj_8_redukti_DayFraction *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, int, int __pyx_skip_dispatch))__pyx_f_8_redukti_11DayFraction_year_fraction_with_finalperiod;
   __pyx_vtable_8_redukti_DayFraction.year_fraction_with_refdates = (double (*)(struct __pyx_obj_8_redukti_DayFraction *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_11DayFraction_year_fraction_with_refdates;
-  if (PyType_Ready(&__pyx_type_8_redukti_DayFraction) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8_redukti_DayFraction) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_8_redukti_DayFraction.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_DayFraction.tp_dictoffset && __pyx_type_8_redukti_DayFraction.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8_redukti_DayFraction.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_8_redukti_DayFraction.tp_dict, __pyx_vtabptr_8_redukti_DayFraction) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DayFraction, (PyObject *)&__pyx_type_8_redukti_DayFraction) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_DayFraction) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_8_redukti_DayFraction.tp_dict, __pyx_vtabptr_8_redukti_DayFraction) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DayFraction, (PyObject *)&__pyx_type_8_redukti_DayFraction) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_DayFraction) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
   __pyx_ptype_8_redukti_DayFraction = &__pyx_type_8_redukti_DayFraction;
   __pyx_vtabptr_8_redukti_InterestRateIndex = &__pyx_vtable_8_redukti_InterestRateIndex;
   __pyx_vtable_8_redukti_InterestRateIndex.value_date = (struct __pyx_obj_8_redukti_Date *(*)(struct __pyx_obj_8_redukti_InterestRateIndex *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_17InterestRateIndex_value_date;
   __pyx_vtable_8_redukti_InterestRateIndex.fixing_date = (struct __pyx_obj_8_redukti_Date *(*)(struct __pyx_obj_8_redukti_InterestRateIndex *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_17InterestRateIndex_fixing_date;
   __pyx_vtable_8_redukti_InterestRateIndex.maturity_date = (struct __pyx_obj_8_redukti_Date *(*)(struct __pyx_obj_8_redukti_InterestRateIndex *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_17InterestRateIndex_maturity_date;
   __pyx_vtable_8_redukti_InterestRateIndex.adjust_date = (struct __pyx_obj_8_redukti_Date *(*)(struct __pyx_obj_8_redukti_InterestRateIndex *, struct __pyx_obj_8_redukti_Date *, int, int __pyx_skip_dispatch))__pyx_f_8_redukti_17InterestRateIndex_adjust_date;
-  if (PyType_Ready(&__pyx_type_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_8_redukti_InterestRateIndex.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_InterestRateIndex.tp_dictoffset && __pyx_type_8_redukti_InterestRateIndex.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8_redukti_InterestRateIndex.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_8_redukti_InterestRateIndex.tp_dict, __pyx_vtabptr_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_InterestRateIndex, (PyObject *)&__pyx_type_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_8_redukti_InterestRateIndex.tp_dict, __pyx_vtabptr_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_InterestRateIndex, (PyObject *)&__pyx_type_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_InterestRateIndex) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
   __pyx_ptype_8_redukti_InterestRateIndex = &__pyx_type_8_redukti_InterestRateIndex;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -9231,70 +9739,94 @@ if (!__Pyx_RefNanny) {
   /* "_redukti.pyx":81
  *         return Date(date.make_date(d, m, y))
  * 
+ * def dmy(unsigned d, unsigned m, int y):             # <<<<<<<<<<<<<<
+ *     return Date(date.make_date(d, m, y))
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_1dmy, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_dmy, __pyx_t_1) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_redukti.pyx":94
+ *         raise TypeError("Could not convert to bytes.")
+ * 
+ * def parse_date(s):             # <<<<<<<<<<<<<<
+ *     cdef int d
+ *     byte_s = to_bytes(s)
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_3parse_date, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_parse_date, __pyx_t_1) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_redukti.pyx":102
+ *     return Date(d)
+ * 
  * def generate_schedule(schedule_parameters):             # <<<<<<<<<<<<<<
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_1generate_schedule, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_5generate_schedule, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_schedule, __pyx_t_1) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_schedule, __pyx_t_1) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_redukti.pyx":182
+  /* "_redukti.pyx":203
  * 
  *     @staticmethod
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):             # <<<<<<<<<<<<<<
  *         validate_isda_index(isda_index)
  *         validate_tenor(tenor)
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_17InterestRateIndex_3get_index_by_isdaindex, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_17InterestRateIndex_3get_index_by_isdaindex, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index_by_isdaindex, __pyx_t_1) < 0) __PYX_ERR(0, 182, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index_by_isdaindex, __pyx_t_1) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_8_redukti_InterestRateIndex);
 
-  /* "_redukti.pyx":181
+  /* "_redukti.pyx":202
  *         self._index = NULL
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):
  *         validate_isda_index(isda_index)
  */
-  __Pyx_GetNameInClass(__pyx_t_1, (PyObject *)__pyx_ptype_8_redukti_InterestRateIndex, __pyx_n_s_get_index_by_isdaindex); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __Pyx_GetNameInClass(__pyx_t_1, (PyObject *)__pyx_ptype_8_redukti_InterestRateIndex, __pyx_n_s_get_index_by_isdaindex); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index_by_isdaindex, __pyx_t_2) < 0) __PYX_ERR(0, 182, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index_by_isdaindex, __pyx_t_2) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_8_redukti_InterestRateIndex);
 
-  /* "_redukti.pyx":193
+  /* "_redukti.pyx":214
  * 
  *     @staticmethod
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):             # <<<<<<<<<<<<<<
  *         validate_currency(currency)
  *         validate_index_family(index_family)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_17InterestRateIndex_5get_index, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8_redukti_17InterestRateIndex_5get_index, NULL, __pyx_n_s_redukti_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index, __pyx_t_2) < 0) __PYX_ERR(0, 193, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index, __pyx_t_2) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_8_redukti_InterestRateIndex);
 
-  /* "_redukti.pyx":192
+  /* "_redukti.pyx":213
  *         return obj
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):
  *         validate_currency(currency)
  */
-  __Pyx_GetNameInClass(__pyx_t_2, (PyObject *)__pyx_ptype_8_redukti_InterestRateIndex, __pyx_n_s_get_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __Pyx_GetNameInClass(__pyx_t_2, (PyObject *)__pyx_ptype_8_redukti_InterestRateIndex, __pyx_n_s_get_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index, __pyx_t_1) < 0) __PYX_ERR(0, 193, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_8_redukti_InterestRateIndex->tp_dict, __pyx_n_s_get_index, __pyx_t_1) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_8_redukti_InterestRateIndex);
 
@@ -10045,6 +10577,35 @@ static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
 #endif
 }
 
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
+}
+
 /* GetModuleGlobalName */
 #if CYTHON_USE_DICT_VERSIONS
 static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
@@ -10078,35 +10639,6 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
     PyErr_Clear();
 #endif
     return __Pyx_GetBuiltinName(name);
-}
-
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
-    }
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
-    }
-    #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
 }
 
 /* GetItemInt */

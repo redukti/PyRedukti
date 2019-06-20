@@ -78,6 +78,27 @@ cdef class Date:
     def from_dmy(unsigned d, unsigned m, int y):
         return Date(date.make_date(d, m, y))
 
+def dmy(unsigned d, unsigned m, int y):
+    return Date(date.make_date(d, m, y))
+
+cdef bytes to_bytes(s):
+    if type(s) is unicode:
+        return s.encode('UTF-8')
+    elif isinstance(s, bytes):
+        return s
+    elif isinstance(s, unicode):
+        return bytes(s)
+    else:
+        raise TypeError("Could not convert to bytes.")
+
+def parse_date(s):
+    cdef int d
+    byte_s = to_bytes(s)
+    cdef const char* c_string = byte_s
+    if not date.parse_date(c_string, &d):
+        raise ValueError('Invalid date: cannot parse')
+    return Date(d)
+
 def generate_schedule(schedule_parameters):
     cdef string str = schedule_parameters.SerializeToString()
     cdef schedule.ScheduleParameters _parameters

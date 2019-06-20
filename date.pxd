@@ -28,5 +28,4 @@ cdef extern from "date.h" namespace "redukti":
     unsigned weekday_difference(unsigned x, unsigned y)
     unsigned next_weekday(unsigned wd)
     unsigned prev_weekday(unsigned wd)
-    
-
+    bint parse_date(const char *s, int *d)
