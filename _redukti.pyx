@@ -12,9 +12,12 @@
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-cimport autodiff, date, enums, schedule, calendar, dayfraction, index
+cimport autodiff, date, enums, schedule, calendar, dayfraction, index, allocator, interpolator
 from redukti import schedule_pb2
 from libcpp.string cimport string
+from libcpp.memory cimport unique_ptr
+from cpython cimport array
+import array
 
 cdef class ADVar:
     cdef autodiff.redukti_adouble_t* _ad
@@ -33,7 +36,7 @@ cdef class ADVar:
         self._vars = n_vars
         self._order = order
         autodiff.redukti_adouble_init(self._ad, n_vars, order, variable, initial_value)
-
+ 
     def __dealloc__(self):
         PyMem_Free(self._ad)
 
@@ -42,6 +45,16 @@ cdef class ADVar:
         if not is_compatible:
             raise ValueError('Supplied values are not of the same order or size')
         autodiff.redukti_adouble_assign(self._ad, other._ad)
+
+    @staticmethod
+    cdef dup(autodiff.redukti_adouble_t *value):
+        if value is NULL:
+            raise ValueError('NULL value supplied')
+        cdef int n_vars = autodiff.redukti_adouble_get_nvars(value)
+        cdef int order = autodiff.redukti_adouble_get_order(value)
+        cdef ADVar copy = ADVar(n_vars, order, 0, 0.0)
+        autodiff.redukti_adouble_assign(copy._ad, value)
+        return copy
 
     def value(self):
         return autodiff.redukti_adouble_get_value(self._ad)
@@ -193,6 +206,10 @@ cdef validate_currency(enums.Currency ccy):
     if ccy < 0 or ccy > enums.PLN:
         raise ValueError('Invalid Currency specified')
 
+cdef validate_interpolator_type(enums.InterpolatorType t):
+    if t < 0 or t > enums.CUBIC_SPLINE_CLAMPED:
+        raise ValueError('Invalid InterpolatorType specified')
+
 cdef class InterestRateIndex:
     cdef const index.InterestRateIndex *_index
 
@@ -249,3 +266,47 @@ cdef class InterestRateIndex:
         if self._index is NULL:
             return Exception('Index object is not initialized')
         return Date(self._index.fixing_calendar().advance(unadjusted.serial(), days, enums.DAYS, self._index.day_convention()))
+
+cdef class Interpolator:
+    cdef array.array _x
+    cdef array.array _y
+    cdef interpolator.InterpolatorPointerType _interpolator
+    cdef interpolator.Interpolator *_interpolator_ptr
+
+    def __cinit__(self, enums.InterpolatorType interpolator_type, array.array x, array.array y, int order = 0):
+        validate_interpolator_type(interpolator_type)
+        if x.typecode != 'd' or y.typecode != 'd':
+            raise ValueError('Supplied arrays must be of type double')
+        if len(x) != len(y) or len(x) < 4 or len(x) > 50:
+            raise ValueError('Invalid size of x or y: minimum 4 elements required and len(x) must be == len(y)')
+        self._x = x
+        self._y = y
+        cdef double *xdata = <double *>self._x.data.as_voidptr
+        cdef double *ydata = <double *>self._y.data.as_voidptr
+        cdef int size = len(x)
+        cdef interpolator.InterpolationOptions options;
+        options.differentiation_order = order
+        self._interpolator = interpolator.make_interpolator(interpolator_type, xdata, ydata, size, allocator.get_default_allocator(), options)
+        self._interpolator_ptr = self._interpolator.get()
+
+    def __dealloc__(self):
+        self._interpolator.reset(NULL)
+
+    cpdef double interpolate(self, double x):
+        return self._interpolator_ptr.interpolate(x)
+
+    cdef ADVar interpolate_with_sensitivities_(self, double x, allocator.FixedRegionAllocator *fixed_region_allocator):
+        cdef interpolator.SensitivitiesPointerType sensitivities = self._interpolator_ptr.interpolate_with_sensitivities(x, fixed_region_allocator)
+        cdef autodiff.redukti_adouble_t *data = sensitivities.get()
+        if data is NULL:
+            print('Got NULL')
+            return None
+        return ADVar.dup(sensitivities.get())
+
+    cpdef ADVar interpolate_with_sensitivities(self, double x):
+        cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
+        cdef size_t pos = fixed_region_allocator.pos() # Since we can't use the FixedRegionAllocatorGuard in Cython
+        try:
+            return self.interpolate_with_sensitivities_(x, fixed_region_allocator)
+        finally:
+            fixed_region_allocator.pos(pos)

@@ -36,4 +36,5 @@ cdef extern from "autodiff.h":
     void redukti_adouble_set_value(redukti_adouble_t *x, double v)
     void redukti_adouble_set_derivative1(redukti_adouble_t *x, int parameter, double v)
     void redukti_adouble_set_derivative2(redukti_adouble_t *x, int parameter1, int parameter2, double v)
-
+    int redukti_adouble_get_order(const redukti_adouble_t *x)
+    int redukti_adouble_get_nvars(const redukti_adouble_t *x)

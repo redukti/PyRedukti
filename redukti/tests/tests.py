@@ -15,6 +15,7 @@ import redukti
 import unittest
 from redukti import enums_pb2 as enums
 from redukti import schedule_pb2
+import array
 
 class TestDate(unittest.TestCase):
 
@@ -73,6 +74,14 @@ class TestDate(unittest.TestCase):
         fixing_dt, value_dt, maturity_dt = idx.date_components(adjusted)
         self.assertEqual(maturity_dt.serial(), redukti.Date.from_dmy(31,10,2016).serial())
         self.assertEqual(value_dt.serial(), adjusted.serial())
+
+    def test_interpolator_basics(self):
+        x = array.array('d', [0.01,0.02,0.03,0.04,0.05])
+        y = array.array('d', [1000000.0,20004.0,300000.5,4000000.0,900000.0])
+        interp = redukti.Interpolator(enums.CUBIC_SPLINE_NATURAL, x, y, 2)
+        print(interp.interpolate(0.035))
+        print(interp.interpolate_with_sensitivities(0.035).value())
+        print(interp.interpolate_with_sensitivities(0.035).gradient())
 
 if __name__ == '__main__':
     unittest.main()

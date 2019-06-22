@@ -35,3 +35,5 @@ cdef extern from "enums.pb.h" namespace "redukti":
         TENOR_1T = 97
     cdef enum Currency:
         PLN = 18
+    cdef enum InterpolatorType:
+        CUBIC_SPLINE_CLAMPED = 8
