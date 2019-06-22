@@ -299,7 +299,6 @@ cdef class Interpolator:
         cdef interpolator.SensitivitiesPointerType sensitivities = self._interpolator_ptr.interpolate_with_sensitivities(x, fixed_region_allocator)
         cdef autodiff.redukti_adouble_t *data = sensitivities.get()
         if data is NULL:
-            print('Got NULL')
             return None
         return ADVar.dup(sensitivities.get())
 
