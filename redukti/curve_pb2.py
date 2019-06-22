@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='redukti',
   syntax='proto3',
   serialized_options=_b('\n\021com.redukti.typesB\005TypesP\001\370\001\001\252\002\rRedukti.Types'),
-  serialized_pb=_b('\n\x13redukti/curve.proto\x12\x07redukti\x1a\x13redukti/enums.proto\"\x80\x03\n\x11IRCurveDefinition\x12\n\n\x02id\x18\x01 \x01(\x05\x12(\n\x0b\x63urve_group\x18\x02 \x01(\x0e\x32\x13.redukti.CurveGroup\x12#\n\x08\x63urrency\x18\x03 \x01(\x0e\x32\x11.redukti.Currency\x12*\n\x0cindex_family\x18\x04 \x01(\x0e\x32\x14.redukti.IndexFamily\x12\x1d\n\x05tenor\x18\x05 \x01(\x0e\x32\x0e.redukti.Tenor\x12\x34\n\x11interpolator_type\x18\x06 \x01(\x0e\x32\x19.redukti.InterpolatorType\x12,\n\x0finterpolated_on\x18\x07 \x01(\x0e\x32\x13.redukti.IRRateType\x12\x41\n\x18maturity_generation_rule\x18\x08 \x01(\x0e\x32\x1f.redukti.MaturityGenerationRule\x12\x1e\n\x06tenors\x18\t \x03(\x0e\x32\x0e.redukti.Tenor\"L\n\tZeroCurve\x12\x1b\n\x13\x63urve_definition_id\x18\x01 \x01(\x05\x12\x12\n\nmaturities\x18\x02 \x03(\x05\x12\x0e\n\x06values\x18\x03 \x03(\x01\"\xd8\x01\n\x19ZeroCurveParSensitivities\x12\x1b\n\x13\x63urve_definition_id\x18\x01 \x01(\x05\x12\x17\n\x0fnum_instruments\x18\x02 \x01(\x05\x12\x16\n\x0enum_maturities\x18\x03 \x01(\x05\x12>\n\x06values\x18\x04 \x03(\x0b\x32..redukti.ZeroCurveParSensitivities.ValuesEntry\x1a-\n\x0bValuesEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12\r\n\x05value\x18\x02 \x01(\x01:\x02\x38\x01\"\xb0\x02\n\x0cZeroCurveSet\x12\x12\n\nas_of_date\x18\x01 \x01(\x05\x12\r\n\x05\x63ycle\x18\x02 \x01(\x05\x12/\n\tqualifier\x18\x03 \x01(\x0e\x32\x1c.redukti.MarketDataQualifier\x12\x10\n\x08scenario\x18\x04 \x01(\x05\x12(\n\x0b\x63urve_group\x18\x05 \x01(\x0e\x32\x13.redukti.CurveGroup\x12#\n\x08\x63urrency\x18\x06 \x01(\x0e\x32\x11.redukti.Currency\x12\'\n\x0bzero_curves\x18\x07 \x03(\x0b\x32\x12.redukti.ZeroCurve\x12\x42\n\x16zero_par_sensitivities\x18\x08 \x03(\x0b\x32\".redukti.ZeroCurveParSensitivitiesB/\n\x11\x63om.redukti.typesB\x05TypesP\x01\xf8\x01\x01\xaa\x02\rRedukti.Typesb\x06proto3')
+  serialized_pb=_b('\n\x13redukti/curve.proto\x12\x07redukti\x1a\x13redukti/enums.proto\"\xa8\x03\n\x11IRCurveDefinition\x12\n\n\x02id\x18\x01 \x01(\x05\x12&\n\ncurve_type\x18\x02 \x01(\x0e\x32\x12.redukti.CurveType\x12(\n\x0b\x63urve_group\x18\x03 \x01(\x0e\x32\x13.redukti.CurveGroup\x12#\n\x08\x63urrency\x18\x04 \x01(\x0e\x32\x11.redukti.Currency\x12*\n\x0cindex_family\x18\x05 \x01(\x0e\x32\x14.redukti.IndexFamily\x12\x1d\n\x05tenor\x18\x06 \x01(\x0e\x32\x0e.redukti.Tenor\x12\x34\n\x11interpolator_type\x18\x07 \x01(\x0e\x32\x19.redukti.InterpolatorType\x12,\n\x0finterpolated_on\x18\x08 \x01(\x0e\x32\x13.redukti.IRRateType\x12\x41\n\x18maturity_generation_rule\x18\t \x01(\x0e\x32\x1f.redukti.MaturityGenerationRule\x12\x1e\n\x06tenors\x18\n \x03(\x0e\x32\x0e.redukti.Tenor\"L\n\tZeroCurve\x12\x1b\n\x13\x63urve_definition_id\x18\x01 \x01(\x05\x12\x12\n\nmaturities\x18\x02 \x03(\x05\x12\x0e\n\x06values\x18\x03 \x03(\x01\"\xd8\x01\n\x19ZeroCurveParSensitivities\x12\x1b\n\x13\x63urve_definition_id\x18\x01 \x01(\x05\x12\x17\n\x0fnum_instruments\x18\x02 \x01(\x05\x12\x16\n\x0enum_maturities\x18\x03 \x01(\x05\x12>\n\x06values\x18\x04 \x03(\x0b\x32..redukti.ZeroCurveParSensitivities.ValuesEntry\x1a-\n\x0bValuesEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12\r\n\x05value\x18\x02 \x01(\x01:\x02\x38\x01\"\xb0\x02\n\x0cZeroCurveSet\x12\x12\n\nas_of_date\x18\x01 \x01(\x05\x12\r\n\x05\x63ycle\x18\x02 \x01(\x05\x12/\n\tqualifier\x18\x03 \x01(\x0e\x32\x1c.redukti.MarketDataQualifier\x12\x10\n\x08scenario\x18\x04 \x01(\x05\x12(\n\x0b\x63urve_group\x18\x05 \x01(\x0e\x32\x13.redukti.CurveGroup\x12#\n\x08\x63urrency\x18\x06 \x01(\x0e\x32\x11.redukti.Currency\x12\'\n\x0bzero_curves\x18\x07 \x03(\x0b\x32\x12.redukti.ZeroCurve\x12\x42\n\x16zero_par_sensitivities\x18\x08 \x03(\x0b\x32\".redukti.ZeroCurveParSensitivitiesB/\n\x11\x63om.redukti.typesB\x05TypesP\x01\xf8\x01\x01\xaa\x02\rRedukti.Typesb\x06proto3')
   ,
   dependencies=[redukti_dot_enums__pb2.DESCRIPTOR,])
 
@@ -43,57 +43,64 @@ _IRCURVEDEFINITION = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='curve_group', full_name='redukti.IRCurveDefinition.curve_group', index=1,
+      name='curve_type', full_name='redukti.IRCurveDefinition.curve_type', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='currency', full_name='redukti.IRCurveDefinition.currency', index=2,
+      name='curve_group', full_name='redukti.IRCurveDefinition.curve_group', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='index_family', full_name='redukti.IRCurveDefinition.index_family', index=3,
+      name='currency', full_name='redukti.IRCurveDefinition.currency', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tenor', full_name='redukti.IRCurveDefinition.tenor', index=4,
+      name='index_family', full_name='redukti.IRCurveDefinition.index_family', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='interpolator_type', full_name='redukti.IRCurveDefinition.interpolator_type', index=5,
+      name='tenor', full_name='redukti.IRCurveDefinition.tenor', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='interpolated_on', full_name='redukti.IRCurveDefinition.interpolated_on', index=6,
+      name='interpolator_type', full_name='redukti.IRCurveDefinition.interpolator_type', index=6,
       number=7, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='maturity_generation_rule', full_name='redukti.IRCurveDefinition.maturity_generation_rule', index=7,
+      name='interpolated_on', full_name='redukti.IRCurveDefinition.interpolated_on', index=7,
       number=8, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tenors', full_name='redukti.IRCurveDefinition.tenors', index=8,
-      number=9, type=14, cpp_type=8, label=3,
+      name='maturity_generation_rule', full_name='redukti.IRCurveDefinition.maturity_generation_rule', index=8,
+      number=9, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='tenors', full_name='redukti.IRCurveDefinition.tenors', index=9,
+      number=10, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -111,7 +118,7 @@ _IRCURVEDEFINITION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=54,
-  serialized_end=438,
+  serialized_end=478,
 )
 
 
@@ -155,8 +162,8 @@ _ZEROCURVE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=440,
-  serialized_end=516,
+  serialized_start=480,
+  serialized_end=556,
 )
 
 
@@ -193,8 +200,8 @@ _ZEROCURVEPARSENSITIVITIES_VALUESENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=690,
-  serialized_end=735,
+  serialized_start=730,
+  serialized_end=775,
 )
 
 _ZEROCURVEPARSENSITIVITIES = _descriptor.Descriptor(
@@ -244,8 +251,8 @@ _ZEROCURVEPARSENSITIVITIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=519,
-  serialized_end=735,
+  serialized_start=559,
+  serialized_end=775,
 )
 
 
@@ -324,10 +331,11 @@ _ZEROCURVESET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=738,
-  serialized_end=1042,
+  serialized_start=778,
+  serialized_end=1082,
 )
 
+_IRCURVEDEFINITION.fields_by_name['curve_type'].enum_type = redukti_dot_enums__pb2._CURVETYPE
 _IRCURVEDEFINITION.fields_by_name['curve_group'].enum_type = redukti_dot_enums__pb2._CURVEGROUP
 _IRCURVEDEFINITION.fields_by_name['currency'].enum_type = redukti_dot_enums__pb2._CURRENCY
 _IRCURVEDEFINITION.fields_by_name['index_family'].enum_type = redukti_dot_enums__pb2._INDEXFAMILY
