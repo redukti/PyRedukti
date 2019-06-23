@@ -310,25 +310,72 @@ cdef class Interpolator:
         finally:
             fixed_region_allocator.pos(pos)
 
+cdef class CurveId:
+    cdef long long _id
+
+    def __cinit__(self, enums.PricingCurveType pricing_curve_type, enums.Currency ccy, enums.IndexFamily index_family, enums.Tenor tenor,
+        Date as_of_date, int cycle = 0, enums.MarketDataQualifier qual = enums.MDQ_NORMAL, int scenario = 0):
+        self._id = curve.make_curve_id(pricing_curve_type, ccy, index_family, tenor, as_of_date.serial(),
+            cycle, qual, scenario)
+
+    cpdef long long id(self):
+        return self._id
+
+def convert_to_date_array(list values):
+    cdef array.array date_array = array.array('i', [])
+    for v in values:
+        if isinstance(v, Date):
+            date_array.append(v.serial())
+        else:
+            raise ValueError('Expected values of redukti.Date type in list')
+    return date_array
+
 cdef class InterpolatedYieldCurve:
     cdef array.array _maturities
     cdef array.array _values
     cdef curve.YieldCurvePointerType _yield_curve
     cdef curve.YieldCurve *_yield_curve_ptr
     
-    def __cinit__(self, long long id, int as_of_date, array.array maturities, array.array values, size_t n, enums.InterpolatorType interpolator_type, enums.IRRateType rate_type, int deriv_order, enums.DayCountFraction fraction):
+    def __cinit__(self, long long id, Date as_of_date, list maturities, list values, enums.InterpolatorType interpolator_type, enums.IRRateType rate_type, int deriv_order, enums.DayCountFraction fraction):
         validate_interpolator_type(interpolator_type)
-        if maturities.typecode != 'i' or values.typecode != 'd':
-            raise ValueError('Supplied maturities must be integer array and values must be double array')
         if len(maturities) != len(values) or len(maturities) < 4 or len(maturities) > 50:
             raise ValueError('Invalid size of maturities or values: minimum 4 elements required and len(maturies) must be == len(values)')
-        self._maturities = maturities
-        self._values = values
+        self._maturities = convert_to_date_array(maturities)
+        self._values = array.array('d', values)
         cdef int *xdata = <int *>self._maturities.data.as_voidptr
         cdef double *ydata = <double *>self._values.data.as_voidptr
         cdef int size = len(maturities)
-        self._yield_curve = curve.make_curve(allocator.get_default_allocator(), id, as_of_date, xdata, ydata, size, interpolator_type, rate_type, deriv_order, fraction)
+        self._yield_curve = curve.make_curve(allocator.get_default_allocator(), id, as_of_date.serial(), xdata, ydata, size, interpolator_type, rate_type, deriv_order, fraction)
         self._yield_curve_ptr = self._yield_curve.get()
+        if self._yield_curve_ptr is NULL:
+            raise Exception('Failed to create instance of InterpolatedYieldCurve: please check inputs are correct')
 
     def __dealloc__(self):
         self._yield_curve.reset(NULL)
+
+    cpdef double discount(self, Date d):
+        return self._yield_curve_ptr.discount(d.serial())
+
+    cpdef double zero_rate(self, Date d):
+        return self._yield_curve_ptr.zero_rate(d.serial())
+
+    cpdef double forward_rate(self, Date d1, Date d2):
+        return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+
+    cpdef double time_from_reference(self, Date d):
+        return self._yield_curve_ptr.time_from_reference(d.serial())
+
+    cdef ADVar get_sensitivities_(self, double x, allocator.FixedRegionAllocator *fixed_region_allocator):
+        cdef curve.CurveSensitivitiesPointerType sensitivities = self._yield_curve_ptr.get_sensitivities(x, fixed_region_allocator)
+        cdef autodiff.redukti_adouble_t *data = sensitivities.get()
+        if data is NULL:
+            return None
+        return ADVar.dup(sensitivities.get())
+
+    cpdef ADVar get_sensitivities(self, double x):
+        cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
+        cdef size_t pos = fixed_region_allocator.pos() # Since we can't use the FixedRegionAllocatorGuard in Cython
+        try:
+            return self.get_sensitivities_(x, fixed_region_allocator)
+        finally:
+            fixed_region_allocator.pos(pos)
