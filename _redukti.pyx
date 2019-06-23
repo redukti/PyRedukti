@@ -12,7 +12,7 @@
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-cimport autodiff, date, enums, schedule, calendar, dayfraction, index, allocator, interpolator
+cimport autodiff, date, enums, schedule, calendar, dayfraction, index, allocator, interpolator, curve
 from redukti import schedule_pb2
 from libcpp.string cimport string
 from libcpp.memory cimport unique_ptr
@@ -309,3 +309,26 @@ cdef class Interpolator:
             return self.interpolate_with_sensitivities_(x, fixed_region_allocator)
         finally:
             fixed_region_allocator.pos(pos)
+
+cdef class InterpolatedYieldCurve:
+    cdef array.array _maturities
+    cdef array.array _values
+    cdef curve.YieldCurvePointerType _yield_curve
+    cdef curve.YieldCurve *_yield_curve_ptr
+    
+    def __cinit__(self, long long id, int as_of_date, array.array maturities, array.array values, size_t n, enums.InterpolatorType interpolator_type, enums.IRRateType rate_type, int deriv_order, enums.DayCountFraction fraction):
+        validate_interpolator_type(interpolator_type)
+        if maturities.typecode != 'i' or values.typecode != 'd':
+            raise ValueError('Supplied maturities must be integer array and values must be double array')
+        if len(maturities) != len(values) or len(maturities) < 4 or len(maturities) > 50:
+            raise ValueError('Invalid size of maturities or values: minimum 4 elements required and len(maturies) must be == len(values)')
+        self._maturities = maturities
+        self._values = values
+        cdef int *xdata = <int *>self._maturities.data.as_voidptr
+        cdef double *ydata = <double *>self._values.data.as_voidptr
+        cdef int size = len(maturities)
+        self._yield_curve = curve.make_curve(allocator.get_default_allocator(), id, as_of_date, xdata, ydata, size, interpolator_type, rate_type, deriv_order, fraction)
+        self._yield_curve_ptr = self._yield_curve.get()
+
+    def __dealloc__(self):
+        self._yield_curve.reset(NULL)

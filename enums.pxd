@@ -37,3 +37,6 @@ cdef extern from "enums.pb.h" namespace "redukti":
         PLN = 18
     cdef enum InterpolatorType:
         CUBIC_SPLINE_CLAMPED = 8
+    cdef enum IRRateType:
+        FORWARD_RATE = 2
+        
