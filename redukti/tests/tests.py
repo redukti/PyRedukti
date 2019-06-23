@@ -155,7 +155,7 @@ class TestDate(unittest.TestCase):
             0.020446036,
             0.021078048,
             0.021398632]
-        curve = redukti.InterpolatedYieldCurve(0, redukti.dmy(12,12,2012), maturities, values, enums.LINEAR, enums.ZERO_RATE, 2, enums.ACT_365_FIXED)
+        curve = redukti.InterpolatedYieldCurve(0, redukti.dmy(11,12,2012), maturities, values, enums.LINEAR, enums.ZERO_RATE, 2, enums.ACT_365_FIXED)
 
 if __name__ == '__main__':
     unittest.main()

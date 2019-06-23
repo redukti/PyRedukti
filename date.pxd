@@ -11,6 +11,8 @@
 # The contents of this file are subject to the the GNU General Public License
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
+cimport enums
+
 cdef extern from "date.h" namespace "redukti":
     cdef struct YearMonthDay:
         short y
@@ -29,3 +31,4 @@ cdef extern from "date.h" namespace "redukti":
     unsigned next_weekday(unsigned wd)
     unsigned prev_weekday(unsigned wd)
     bint parse_date(const char *s, int *d)
+    int advance(int date, int n, enums.PeriodUnit units)

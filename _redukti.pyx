@@ -94,6 +94,14 @@ cdef class Date:
 def dmy(unsigned d, unsigned m, int y):
     return Date(date.make_date(d, m, y))
 
+cdef validate_periodunit(enums.PeriodUnit unit):
+    if unit < 1 or unit > enums.YEARS:
+        raise ValueError('Invalid PeriodUnit specified')
+
+def advance(Date d, int n, enums.PeriodUnit unit):
+    validate_periodunit(unit)
+    return Date(date.advance(d.serial(), n, unit))
+
 cdef bytes to_bytes(s):
     if type(s) is unicode:
         return s.encode('UTF-8')
@@ -135,10 +143,6 @@ cdef validate_business_centers(list business_centres):
         if center < 1 or center > enums.BRSP:
             raise ValueError('Invalid business center')
 
-cdef validate_periodunit(enums.PeriodUnit unit):
-    if unit < 1 or unit > enums.YEARS:
-        raise ValueError('Invalid PeriodUnit specified')
-
 cdef class Calendar:
     cdef const calendar.Calendar *_calendar
 
@@ -166,9 +170,15 @@ cdef class Calendar:
     cpdef bint is_holiday(self, Date d):
         return self._calendar.is_holiday(d.serial())
 
-    def advance(self, Date date, int n, enums.PeriodUnit unit):
+    def last_day_of_month(self, Date d):
+        return Date(self._calendar.end_of_month(d.serial()))
+
+    def advance(self, Date date, int n, enums.PeriodUnit unit, enums.BusinessDayConvention convention = enums.BusinessDayConvention.FOLLOWING, bint eom = False):
         validate_periodunit(unit)
-        return Date(self._calendar.advance(date.serial(), n, unit))
+        return Date(self._calendar.advance(date.serial(), n, unit, convention, eom))
+
+    def adjust(self, Date date, enums.BusinessDayConvention convention = enums.BusinessDayConvention.FOLLOWING):
+        return Date(self._calendar.adjust(date.serial(), convention))
 
 cdef validate_daycountfraction(enums.DayCountFraction dfc):
     if dfc < 1 or dfc > enums.BUS_252:
@@ -379,3 +389,37 @@ cdef class InterpolatedYieldCurve:
             return self.get_sensitivities_(x, fixed_region_allocator)
         finally:
             fixed_region_allocator.pos(pos)
+
+cdef class SvenssonCurve:
+    cdef array.array _parameters
+    cdef curve.YieldCurvePointerType _yield_curve
+    cdef curve.YieldCurve *_yield_curve_ptr
+
+    def __cinit__(self, long long id, Date as_of_date, list parameters, enums.DayCountFraction fraction):
+        if len(parameters) != 6:
+            raise ValueError('Invalid size of parameters: six parameters required')
+        if parameters[0] < 0.0 or parameters[4] < 0.0 or parameters[5] < 0.0:
+            raise ValueError('Beta0, tau1 and tau2 must be positive')
+        self._parameters = array.array('d', parameters)
+        cdef double *ydata = <double *>self._parameters.data.as_voidptr
+        cdef int size = len(parameters)
+        self._yield_curve = curve.make_svensson_curve(allocator.get_default_allocator(), id, as_of_date.serial(), ydata, size, fraction)
+        self._yield_curve_ptr = self._yield_curve.get()
+        if self._yield_curve_ptr is NULL:
+            raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+
+    def __dealloc__(self):
+        self._yield_curve.reset(NULL)
+
+    cpdef double discount(self, Date d):
+        return self._yield_curve_ptr.discount(d.serial())
+
+    cpdef double zero_rate(self, Date d):
+        return self._yield_curve_ptr.zero_rate(d.serial())
+
+    cpdef double forward_rate(self, Date d1, Date d2):
+        return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+
+    cpdef double time_from_reference(self, Date d):
+        return self._yield_curve_ptr.time_from_reference(d.serial())
+

@@ -30,6 +30,11 @@ cdef extern from "enums.pb.h" namespace "redukti":
     cdef enum JointCalendarRule:
         pass
     cdef enum BusinessDayConvention:
+        BUSINESS_DAY_CONVENTION_UNSPECIFIED = 0
+        FOLLOWING = 1
+        MODIFIED_FOLLOWING = 2
+        PRECEDING = 3
+        MODIFIED_PRECEDING = 4
         UNADJUSTED = 5
     cdef enum Tenor:
         TENOR_1T = 97

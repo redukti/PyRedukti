@@ -35,5 +35,6 @@ cdef extern from "curve.h" namespace "redukti":
         void reset(void *)
 
     YieldCurvePointerType make_curve(allocator.Allocator *A, long long id, int as_of_date, int* maturities, double *values, size_t n, enums.InterpolatorType interpolator, enums.IRRateType type, int deriv_order, enums.DayCountFraction fraction)
+    YieldCurvePointerType make_svensson_curve(allocator.Allocator *A, long long id, int as_of_date, double *parameters, size_t n, enums.DayCountFraction fraction)
 
     long long make_curve_id(enums.PricingCurveType type, enums.Currency ccy, enums.IndexFamily index_family, enums.Tenor tenor, int as_of_date, int cycle, enums.MarketDataQualifier qual, int scenario)
