@@ -1,6 +1,6 @@
 # PyRedukti - A Python interface to OpenRedukti
 
-This is work in progress.
+This is **work in progress**.
 The Python interface is being developed using Cython.
 
 ## Pre-requisites
