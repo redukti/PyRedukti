@@ -35,4 +35,7 @@ python setup.py bdist_wheel
 pip install dist/pyredukti-0.1-cp36-cp36m-linux_x86_64.whl
 ```
 
+## Documentation
 
+This is not available yet.
+But you can have a look at the Jupyter Notebooks being added at [https://github.com/redukti/PyRedukti/tree/master/notebooks](https://github.com/redukti/PyRedukti/tree/master/notebooks)
