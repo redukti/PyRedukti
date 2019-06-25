@@ -423,3 +423,35 @@ cdef class SvenssonCurve:
     cpdef double time_from_reference(self, Date d):
         return self._yield_curve_ptr.time_from_reference(d.serial())
 
+cdef class YieldCurve:
+    cdef curve.IRCurveDefinition _definition
+    cdef curve.ZeroCurve _underlying_curve
+    cdef curve.YieldCurvePointerType _yield_curve
+    cdef curve.YieldCurve *_yield_curve_ptr
+
+    def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):
+        cdef string str = curve_defn.SerializeToString()
+        if not self._definition.ParseFromString(str):
+            raise ValueError("Cannot parse the IRCurveDefinition")
+        str = zero_curve.SerializeToString()
+        if not self._underlying_curve.ParseFromString(str):
+            raise ValueError("Cannot parse the ZeroCurve")
+        self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+        self._yield_curve_ptr = self._yield_curve.get()
+        if self._yield_curve_ptr is NULL:
+            raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+
+    def __dealloc__(self):
+        self._yield_curve.reset(NULL)
+
+    cpdef double discount(self, Date d):
+        return self._yield_curve_ptr.discount(d.serial())
+
+    cpdef double zero_rate(self, Date d):
+        return self._yield_curve_ptr.zero_rate(d.serial())
+
+    cpdef double forward_rate(self, Date d1, Date d2):
+        return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+
+    cpdef double time_from_reference(self, Date d):
+        return self._yield_curve_ptr.time_from_reference(d.serial())

@@ -52,6 +52,7 @@ class MarketData:
         self._par_curve_set = None
         self._fixings = None
         self._business_date = date
+        self._yield_curves = None
 
     def read_curvedefinitions(self, filename):
         defs = []
@@ -135,6 +136,24 @@ class MarketData:
                 fixings_by_index.fixings[fixing_date.serial()] = fixing 
         self._fixings = fixings
 
+    def find_curve_definition(self, id):
+        for defn in self._curve_definitions:
+            if defn.id == id:
+                return defn
+        return None
+
+    def init_zero_curves(self, bootstrap_curves_reply):
+        zero_curves = bootstrap_curves_reply.curves
+        yield_curves = []
+        for zc in zero_curves:
+            definition_id = zc.curve_definition_id
+            defn = self.find_curve_definition(definition_id)
+            if defn is None:
+                raise ValueError('Curve Definition not found for ' + str(definition_id))
+            yc = redukti.YieldCurve(self._business_date, defn, zc)
+            yield_curves.append(yc)
+            print('Curve ' + str(definition_id) + ' created')
+        self._yield_curves = yield_curves
 
 def load_market_data(business_date, curve_definitions_filename, par_rates_filename, fixings_filename=None):
     market_data = MarketData(business_date)
@@ -189,4 +208,4 @@ class ServerCommand:
             response = stub.serve(request)
             if response.header.response_code != 0:
                 raise Exception(response.header.response_message)
-            return response.bootstrap_curves_reply
+            return market_data.init_zero_curves(response.bootstrap_curves_reply)

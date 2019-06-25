@@ -12,8 +12,18 @@
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
 from libcpp.memory cimport unique_ptr
+from libcpp.string cimport string
 cimport enums, autodiff, allocator
 from autodiff cimport redukti_adouble_t
+
+cdef extern from "curve.pb.h" namespace "redukti":
+    cdef cppclass IRCurveDefinition:
+        bint SerializeToString(string* output)
+        bint ParseFromString(const string& data)
+    cdef cppclass ZeroCurve:
+        bint SerializeToString(string* output)
+        bint ParseFromString(const string& data)
+
 cdef extern from "curve.h" namespace "redukti":
 
     ctypedef struct CurveSensitivitiesPointerType:
@@ -36,5 +46,6 @@ cdef extern from "curve.h" namespace "redukti":
 
     YieldCurvePointerType make_curve(allocator.Allocator *A, long long id, int as_of_date, int* maturities, double *values, size_t n, enums.InterpolatorType interpolator, enums.IRRateType type, int deriv_order, enums.DayCountFraction fraction)
     YieldCurvePointerType make_svensson_curve(allocator.Allocator *A, long long id, int as_of_date, double *parameters, size_t n, enums.DayCountFraction fraction)
+    YieldCurvePointerType make_curve(int as_of_date, const IRCurveDefinition *defn, const ZeroCurve &curve, int deriv_order, enums.PricingCurveType type, enums.MarketDataQualifier mdq, short int cycle, short int scenario)
 
     long long make_curve_id(enums.PricingCurveType type, enums.Currency ccy, enums.IndexFamily index_family, enums.Tenor tenor, int as_of_date, int cycle, enums.MarketDataQualifier qual, int scenario)

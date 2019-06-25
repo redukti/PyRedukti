@@ -8,6 +8,7 @@
             "/home/dylan/Software/redukti/include/redukti/autodiff.h",
             "/home/dylan/Software/redukti/include/redukti/calendars.h",
             "/home/dylan/Software/redukti/include/redukti/curve.h",
+            "/home/dylan/Software/redukti/include/redukti/curve.pb.h",
             "/home/dylan/Software/redukti/include/redukti/date.h",
             "/home/dylan/Software/redukti/include/redukti/dayfractions.h",
             "/home/dylan/Software/redukti/include/redukti/enums.pb.h",
@@ -663,6 +664,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "allocators.h"
 #include <memory>
 #include "interpolators.h"
+#include "curve.pb.h"
 #include "curve.h"
 #include <stdio.h>
 #include "pythread.h"
@@ -896,6 +898,7 @@ struct __pyx_obj_8_redukti_Interpolator;
 struct __pyx_obj_8_redukti_CurveId;
 struct __pyx_obj_8_redukti_InterpolatedYieldCurve;
 struct __pyx_obj_8_redukti_SvenssonCurve;
+struct __pyx_obj_8_redukti_YieldCurve;
 
 /* "_redukti.pyx":22
  * import array
@@ -1029,6 +1032,23 @@ struct __pyx_obj_8_redukti_SvenssonCurve {
   PyObject_HEAD
   struct __pyx_vtabstruct_8_redukti_SvenssonCurve *__pyx_vtab;
   arrayobject *_parameters;
+  redukti::YieldCurvePointerType _yield_curve;
+  redukti::YieldCurve *_yield_curve_ptr;
+};
+
+
+/* "_redukti.pyx":426
+ *         return self._yield_curve_ptr.time_from_reference(d.serial())
+ * 
+ * cdef class YieldCurve:             # <<<<<<<<<<<<<<
+ *     cdef curve.IRCurveDefinition _definition
+ *     cdef curve.ZeroCurve _underlying_curve
+ */
+struct __pyx_obj_8_redukti_YieldCurve {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_8_redukti_YieldCurve *__pyx_vtab;
+  redukti::IRCurveDefinition _definition;
+  redukti::ZeroCurve _underlying_curve;
   redukti::YieldCurvePointerType _yield_curve;
   redukti::YieldCurve *_yield_curve_ptr;
 };
@@ -1177,6 +1197,23 @@ struct __pyx_vtabstruct_8_redukti_SvenssonCurve {
   double (*time_from_reference)(struct __pyx_obj_8_redukti_SvenssonCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_8_redukti_SvenssonCurve *__pyx_vtabptr_8_redukti_SvenssonCurve;
+
+
+/* "_redukti.pyx":426
+ *         return self._yield_curve_ptr.time_from_reference(d.serial())
+ * 
+ * cdef class YieldCurve:             # <<<<<<<<<<<<<<
+ *     cdef curve.IRCurveDefinition _definition
+ *     cdef curve.ZeroCurve _underlying_curve
+ */
+
+struct __pyx_vtabstruct_8_redukti_YieldCurve {
+  double (*discount)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+  double (*zero_rate)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+  double (*forward_rate)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+  double (*time_from_reference)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_8_redukti_YieldCurve *__pyx_vtabptr_8_redukti_YieldCurve;
 
 /* --- Runtime support code (head) --- */
 /* Refnanny.proto */
@@ -1701,6 +1738,9 @@ static CYTHON_INLINE int resize_smart(arrayobject *self, Py_ssize_t n) {
 }
 #endif
 
+/* None.proto */
+#include <new>
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
@@ -1807,6 +1847,10 @@ static double __pyx_f_8_redukti_13SvenssonCurve_discount(struct __pyx_obj_8_redu
 static double __pyx_f_8_redukti_13SvenssonCurve_zero_rate(struct __pyx_obj_8_redukti_SvenssonCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch); /* proto*/
 static double __pyx_f_8_redukti_13SvenssonCurve_forward_rate(struct __pyx_obj_8_redukti_SvenssonCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d1, struct __pyx_obj_8_redukti_Date *__pyx_v_d2, int __pyx_skip_dispatch); /* proto*/
 static double __pyx_f_8_redukti_13SvenssonCurve_time_from_reference(struct __pyx_obj_8_redukti_SvenssonCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_8_redukti_10YieldCurve_discount(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_8_redukti_10YieldCurve_zero_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_8_redukti_10YieldCurve_forward_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d1, struct __pyx_obj_8_redukti_Date *__pyx_v_d2, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_8_redukti_10YieldCurve_time_from_reference(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch); /* proto*/
 
 /* Module declarations from 'cpython.mem' */
 
@@ -1933,6 +1977,7 @@ static PyTypeObject *__pyx_ptype_8_redukti_Interpolator = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_CurveId = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_InterpolatedYieldCurve = 0;
 static PyTypeObject *__pyx_ptype_8_redukti_SvenssonCurve = 0;
+static PyTypeObject *__pyx_ptype_8_redukti_YieldCurve = 0;
 static PyObject *__pyx_f_8_redukti_validate_periodunit(enum redukti::PeriodUnit); /*proto*/
 static PyObject *__pyx_f_8_redukti_to_bytes(PyObject *); /*proto*/
 static PyObject *__pyx_f_8_redukti_validate_business_centers(PyObject *); /*proto*/
@@ -1975,6 +2020,7 @@ static const char __pyx_k_dfc[] = "dfc";
 static const char __pyx_k_dmy[] = "dmy";
 static const char __pyx_k_eom[] = "eom";
 static const char __pyx_k_idx[] = "idx";
+static const char __pyx_k_mdq[] = "mdq";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_str[] = "str";
 static const char __pyx_k_Date[] = "Date";
@@ -1984,6 +2030,7 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_qual[] = "qual";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_type[] = "type";
 static const char __pyx_k_unit[] = "unit";
 static const char __pyx_k_year[] = "year";
 static const char __pyx_k_ADVar[] = "ADVar";
@@ -2030,8 +2077,10 @@ static const char __pyx_k_ref_date1[] = "ref_date1";
 static const char __pyx_k_ref_date2[] = "ref_date2";
 static const char __pyx_k_zero_rate[] = "zero_rate";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_YieldCurve[] = "YieldCurve";
 static const char __pyx_k_as_of_date[] = "as_of_date";
 static const char __pyx_k_convention[] = "convention";
+static const char __pyx_k_curve_defn[] = "curve_defn";
 static const char __pyx_k_date_array[] = "date_array";
 static const char __pyx_k_is_holiday[] = "is_holiday";
 static const char __pyx_k_isda_index[] = "isda_index";
@@ -2042,6 +2091,7 @@ static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_result_str[] = "result_str";
 static const char __pyx_k_unadjusted[] = "unadjusted";
 static const char __pyx_k_value_date[] = "value_date";
+static const char __pyx_k_zero_curve[] = "zero_curve";
 static const char __pyx_k_DayFraction[] = "DayFraction";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_adjust_date[] = "adjust_date";
@@ -2057,6 +2107,7 @@ static const char __pyx_k_parameters_2[] = "_parameters";
 static const char __pyx_k_schedule_pb2[] = "schedule_pb2";
 static const char __pyx_k_staticmethod[] = "staticmethod";
 static const char __pyx_k_SvenssonCurve[] = "SvenssonCurve";
+static const char __pyx_k_business_date[] = "business_date";
 static const char __pyx_k_initial_value[] = "initial_value";
 static const char __pyx_k_maturity_date[] = "maturity_date";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
@@ -2080,6 +2131,7 @@ static const char __pyx_k_get_index_by_isdaindex[] = "get_index_by_isdaindex";
 static const char __pyx_k_Invalid_Tenor_specified[] = "Invalid Tenor specified";
 static const char __pyx_k_Invalid_business_center[] = "Invalid business center";
 static const char __pyx_k_Invalid_date_cannot_parse[] = "Invalid date: cannot parse";
+static const char __pyx_k_Cannot_parse_the_ZeroCurve[] = "Cannot parse the ZeroCurve";
 static const char __pyx_k_Could_not_convert_to_bytes[] = "Could not convert to bytes.";
 static const char __pyx_k_Invalid_Currency_specified[] = "Invalid Currency specified";
 static const char __pyx_k_Failed_to_generate_schedule[] = "Failed to generate schedule";
@@ -2097,6 +2149,7 @@ static const char __pyx_k_Index_object_is_not_initialized[] = "Index object is n
 static const char __pyx_k_Supplied_arrays_must_be_of_type[] = "Supplied arrays must be of type double";
 static const char __pyx_k_Beta0_tau1_and_tau2_must_be_posi[] = "Beta0, tau1 and tau2 must be positive";
 static const char __pyx_k_Business_centers_must_be_specifi[] = "Business centers must be specified";
+static const char __pyx_k_Cannot_parse_the_IRCurveDefiniti[] = "Cannot parse the IRCurveDefinition";
 static const char __pyx_k_Cannot_parse_the_schedule_parame[] = "Cannot parse the schedule parameters";
 static const char __pyx_k_Failed_to_create_instance_of_Int[] = "Failed to create instance of InterpolatedYieldCurve: please check inputs are correct";
 static const char __pyx_k_Failed_to_create_instance_of_Sve[] = "Failed to create instance of SvenssonCurve: please check inputs are correct";
@@ -2116,6 +2169,8 @@ static PyObject *__pyx_n_s_ADVar;
 static PyObject *__pyx_kp_u_Beta0_tau1_and_tau2_must_be_posi;
 static PyObject *__pyx_kp_u_Business_centers_must_be_specifi;
 static PyObject *__pyx_n_s_Calendar;
+static PyObject *__pyx_kp_u_Cannot_parse_the_IRCurveDefiniti;
+static PyObject *__pyx_kp_u_Cannot_parse_the_ZeroCurve;
 static PyObject *__pyx_kp_u_Cannot_parse_the_schedule_parame;
 static PyObject *__pyx_kp_u_Could_not_convert_to_bytes;
 static PyObject *__pyx_n_s_CurveId;
@@ -2160,12 +2215,14 @@ static PyObject *__pyx_kp_u_UTF_8;
 static PyObject *__pyx_kp_u_Unable_to_construct_a_calendar_f;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_u_Variable_index_is_out_of_range;
+static PyObject *__pyx_n_s_YieldCurve;
 static PyObject *__pyx_n_s_adjust_date;
 static PyObject *__pyx_n_s_advance;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_as_of_date;
 static PyObject *__pyx_n_s_business_centres;
+static PyObject *__pyx_n_s_business_date;
 static PyObject *__pyx_n_s_byte_s;
 static PyObject *__pyx_n_s_c_string;
 static PyObject *__pyx_n_s_ccy;
@@ -2173,6 +2230,7 @@ static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_convention;
 static PyObject *__pyx_n_s_convert_to_date_array;
 static PyObject *__pyx_n_s_currency;
+static PyObject *__pyx_n_s_curve_defn;
 static PyObject *__pyx_n_s_cycle;
 static PyObject *__pyx_n_s_d;
 static PyObject *__pyx_n_u_d;
@@ -2213,6 +2271,7 @@ static PyObject *__pyx_n_s_m;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_maturities;
 static PyObject *__pyx_n_s_maturity_date;
+static PyObject *__pyx_n_s_mdq;
 static PyObject *__pyx_n_s_month;
 static PyObject *__pyx_n_s_n;
 static PyObject *__pyx_n_s_n_vars;
@@ -2252,6 +2311,7 @@ static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_n_s_tenor;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time_from_reference;
+static PyObject *__pyx_n_s_type;
 static PyObject *__pyx_n_s_typecode;
 static PyObject *__pyx_n_s_unadjusted;
 static PyObject *__pyx_n_s_unit;
@@ -2266,6 +2326,7 @@ static PyObject *__pyx_n_s_year;
 static PyObject *__pyx_n_s_year_fraction;
 static PyObject *__pyx_n_s_year_fraction_with_finalperiod;
 static PyObject *__pyx_n_s_year_fraction_with_refdates;
+static PyObject *__pyx_n_s_zero_curve;
 static PyObject *__pyx_n_s_zero_rate;
 static int __pyx_pf_8_redukti_5ADVar___cinit__(struct __pyx_obj_8_redukti_ADVar *__pyx_v_self, int __pyx_v_n_vars, int __pyx_v_order, int __pyx_v_variable, double __pyx_v_initial_value); /* proto */
 static void __pyx_pf_8_redukti_5ADVar_2__dealloc__(struct __pyx_obj_8_redukti_ADVar *__pyx_v_self); /* proto */
@@ -2337,6 +2398,14 @@ static PyObject *__pyx_pf_8_redukti_13SvenssonCurve_8forward_rate(struct __pyx_o
 static PyObject *__pyx_pf_8_redukti_13SvenssonCurve_10time_from_reference(struct __pyx_obj_8_redukti_SvenssonCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d); /* proto */
 static PyObject *__pyx_pf_8_redukti_13SvenssonCurve_12__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_SvenssonCurve *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8_redukti_13SvenssonCurve_14__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_SvenssonCurve *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_8_redukti_10YieldCurve___cinit__(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_business_date, PyObject *__pyx_v_curve_defn, PyObject *__pyx_v_zero_curve, int __pyx_v_deriv_order, enum redukti::PricingCurveType __pyx_v_type, enum redukti::MarketDataQualifier __pyx_v_mdq, int __pyx_v_cycle, int __pyx_v_scenario); /* proto */
+static void __pyx_pf_8_redukti_10YieldCurve_2__dealloc__(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_4discount(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d); /* proto */
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_6zero_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d); /* proto */
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_8forward_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d1, struct __pyx_obj_8_redukti_Date *__pyx_v_d2); /* proto */
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_10time_from_reference(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d); /* proto */
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_12__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_14__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_7cpython_5array_5array___getbuffer__(arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info, CYTHON_UNUSED int __pyx_v_flags); /* proto */
 static void __pyx_pf_7cpython_5array_5array_2__releasebuffer__(CYTHON_UNUSED arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_8_redukti_ADVar(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -2348,12 +2417,15 @@ static PyObject *__pyx_tp_new_8_redukti_Interpolator(PyTypeObject *t, PyObject *
 static PyObject *__pyx_tp_new_8_redukti_CurveId(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_8_redukti_InterpolatedYieldCurve(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_8_redukti_SvenssonCurve(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_8_redukti_YieldCurve(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_0_0;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static enum redukti::BusinessDayConvention __pyx_k__20;
 static enum redukti::BusinessDayConvention __pyx_k__21;
 static enum redukti::MarketDataQualifier __pyx_k__41;
+static enum redukti::PricingCurveType __pyx_k__54;
+static enum redukti::MarketDataQualifier __pyx_k__55;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
@@ -2404,22 +2476,26 @@ static PyObject *__pyx_tuple__50;
 static PyObject *__pyx_tuple__51;
 static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__53;
-static PyObject *__pyx_tuple__54;
 static PyObject *__pyx_tuple__56;
+static PyObject *__pyx_tuple__57;
 static PyObject *__pyx_tuple__58;
+static PyObject *__pyx_tuple__59;
 static PyObject *__pyx_tuple__60;
 static PyObject *__pyx_tuple__62;
 static PyObject *__pyx_tuple__64;
 static PyObject *__pyx_tuple__66;
 static PyObject *__pyx_tuple__68;
-static PyObject *__pyx_codeobj__55;
-static PyObject *__pyx_codeobj__57;
-static PyObject *__pyx_codeobj__59;
+static PyObject *__pyx_tuple__70;
+static PyObject *__pyx_tuple__72;
+static PyObject *__pyx_tuple__74;
 static PyObject *__pyx_codeobj__61;
 static PyObject *__pyx_codeobj__63;
 static PyObject *__pyx_codeobj__65;
 static PyObject *__pyx_codeobj__67;
 static PyObject *__pyx_codeobj__69;
+static PyObject *__pyx_codeobj__71;
+static PyObject *__pyx_codeobj__73;
+static PyObject *__pyx_codeobj__75;
 /* Late includes */
 
 /* "_redukti.pyx":27
@@ -13283,6 +13359,7 @@ static double __pyx_f_8_redukti_13SvenssonCurve_time_from_reference(struct __pyx
  *     cpdef double time_from_reference(self, Date d):
  *         return self._yield_curve_ptr.time_from_reference(d.serial())             # <<<<<<<<<<<<<<
  * 
+ * cdef class YieldCurve:
  */
   __pyx_r = __pyx_v_self->_yield_curve_ptr->time_from_reference(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d->__pyx_vtab)->serial(__pyx_v_d, 0));
   goto __pyx_L0;
@@ -13450,6 +13527,1153 @@ static PyObject *__pyx_pf_8_redukti_13SvenssonCurve_14__setstate_cython__(CYTHON
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("_redukti.SvenssonCurve.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":432
+ *     cdef curve.YieldCurve *_yield_curve_ptr
+ * 
+ *     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):             # <<<<<<<<<<<<<<
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):
+ */
+
+/* Python wrapper */
+static int __pyx_pw_8_redukti_10YieldCurve_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_8_redukti_10YieldCurve_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_8_redukti_Date *__pyx_v_business_date = 0;
+  PyObject *__pyx_v_curve_defn = 0;
+  PyObject *__pyx_v_zero_curve = 0;
+  int __pyx_v_deriv_order;
+  enum redukti::PricingCurveType __pyx_v_type;
+  enum redukti::MarketDataQualifier __pyx_v_mdq;
+  int __pyx_v_cycle;
+  int __pyx_v_scenario;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_business_date,&__pyx_n_s_curve_defn,&__pyx_n_s_zero_curve,&__pyx_n_s_deriv_order,&__pyx_n_s_type,&__pyx_n_s_mdq,&__pyx_n_s_cycle,&__pyx_n_s_scenario,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_business_date)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_curve_defn)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 8, 1); __PYX_ERR(0, 432, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_zero_curve)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 8, 2); __PYX_ERR(0, 432, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_deriv_order);
+          if (value) { values[3] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_type);
+          if (value) { values[4] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mdq);
+          if (value) { values[5] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cycle);
+          if (value) { values[6] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_scenario);
+          if (value) { values[7] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 432, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_business_date = ((struct __pyx_obj_8_redukti_Date *)values[0]);
+    __pyx_v_curve_defn = values[1];
+    __pyx_v_zero_curve = values[2];
+    if (values[3]) {
+      __pyx_v_deriv_order = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_deriv_order == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    } else {
+      __pyx_v_deriv_order = ((int)2);
+    }
+    if (values[4]) {
+      __pyx_v_type = ((enum redukti::PricingCurveType)__Pyx_PyInt_As_enum__redukti_3a__3a_PricingCurveType(values[4])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    } else {
+      __pyx_v_type = __pyx_k__54;
+    }
+    if (values[5]) {
+      __pyx_v_mdq = ((enum redukti::MarketDataQualifier)__Pyx_PyInt_As_enum__redukti_3a__3a_MarketDataQualifier(values[5])); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    } else {
+      __pyx_v_mdq = __pyx_k__55;
+    }
+    if (values[6]) {
+      __pyx_v_cycle = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_cycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    } else {
+      __pyx_v_cycle = ((int)0);
+    }
+    if (values[7]) {
+      __pyx_v_scenario = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_scenario == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    } else {
+      __pyx_v_scenario = ((int)0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 432, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_redukti.YieldCurve.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_business_date), __pyx_ptype_8_redukti_Date, 1, "business_date", 0))) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve___cinit__(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self), __pyx_v_business_date, __pyx_v_curve_defn, __pyx_v_zero_curve, __pyx_v_deriv_order, __pyx_v_type, __pyx_v_mdq, __pyx_v_cycle, __pyx_v_scenario);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_8_redukti_10YieldCurve___cinit__(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_business_date, PyObject *__pyx_v_curve_defn, PyObject *__pyx_v_zero_curve, int __pyx_v_deriv_order, enum redukti::PricingCurveType __pyx_v_type, enum redukti::MarketDataQualifier __pyx_v_mdq, int __pyx_v_cycle, int __pyx_v_scenario) {
+  std::string __pyx_v_str;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  std::string __pyx_t_4;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("__cinit__", 0);
+
+  /* "_redukti.pyx":433
+ * 
+ *     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):
+ *         cdef string str = curve_defn.SerializeToString()             # <<<<<<<<<<<<<<
+ *         if not self._definition.ParseFromString(str):
+ *             raise ValueError("Cannot parse the IRCurveDefinition")
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_curve_defn, __pyx_n_s_SerializeToString); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 433, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_str = __pyx_t_4;
+
+  /* "_redukti.pyx":434
+ *     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):             # <<<<<<<<<<<<<<
+ *             raise ValueError("Cannot parse the IRCurveDefinition")
+ *         str = zero_curve.SerializeToString()
+ */
+  __pyx_t_5 = ((!(__pyx_v_self->_definition.ParseFromString(__pyx_v_str) != 0)) != 0);
+  if (unlikely(__pyx_t_5)) {
+
+    /* "_redukti.pyx":435
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):
+ *             raise ValueError("Cannot parse the IRCurveDefinition")             # <<<<<<<<<<<<<<
+ *         str = zero_curve.SerializeToString()
+ *         if not self._underlying_curve.ParseFromString(str):
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 435, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 435, __pyx_L1_error)
+
+    /* "_redukti.pyx":434
+ *     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):             # <<<<<<<<<<<<<<
+ *             raise ValueError("Cannot parse the IRCurveDefinition")
+ *         str = zero_curve.SerializeToString()
+ */
+  }
+
+  /* "_redukti.pyx":436
+ *         if not self._definition.ParseFromString(str):
+ *             raise ValueError("Cannot parse the IRCurveDefinition")
+ *         str = zero_curve.SerializeToString()             # <<<<<<<<<<<<<<
+ *         if not self._underlying_curve.ParseFromString(str):
+ *             raise ValueError("Cannot parse the ZeroCurve")
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_zero_curve, __pyx_n_s_SerializeToString); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 436, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_str = __pyx_t_4;
+
+  /* "_redukti.pyx":437
+ *             raise ValueError("Cannot parse the IRCurveDefinition")
+ *         str = zero_curve.SerializeToString()
+ *         if not self._underlying_curve.ParseFromString(str):             # <<<<<<<<<<<<<<
+ *             raise ValueError("Cannot parse the ZeroCurve")
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ */
+  __pyx_t_5 = ((!(__pyx_v_self->_underlying_curve.ParseFromString(__pyx_v_str) != 0)) != 0);
+  if (unlikely(__pyx_t_5)) {
+
+    /* "_redukti.pyx":438
+ *         str = zero_curve.SerializeToString()
+ *         if not self._underlying_curve.ParseFromString(str):
+ *             raise ValueError("Cannot parse the ZeroCurve")             # <<<<<<<<<<<<<<
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ *         self._yield_curve_ptr = self._yield_curve.get()
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 438, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 438, __pyx_L1_error)
+
+    /* "_redukti.pyx":437
+ *             raise ValueError("Cannot parse the IRCurveDefinition")
+ *         str = zero_curve.SerializeToString()
+ *         if not self._underlying_curve.ParseFromString(str):             # <<<<<<<<<<<<<<
+ *             raise ValueError("Cannot parse the ZeroCurve")
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ */
+  }
+
+  /* "_redukti.pyx":439
+ *         if not self._underlying_curve.ParseFromString(str):
+ *             raise ValueError("Cannot parse the ZeroCurve")
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)             # <<<<<<<<<<<<<<
+ *         self._yield_curve_ptr = self._yield_curve.get()
+ *         if self._yield_curve_ptr is NULL:
+ */
+  __pyx_v_self->_yield_curve = redukti::make_curve(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_business_date->__pyx_vtab)->serial(__pyx_v_business_date, 0), (&__pyx_v_self->_definition), __pyx_v_self->_underlying_curve, __pyx_v_deriv_order, __pyx_v_type, __pyx_v_mdq, __pyx_v_cycle, __pyx_v_scenario);
+
+  /* "_redukti.pyx":440
+ *             raise ValueError("Cannot parse the ZeroCurve")
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ *         self._yield_curve_ptr = self._yield_curve.get()             # <<<<<<<<<<<<<<
+ *         if self._yield_curve_ptr is NULL:
+ *             raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+ */
+  __pyx_v_self->_yield_curve_ptr = __pyx_v_self->_yield_curve.get();
+
+  /* "_redukti.pyx":441
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ *         self._yield_curve_ptr = self._yield_curve.get()
+ *         if self._yield_curve_ptr is NULL:             # <<<<<<<<<<<<<<
+ *             raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+ * 
+ */
+  __pyx_t_5 = ((__pyx_v_self->_yield_curve_ptr == NULL) != 0);
+  if (unlikely(__pyx_t_5)) {
+
+    /* "_redukti.pyx":442
+ *         self._yield_curve_ptr = self._yield_curve.get()
+ *         if self._yield_curve_ptr is NULL:
+ *             raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')             # <<<<<<<<<<<<<<
+ * 
+ *     def __dealloc__(self):
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__51, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 442, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 442, __pyx_L1_error)
+
+    /* "_redukti.pyx":441
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ *         self._yield_curve_ptr = self._yield_curve.get()
+ *         if self._yield_curve_ptr is NULL:             # <<<<<<<<<<<<<<
+ *             raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+ * 
+ */
+  }
+
+  /* "_redukti.pyx":432
+ *     cdef curve.YieldCurve *_yield_curve_ptr
+ * 
+ *     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):             # <<<<<<<<<<<<<<
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("_redukti.YieldCurve.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":444
+ *             raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+ * 
+ *     def __dealloc__(self):             # <<<<<<<<<<<<<<
+ *         self._yield_curve.reset(NULL)
+ * 
+ */
+
+/* Python wrapper */
+static void __pyx_pw_8_redukti_10YieldCurve_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_8_redukti_10YieldCurve_3__dealloc__(PyObject *__pyx_v_self) {
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
+  __pyx_pf_8_redukti_10YieldCurve_2__dealloc__(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+}
+
+static void __pyx_pf_8_redukti_10YieldCurve_2__dealloc__(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self) {
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__dealloc__", 0);
+
+  /* "_redukti.pyx":445
+ * 
+ *     def __dealloc__(self):
+ *         self._yield_curve.reset(NULL)             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef double discount(self, Date d):
+ */
+  __pyx_v_self->_yield_curve.reset(NULL);
+
+  /* "_redukti.pyx":444
+ *             raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+ * 
+ *     def __dealloc__(self):             # <<<<<<<<<<<<<<
+ *         self._yield_curve.reset(NULL)
+ * 
+ */
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+}
+
+/* "_redukti.pyx":447
+ *         self._yield_curve.reset(NULL)
+ * 
+ *     cpdef double discount(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.discount(d.serial())
+ * 
+ */
+
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_5discount(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static double __pyx_f_8_redukti_10YieldCurve_discount(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch) {
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  double __pyx_t_5;
+  __Pyx_RefNannySetupContext("discount", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_discount); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_10YieldCurve_5discount)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_d)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_d));
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 447, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 447, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":448
+ * 
+ *     cpdef double discount(self, Date d):
+ *         return self._yield_curve_ptr.discount(d.serial())             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef double zero_rate(self, Date d):
+ */
+  __pyx_r = __pyx_v_self->_yield_curve_ptr->discount(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d->__pyx_vtab)->serial(__pyx_v_d, 0));
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":447
+ *         self._yield_curve.reset(NULL)
+ * 
+ *     cpdef double discount(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.discount(d.serial())
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.YieldCurve.discount", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_5discount(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_5discount(PyObject *__pyx_v_self, PyObject *__pyx_v_d) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("discount (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d), __pyx_ptype_8_redukti_Date, 1, "d", 0))) __PYX_ERR(0, 447, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve_4discount(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_d));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_4discount(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("discount", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_10YieldCurve_discount(__pyx_v_self, __pyx_v_d, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.YieldCurve.discount", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":450
+ *         return self._yield_curve_ptr.discount(d.serial())
+ * 
+ *     cpdef double zero_rate(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.zero_rate(d.serial())
+ * 
+ */
+
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_7zero_rate(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static double __pyx_f_8_redukti_10YieldCurve_zero_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch) {
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  double __pyx_t_5;
+  __Pyx_RefNannySetupContext("zero_rate", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_zero_rate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_10YieldCurve_7zero_rate)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_d)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_d));
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 450, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":451
+ * 
+ *     cpdef double zero_rate(self, Date d):
+ *         return self._yield_curve_ptr.zero_rate(d.serial())             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef double forward_rate(self, Date d1, Date d2):
+ */
+  __pyx_r = __pyx_v_self->_yield_curve_ptr->zero_rate(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d->__pyx_vtab)->serial(__pyx_v_d, 0));
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":450
+ *         return self._yield_curve_ptr.discount(d.serial())
+ * 
+ *     cpdef double zero_rate(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.zero_rate(d.serial())
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.YieldCurve.zero_rate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_7zero_rate(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_7zero_rate(PyObject *__pyx_v_self, PyObject *__pyx_v_d) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("zero_rate (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d), __pyx_ptype_8_redukti_Date, 1, "d", 0))) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve_6zero_rate(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_d));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_6zero_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("zero_rate", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_10YieldCurve_zero_rate(__pyx_v_self, __pyx_v_d, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.YieldCurve.zero_rate", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":453
+ *         return self._yield_curve_ptr.zero_rate(d.serial())
+ * 
+ *     cpdef double forward_rate(self, Date d1, Date d2):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+ * 
+ */
+
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_9forward_rate(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static double __pyx_f_8_redukti_10YieldCurve_forward_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d1, struct __pyx_obj_8_redukti_Date *__pyx_v_d2, int __pyx_skip_dispatch) {
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  double __pyx_t_7;
+  __Pyx_RefNannySetupContext("forward_rate", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_forward_rate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_10YieldCurve_9forward_rate)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        __pyx_t_5 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_5 = 1;
+          }
+        }
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_4, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2)};
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_4, ((PyObject *)__pyx_v_d1), ((PyObject *)__pyx_v_d2)};
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+        } else
+        #endif
+        {
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          if (__pyx_t_4) {
+            __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+          }
+          __Pyx_INCREF(((PyObject *)__pyx_v_d1));
+          __Pyx_GIVEREF(((PyObject *)__pyx_v_d1));
+          PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, ((PyObject *)__pyx_v_d1));
+          __Pyx_INCREF(((PyObject *)__pyx_v_d2));
+          __Pyx_GIVEREF(((PyObject *)__pyx_v_d2));
+          PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_d2));
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 453, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_7;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":454
+ * 
+ *     cpdef double forward_rate(self, Date d1, Date d2):
+ *         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef double time_from_reference(self, Date d):
+ */
+  __pyx_r = __pyx_v_self->_yield_curve_ptr->forward_rate(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d1->__pyx_vtab)->serial(__pyx_v_d1, 0), ((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d2->__pyx_vtab)->serial(__pyx_v_d2, 0));
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":453
+ *         return self._yield_curve_ptr.zero_rate(d.serial())
+ * 
+ *     cpdef double forward_rate(self, Date d1, Date d2):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_WriteUnraisable("_redukti.YieldCurve.forward_rate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_9forward_rate(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_9forward_rate(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_8_redukti_Date *__pyx_v_d1 = 0;
+  struct __pyx_obj_8_redukti_Date *__pyx_v_d2 = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("forward_rate (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_d1,&__pyx_n_s_d2,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d1)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("forward_rate", 1, 2, 2, 1); __PYX_ERR(0, 453, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "forward_rate") < 0)) __PYX_ERR(0, 453, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_d1 = ((struct __pyx_obj_8_redukti_Date *)values[0]);
+    __pyx_v_d2 = ((struct __pyx_obj_8_redukti_Date *)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("forward_rate", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 453, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_redukti.YieldCurve.forward_rate", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d1), __pyx_ptype_8_redukti_Date, 1, "d1", 0))) __PYX_ERR(0, 453, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d2), __pyx_ptype_8_redukti_Date, 1, "d2", 0))) __PYX_ERR(0, 453, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve_8forward_rate(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self), __pyx_v_d1, __pyx_v_d2);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_8forward_rate(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d1, struct __pyx_obj_8_redukti_Date *__pyx_v_d2) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("forward_rate", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_10YieldCurve_forward_rate(__pyx_v_self, __pyx_v_d1, __pyx_v_d2, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.YieldCurve.forward_rate", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_redukti.pyx":456
+ *         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+ * 
+ *     cpdef double time_from_reference(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.time_from_reference(d.serial())
+ */
+
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_11time_from_reference(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static double __pyx_f_8_redukti_10YieldCurve_time_from_reference(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d, int __pyx_skip_dispatch) {
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  double __pyx_t_5;
+  __Pyx_RefNannySetupContext("time_from_reference", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_time_from_reference); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8_redukti_10YieldCurve_11time_from_reference)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_d)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_d));
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 456, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "_redukti.pyx":457
+ * 
+ *     cpdef double time_from_reference(self, Date d):
+ *         return self._yield_curve_ptr.time_from_reference(d.serial())             # <<<<<<<<<<<<<<
+ */
+  __pyx_r = __pyx_v_self->_yield_curve_ptr->time_from_reference(((struct __pyx_vtabstruct_8_redukti_Date *)__pyx_v_d->__pyx_vtab)->serial(__pyx_v_d, 0));
+  goto __pyx_L0;
+
+  /* "_redukti.pyx":456
+ *         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
+ * 
+ *     cpdef double time_from_reference(self, Date d):             # <<<<<<<<<<<<<<
+ *         return self._yield_curve_ptr.time_from_reference(d.serial())
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("_redukti.YieldCurve.time_from_reference", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_11time_from_reference(PyObject *__pyx_v_self, PyObject *__pyx_v_d); /*proto*/
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_11time_from_reference(PyObject *__pyx_v_self, PyObject *__pyx_v_d) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("time_from_reference (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_d), __pyx_ptype_8_redukti_Date, 1, "d", 0))) __PYX_ERR(0, 456, __pyx_L1_error)
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve_10time_from_reference(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self), ((struct __pyx_obj_8_redukti_Date *)__pyx_v_d));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_10time_from_reference(struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, struct __pyx_obj_8_redukti_Date *__pyx_v_d) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("time_from_reference", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_8_redukti_10YieldCurve_time_from_reference(__pyx_v_self, __pyx_v_d, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.YieldCurve.time_from_reference", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_13__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_13__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve_12__reduce_cython__(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_12__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 2, __pyx_L1_error)
+
+  /* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.YieldCurve.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_15__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_8_redukti_10YieldCurve_15__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8_redukti_10YieldCurve_14__setstate_cython__(((struct __pyx_obj_8_redukti_YieldCurve *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8_redukti_10YieldCurve_14__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8_redukti_YieldCurve *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 4, __pyx_L1_error)
+
+  /* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_redukti.YieldCurve.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -15382,6 +16606,118 @@ static PyTypeObject __pyx_type_8_redukti_SvenssonCurve = {
   0, /*tp_vectorcall*/
   #endif
 };
+static struct __pyx_vtabstruct_8_redukti_YieldCurve __pyx_vtable_8_redukti_YieldCurve;
+
+static PyObject *__pyx_tp_new_8_redukti_YieldCurve(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_8_redukti_YieldCurve *p;
+  PyObject *o;
+  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
+    o = (*t->tp_alloc)(t, 0);
+  } else {
+    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
+  }
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_8_redukti_YieldCurve *)o);
+  p->__pyx_vtab = __pyx_vtabptr_8_redukti_YieldCurve;
+  new((void*)&(p->_definition)) redukti::IRCurveDefinition();
+  new((void*)&(p->_underlying_curve)) redukti::ZeroCurve();
+  if (unlikely(__pyx_pw_8_redukti_10YieldCurve_1__cinit__(o, a, k) < 0)) goto bad;
+  return o;
+  bad:
+  Py_DECREF(o); o = 0;
+  return NULL;
+}
+
+static void __pyx_tp_dealloc_8_redukti_YieldCurve(PyObject *o) {
+  struct __pyx_obj_8_redukti_YieldCurve *p = (struct __pyx_obj_8_redukti_YieldCurve *)o;
+  #if CYTHON_USE_TP_FINALIZE
+  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  {
+    PyObject *etype, *eval, *etb;
+    PyErr_Fetch(&etype, &eval, &etb);
+    ++Py_REFCNT(o);
+    __pyx_pw_8_redukti_10YieldCurve_3__dealloc__(o);
+    --Py_REFCNT(o);
+    PyErr_Restore(etype, eval, etb);
+  }
+  __Pyx_call_destructor(p->_definition);
+  __Pyx_call_destructor(p->_underlying_curve);
+  (*Py_TYPE(o)->tp_free)(o);
+}
+
+static PyMethodDef __pyx_methods_8_redukti_YieldCurve[] = {
+  {"discount", (PyCFunction)__pyx_pw_8_redukti_10YieldCurve_5discount, METH_O, 0},
+  {"zero_rate", (PyCFunction)__pyx_pw_8_redukti_10YieldCurve_7zero_rate, METH_O, 0},
+  {"forward_rate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8_redukti_10YieldCurve_9forward_rate, METH_VARARGS|METH_KEYWORDS, 0},
+  {"time_from_reference", (PyCFunction)__pyx_pw_8_redukti_10YieldCurve_11time_from_reference, METH_O, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_8_redukti_10YieldCurve_13__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_8_redukti_10YieldCurve_15__setstate_cython__, METH_O, 0},
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_8_redukti_YieldCurve = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "_redukti.YieldCurve", /*tp_name*/
+  sizeof(struct __pyx_obj_8_redukti_YieldCurve), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_8_redukti_YieldCurve, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_8_redukti_YieldCurve, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_8_redukti_YieldCurve, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b1
+  0, /*tp_vectorcall*/
+  #endif
+};
 
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
@@ -15433,6 +16769,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Beta0_tau1_and_tau2_must_be_posi, __pyx_k_Beta0_tau1_and_tau2_must_be_posi, sizeof(__pyx_k_Beta0_tau1_and_tau2_must_be_posi), 0, 1, 0, 0},
   {&__pyx_kp_u_Business_centers_must_be_specifi, __pyx_k_Business_centers_must_be_specifi, sizeof(__pyx_k_Business_centers_must_be_specifi), 0, 1, 0, 0},
   {&__pyx_n_s_Calendar, __pyx_k_Calendar, sizeof(__pyx_k_Calendar), 0, 0, 1, 1},
+  {&__pyx_kp_u_Cannot_parse_the_IRCurveDefiniti, __pyx_k_Cannot_parse_the_IRCurveDefiniti, sizeof(__pyx_k_Cannot_parse_the_IRCurveDefiniti), 0, 1, 0, 0},
+  {&__pyx_kp_u_Cannot_parse_the_ZeroCurve, __pyx_k_Cannot_parse_the_ZeroCurve, sizeof(__pyx_k_Cannot_parse_the_ZeroCurve), 0, 1, 0, 0},
   {&__pyx_kp_u_Cannot_parse_the_schedule_parame, __pyx_k_Cannot_parse_the_schedule_parame, sizeof(__pyx_k_Cannot_parse_the_schedule_parame), 0, 1, 0, 0},
   {&__pyx_kp_u_Could_not_convert_to_bytes, __pyx_k_Could_not_convert_to_bytes, sizeof(__pyx_k_Could_not_convert_to_bytes), 0, 1, 0, 0},
   {&__pyx_n_s_CurveId, __pyx_k_CurveId, sizeof(__pyx_k_CurveId), 0, 0, 1, 1},
@@ -15477,12 +16815,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Unable_to_construct_a_calendar_f, __pyx_k_Unable_to_construct_a_calendar_f, sizeof(__pyx_k_Unable_to_construct_a_calendar_f), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_u_Variable_index_is_out_of_range, __pyx_k_Variable_index_is_out_of_range, sizeof(__pyx_k_Variable_index_is_out_of_range), 0, 1, 0, 0},
+  {&__pyx_n_s_YieldCurve, __pyx_k_YieldCurve, sizeof(__pyx_k_YieldCurve), 0, 0, 1, 1},
   {&__pyx_n_s_adjust_date, __pyx_k_adjust_date, sizeof(__pyx_k_adjust_date), 0, 0, 1, 1},
   {&__pyx_n_s_advance, __pyx_k_advance, sizeof(__pyx_k_advance), 0, 0, 1, 1},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
   {&__pyx_n_s_as_of_date, __pyx_k_as_of_date, sizeof(__pyx_k_as_of_date), 0, 0, 1, 1},
   {&__pyx_n_s_business_centres, __pyx_k_business_centres, sizeof(__pyx_k_business_centres), 0, 0, 1, 1},
+  {&__pyx_n_s_business_date, __pyx_k_business_date, sizeof(__pyx_k_business_date), 0, 0, 1, 1},
   {&__pyx_n_s_byte_s, __pyx_k_byte_s, sizeof(__pyx_k_byte_s), 0, 0, 1, 1},
   {&__pyx_n_s_c_string, __pyx_k_c_string, sizeof(__pyx_k_c_string), 0, 0, 1, 1},
   {&__pyx_n_s_ccy, __pyx_k_ccy, sizeof(__pyx_k_ccy), 0, 0, 1, 1},
@@ -15490,6 +16830,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_convention, __pyx_k_convention, sizeof(__pyx_k_convention), 0, 0, 1, 1},
   {&__pyx_n_s_convert_to_date_array, __pyx_k_convert_to_date_array, sizeof(__pyx_k_convert_to_date_array), 0, 0, 1, 1},
   {&__pyx_n_s_currency, __pyx_k_currency, sizeof(__pyx_k_currency), 0, 0, 1, 1},
+  {&__pyx_n_s_curve_defn, __pyx_k_curve_defn, sizeof(__pyx_k_curve_defn), 0, 0, 1, 1},
   {&__pyx_n_s_cycle, __pyx_k_cycle, sizeof(__pyx_k_cycle), 0, 0, 1, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
   {&__pyx_n_u_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 1, 0, 1},
@@ -15530,6 +16871,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_maturities, __pyx_k_maturities, sizeof(__pyx_k_maturities), 0, 0, 1, 1},
   {&__pyx_n_s_maturity_date, __pyx_k_maturity_date, sizeof(__pyx_k_maturity_date), 0, 0, 1, 1},
+  {&__pyx_n_s_mdq, __pyx_k_mdq, sizeof(__pyx_k_mdq), 0, 0, 1, 1},
   {&__pyx_n_s_month, __pyx_k_month, sizeof(__pyx_k_month), 0, 0, 1, 1},
   {&__pyx_n_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 1},
   {&__pyx_n_s_n_vars, __pyx_k_n_vars, sizeof(__pyx_k_n_vars), 0, 0, 1, 1},
@@ -15569,6 +16911,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_tenor, __pyx_k_tenor, sizeof(__pyx_k_tenor), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time_from_reference, __pyx_k_time_from_reference, sizeof(__pyx_k_time_from_reference), 0, 0, 1, 1},
+  {&__pyx_n_s_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 0, 1, 1},
   {&__pyx_n_s_typecode, __pyx_k_typecode, sizeof(__pyx_k_typecode), 0, 0, 1, 1},
   {&__pyx_n_s_unadjusted, __pyx_k_unadjusted, sizeof(__pyx_k_unadjusted), 0, 0, 1, 1},
   {&__pyx_n_s_unit, __pyx_k_unit, sizeof(__pyx_k_unit), 0, 0, 1, 1},
@@ -15583,6 +16926,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_year_fraction, __pyx_k_year_fraction, sizeof(__pyx_k_year_fraction), 0, 0, 1, 1},
   {&__pyx_n_s_year_fraction_with_finalperiod, __pyx_k_year_fraction_with_finalperiod, sizeof(__pyx_k_year_fraction_with_finalperiod), 0, 0, 1, 1},
   {&__pyx_n_s_year_fraction_with_refdates, __pyx_k_year_fraction_with_refdates, sizeof(__pyx_k_year_fraction_with_refdates), 0, 0, 1, 1},
+  {&__pyx_n_s_zero_curve, __pyx_k_zero_curve, sizeof(__pyx_k_zero_curve), 0, 0, 1, 1},
   {&__pyx_n_s_zero_rate, __pyx_k_zero_rate, sizeof(__pyx_k_zero_rate), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -16124,6 +17468,47 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__53);
   __Pyx_GIVEREF(__pyx_tuple__53);
 
+  /* "_redukti.pyx":435
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):
+ *             raise ValueError("Cannot parse the IRCurveDefinition")             # <<<<<<<<<<<<<<
+ *         str = zero_curve.SerializeToString()
+ *         if not self._underlying_curve.ParseFromString(str):
+ */
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_u_Cannot_parse_the_IRCurveDefiniti); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__56);
+  __Pyx_GIVEREF(__pyx_tuple__56);
+
+  /* "_redukti.pyx":438
+ *         str = zero_curve.SerializeToString()
+ *         if not self._underlying_curve.ParseFromString(str):
+ *             raise ValueError("Cannot parse the ZeroCurve")             # <<<<<<<<<<<<<<
+ *         self._yield_curve = curve.make_curve(business_date.serial(), &self._definition, self._underlying_curve, deriv_order, type, mdq, cycle, scenario)
+ *         self._yield_curve_ptr = self._yield_curve.get()
+ */
+  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_u_Cannot_parse_the_ZeroCurve); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__58);
+  __Pyx_GIVEREF(__pyx_tuple__58);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__59);
+  __Pyx_GIVEREF(__pyx_tuple__59);
+
   /* "_redukti.pyx":91
  * 
  *     @staticmethod
@@ -16131,10 +17516,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return Date(date.make_date(d, m, y))
  * 
  */
-  __pyx_tuple__54 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 91, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_from_dmy, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__60);
+  __Pyx_GIVEREF(__pyx_tuple__60);
+  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_from_dmy, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 91, __pyx_L1_error)
 
   /* "_redukti.pyx":94
  *         return Date(date.make_date(d, m, y))
@@ -16143,10 +17528,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     return Date(date.make_date(d, m, y))
  * 
  */
-  __pyx_tuple__56 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 94, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__56);
-  __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_dmy, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_m, __pyx_n_s_y); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__62);
+  __Pyx_GIVEREF(__pyx_tuple__62);
+  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_dmy, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 94, __pyx_L1_error)
 
   /* "_redukti.pyx":101
  *         raise ValueError('Invalid PeriodUnit specified')
@@ -16155,10 +17540,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     validate_periodunit(unit)
  *     return Date(date.advance(d.serial(), n, unit))
  */
-  __pyx_tuple__58 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_n, __pyx_n_s_unit); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__58);
-  __Pyx_GIVEREF(__pyx_tuple__58);
-  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_advance, 101, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(3, __pyx_n_s_d, __pyx_n_s_n, __pyx_n_s_unit); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__64);
+  __Pyx_GIVEREF(__pyx_tuple__64);
+  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_advance, 101, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 101, __pyx_L1_error)
 
   /* "_redukti.pyx":115
  *         raise TypeError("Could not convert to bytes.")
@@ -16167,10 +17552,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     cdef int d
  *     byte_s = to_bytes(s)
  */
-  __pyx_tuple__60 = PyTuple_Pack(4, __pyx_n_s_s, __pyx_n_s_d, __pyx_n_s_byte_s, __pyx_n_s_c_string); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 115, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__60);
-  __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_parse_date, 115, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(4, __pyx_n_s_s, __pyx_n_s_d, __pyx_n_s_byte_s, __pyx_n_s_c_string); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__66);
+  __Pyx_GIVEREF(__pyx_tuple__66);
+  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_parse_date, 115, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 115, __pyx_L1_error)
 
   /* "_redukti.pyx":123
  *     return Date(d)
@@ -16179,10 +17564,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     cdef string str = schedule_parameters.SerializeToString()
  *     cdef schedule.ScheduleParameters _parameters
  */
-  __pyx_tuple__62 = PyTuple_Pack(7, __pyx_n_s_schedule_parameters, __pyx_n_s_str, __pyx_n_s_parameters_2, __pyx_n_s_schedule, __pyx_n_s_status, __pyx_n_s_result, __pyx_n_s_result_str); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 123, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__62);
-  __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_generate_schedule, 123, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(7, __pyx_n_s_schedule_parameters, __pyx_n_s_str, __pyx_n_s_parameters_2, __pyx_n_s_schedule, __pyx_n_s_status, __pyx_n_s_result, __pyx_n_s_result_str); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__68);
+  __Pyx_GIVEREF(__pyx_tuple__68);
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_generate_schedule, 123, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 123, __pyx_L1_error)
 
   /* "_redukti.pyx":230
  * 
@@ -16191,10 +17576,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         validate_isda_index(isda_index)
  *         validate_tenor(tenor)
  */
-  __pyx_tuple__64 = PyTuple_Pack(4, __pyx_n_s_isda_index, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 230, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__64);
-  __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index_by_isdaindex, 230, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(4, __pyx_n_s_isda_index, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__70);
+  __Pyx_GIVEREF(__pyx_tuple__70);
+  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index_by_isdaindex, 230, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 230, __pyx_L1_error)
 
   /* "_redukti.pyx":241
  * 
@@ -16203,10 +17588,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         validate_currency(currency)
  *         validate_index_family(index_family)
  */
-  __pyx_tuple__66 = PyTuple_Pack(5, __pyx_n_s_currency, __pyx_n_s_index_family, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 241, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__66);
-  __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index, 241, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_tuple__72 = PyTuple_Pack(5, __pyx_n_s_currency, __pyx_n_s_index_family, __pyx_n_s_tenor, __pyx_n_s_idx, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__72);
+  __Pyx_GIVEREF(__pyx_tuple__72);
+  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_get_index, 241, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(0, 241, __pyx_L1_error)
 
   /* "_redukti.pyx":334
  *         return self._id
@@ -16215,10 +17600,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     cdef array.array date_array = array.array('i', [])
  *     for v in values:
  */
-  __pyx_tuple__68 = PyTuple_Pack(3, __pyx_n_s_values, __pyx_n_s_date_array, __pyx_n_s_v); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 334, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__68);
-  __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_convert_to_date_array, 334, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(3, __pyx_n_s_values, __pyx_n_s_date_array, __pyx_n_s_v); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__74);
+  __Pyx_GIVEREF(__pyx_tuple__74);
+  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_redukti_pyx, __pyx_n_s_convert_to_date_array, 334, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -16407,6 +17792,22 @@ static int __Pyx_modinit_type_init_code(void) {
   if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SvenssonCurve, (PyObject *)&__pyx_type_8_redukti_SvenssonCurve) < 0) __PYX_ERR(0, 393, __pyx_L1_error)
   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_SvenssonCurve) < 0) __PYX_ERR(0, 393, __pyx_L1_error)
   __pyx_ptype_8_redukti_SvenssonCurve = &__pyx_type_8_redukti_SvenssonCurve;
+  __pyx_vtabptr_8_redukti_YieldCurve = &__pyx_vtable_8_redukti_YieldCurve;
+  __pyx_vtable_8_redukti_YieldCurve.discount = (double (*)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_10YieldCurve_discount;
+  __pyx_vtable_8_redukti_YieldCurve.zero_rate = (double (*)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_10YieldCurve_zero_rate;
+  __pyx_vtable_8_redukti_YieldCurve.forward_rate = (double (*)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_10YieldCurve_forward_rate;
+  __pyx_vtable_8_redukti_YieldCurve.time_from_reference = (double (*)(struct __pyx_obj_8_redukti_YieldCurve *, struct __pyx_obj_8_redukti_Date *, int __pyx_skip_dispatch))__pyx_f_8_redukti_10YieldCurve_time_from_reference;
+  if (PyType_Ready(&__pyx_type_8_redukti_YieldCurve) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  #if PY_VERSION_HEX < 0x030800B1
+  __pyx_type_8_redukti_YieldCurve.tp_print = 0;
+  #endif
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8_redukti_YieldCurve.tp_dictoffset && __pyx_type_8_redukti_YieldCurve.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_8_redukti_YieldCurve.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  }
+  if (__Pyx_SetVtable(__pyx_type_8_redukti_YieldCurve.tp_dict, __pyx_vtabptr_8_redukti_YieldCurve) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_YieldCurve, (PyObject *)&__pyx_type_8_redukti_YieldCurve) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8_redukti_YieldCurve) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  __pyx_ptype_8_redukti_YieldCurve = &__pyx_type_8_redukti_YieldCurve;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -16873,6 +18274,16 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_convert_to_date_array, __pyx_t_1) < 0) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_redukti.pyx":432
+ *     cdef curve.YieldCurve *_yield_curve_ptr
+ * 
+ *     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2, enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD, enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):             # <<<<<<<<<<<<<<
+ *         cdef string str = curve_defn.SerializeToString()
+ *         if not self._definition.ParseFromString(str):
+ */
+  __pyx_k__54 = redukti::PRICING_CURVE_TYPE_FORWARD;
+  __pyx_k__55 = redukti::MDQ_NORMAL;
 
   /* "_redukti.pyx":1
  * # DO NOT REMOVE COPYRIGHT NOTICES OR THIS HEADER.             # <<<<<<<<<<<<<<

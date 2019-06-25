@@ -45,6 +45,7 @@ cdef extern from "enums.pb.h" namespace "redukti":
     cdef enum IRRateType:
         FORWARD_RATE = 2
     cdef enum PricingCurveType:
+        PRICING_CURVE_TYPE_FORWARD = 1
         PRICING_CURVE_TYPE_DISCOUNT = 2
     cdef enum MarketDataQualifier:
         MDQ_NORMAL = 0
