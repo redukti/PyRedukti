@@ -20,6 +20,8 @@ from redukti import common_pb2 as common
 from redukti import curve_pb2 as curve
 from redukti import bootstrap_pb2 as bootstrap
 from redukti import valuation_pb2 as valuation
+from redukti import cashflow_pb2 as cashflows
+from redukti import schedule_pb2 as schedule
 import redukti
 
 import csv
@@ -42,6 +44,102 @@ maturity_rules = {
     'DeriveFromInstruments': enums.MATURITY_GENERATION_RULE_DERIVE_FROM_INSTRUMENTS,
     'FixedTenors': enums.MATURITY_GENERATION_RULE_FIXED_TENORS
 }
+
+swap_templates = {
+    'EUR_EONIA_1D': {
+        'currency': enums.EUR,
+        'start_delay': 2,
+        'payment_calendar': enums.EUTA,
+        'fixed_payment_frequency': enums.TENOR_12M,
+        'floating_payment_frequency': enums.TENOR_12M,
+        'fixed_day_fraction': enums.ACT_360,
+        'floating_day_fraction': enums.ACT_360,
+        'payment_day_convention': enums.MODIFIED_FOLLOWING,
+        'floating_index': enums.EUR_EONIA_OIS_COMPOUND,
+        'floating_tenor': enums.ISDA_INDEX_UNSPECIFIED
+    },
+    'EUR_EURIBOR_3M': {
+        'currency': enums.EUR,
+        'start_delay': 2,
+        'payment_calendar': enums.EUTA,
+        'fixed_payment_frequency': enums.TENOR_3M,
+        'floating_payment_frequency': enums.TENOR_3M,
+        'fixed_day_fraction': enums.ACT_360,
+        'floating_day_fraction': enums.ACT_360,
+        'payment_day_convention': enums.MODIFIED_FOLLOWING,
+        'floating_index': enums.EUR_EURIBOR_Reuters,
+        'floating_tenor': enums.TENOR_3M
+    },
+    'EUR_EURIBOR_6M': {
+        'currency': enums.EUR,
+        'start_delay': 2,
+        'payment_calendar': enums.EUTA,
+        'fixed_payment_frequency': enums.TENOR_6M,
+        'floating_payment_frequency': enums.TENOR_6M,
+        'fixed_day_fraction': enums.ACT_360,
+        'floating_day_fraction': enums.ACT_360,
+        'payment_day_convention': enums.MODIFIED_FOLLOWING,
+        'floating_index': enums.EUR_EURIBOR_Reuters,
+        'floating_tenor': enums.TENOR_6M
+    }
+}
+
+def build_vanilla_swap(notional, effective_date, termination_date, template_name, fixed_rate, fixed_leg_sign):
+    template = swap_templates[template_name]
+    if not template:
+        raise Exception('No template found with name: ' + template_name)
+    ccy = template['currency']
+    floating_schedule_params = schedule.ScheduleParameters()
+    floating_schedule_params.effective_date = effective_date.serial()
+    floating_schedule_params.termination_date = termination_date.serial()
+    floating_schedule_params.payment_frequency = template['floating_payment_frequency']
+    floating_schedule_params.payment_calendars.append(template['payment_calendar'])
+    floating_schedule_params.payment_convention = template['payment_day_convention']
+    floating_schedule = redukti.generate_schedule(floating_schedule_params)
+
+    fixed_schedule_params = schedule.ScheduleParameters()
+    fixed_schedule_params.effective_date = effective_date.serial()
+    fixed_schedule_params.termination_date = termination_date.serial()
+    fixed_schedule_params.payment_frequency = template['fixed_payment_frequency']
+    fixed_schedule_params.payment_calendars.append(template['payment_calendar'])
+    fixed_schedule_params.payment_convention = template['payment_day_convention']
+    fixed_schedule = redukti.generate_schedule(fixed_schedule_params)
+  
+    fixed_daycount = redukti.DayFraction(template['fixed_day_fraction'])
+    if not fixed_daycount:
+        raise Exception('Unable to find day count fraction ' + str(template['fixed_day_fraction']))
+
+    fixed_leg_scalars = []
+    for i in range(0, len(fixed_schedule.adjusted_start_dates)):
+        fixed_leg_scalars.append(notional * fixed_rate * 
+            fixed_daycount.year_fraction(redukti.Date(fixed_schedule.adjusted_start_dates[i]), 
+                redukti.Date(fixed_schedule.adjusted_end_dates[i])))
+
+    cfcollection = cashflows.CFCollection()
+    fixed_stream = cfcollection.streams.add()
+    fixed_stream.factor = fixed_leg_sign
+    for i in range(0, len(fixed_leg_scalars)):
+        single = fixed_stream.cashflows.add()
+        single.simple.currency = ccy
+        single.simple.amount = fixed_leg_scalars[i]
+        single.simple.payment_date = fixed_schedule.adjusted_payment_dates[i]
+
+    float_stream = cfcollection.streams.add()
+    float_stream.factor = -fixed_leg_sign
+    for i in range(0, len(floating_schedule.adjusted_start_dates)):
+        single = float_stream.cashflows.add()
+        single.floating.currency = ccy
+        single.floating.day_count_fraction = template['floating_day_fraction']
+        single.floating.payment_date = floating_schedule.adjusted_payment_dates[i]
+        floating_period = single.floating.floating_periods.add()
+        floating_period.notional = notional
+        floating_period.accrual_start_date = floating_schedule.adjusted_start_dates[i]
+        floating_period.accrual_end_date = floating_schedule.adjusted_end_dates[i]
+        floating_period.index = template['floating_index']
+        floating_period.tenor = template['floating_tenor']
+        floating_period.spread = 0.0
+
+    return cfcollection
 
 class MarketData:
 
