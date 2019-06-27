@@ -52,7 +52,8 @@ class MarketData:
         self._par_curve_set = None
         self._fixings = None
         self._business_date = date
-        self._yield_curves = None
+        self._yield_curves = None # Redukti YieldCurve instances 
+        self._zero_curves_by_id = {} # Bootstrapped raw curves
 
     def read_curvedefinitions(self, filename):
         defs = []
@@ -144,16 +145,34 @@ class MarketData:
 
     def init_zero_curves(self, bootstrap_curves_reply):
         zero_curves = bootstrap_curves_reply.curves
-        yield_curves = []
+        self._yield_curves = []
         for zc in zero_curves:
             definition_id = zc.curve_definition_id
             defn = self.find_curve_definition(definition_id)
             if defn is None:
                 raise ValueError('Curve Definition not found for ' + str(definition_id))
             yc = redukti.YieldCurve(self._business_date, defn, zc)
-            yield_curves.append(yc)
+            self._yield_curves.append(yc)
+            self._zero_curves_by_id[definition_id] = zc
             print('Curve ' + str(definition_id) + ' created')
-        self._yield_curves = yield_curves
+
+    def curve_definitions(self):
+        return self._curve_definitions
+    
+    def yield_curves(self):
+        return self._yield_curves
+    
+    def find_zero_curve_by_id(self, definition_id):
+        return self._zero_curves_by_id[definition_id]
+
+    def has_fixings(self):
+        return self._fixings is not None
+
+    def fixings(self):
+        return self._fixings
+
+    def business_date(self):
+        return self._business_date
 
 def load_market_data(business_date, curve_definitions_filename, par_rates_filename, fixings_filename=None):
     market_data = MarketData(business_date)
@@ -209,3 +228,61 @@ class ServerCommand:
             if response.header.response_code != 0:
                 raise Exception(response.header.response_message)
             return market_data.init_zero_curves(response.bootstrap_curves_reply)
+
+    def register_curve_mappings(self, curve_group, curve_mappings):
+        with grpc.insecure_channel(self._address) as channel:
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
+            request = services_pb2.Request()
+            request.set_curve_mappings_request.curve_group = curve_group
+            request.set_curve_mappings_request.mappings.extend(curve_mappings)
+            response = stub.serve(request)
+            if response.header.response_code != 0:
+                raise Exception(response.header.response_message)
+
+    def register_curve_definitions(self, stub, market_data):
+        print('Registering curve definitions')
+        request = services_pb2.Request()
+        request.register_curve_definitions_request.curve_definitions.extend(market_data.curve_definitions())
+        response = stub.serve(request)
+        if response.header.response_code != 0:
+            raise Exception(response.header.response_message)
+
+    def register_zero_curves(self, stub, curve_group, market_data, forward_curves_list, discount_curve_list):
+        print('Registering zero curves')
+        request = services_pb2.Request()
+        for id in forward_curves_list:
+            zc = market_data.find_zero_curve_by_id(id)
+            if zc is None:
+                raise ValueError('Could not find zero curve ' + str(id))
+            request.set_zero_curves_request.forward_curves.append(zc)
+        for id in discount_curve_list:
+            zc = market_data.find_zero_curve_by_id(id)
+            if zc is None:
+                raise ValueError('Could not find zero curve ' + str(id))
+            request.set_zero_curves_request.discount_curves.append(zc)
+        request.set_zero_curves_request.as_of_date = market_data.business_date().serial()
+        request.set_zero_curves_request.cycle = 0
+        request.set_zero_curves_request.qualifier = enums.MDQ_NORMAL
+        request.set_zero_curves_request.scenario = 0
+        request.set_zero_curves_request.curve_group = curve_group
+        response = stub.serve(request)
+        if response.header.response_code != 0:
+            raise Exception(response.header.response_message)
+
+    def register_fixings(self, stub, market_data):
+        print('Registering fixings')
+        fixings_by_index = market_data.fixings()
+        for entry in fixings_by_index.values():
+            request = services_pb2.Request()
+            request.set_fixings_request.fixings_by_index_tenor.CopyFrom(entry)
+            response = stub.serve(request)
+            if response.header.response_code != 0:
+                raise Exception(response.header.response_message)
+
+    def register_market_data(self, curve_group, market_data, forward_curves_list, discount_curve_list):
+        with grpc.insecure_channel(self._address) as channel:
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
+            self.register_curve_definitions(stub, market_data)
+            self.register_zero_curves(stub, curve_group, market_data, forward_curves_list, discount_curve_list)            
+            if market_data.has_fixings():
+                self.register_fixings(stub, market_data)               
