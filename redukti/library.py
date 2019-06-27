@@ -322,6 +322,7 @@ class ServerCommand:
             request.bootstrap_curves_request.business_date = market_data._business_date.serial()
             request.bootstrap_curves_request.curve_definitions.extend(market_data._curve_definitions)
             request.bootstrap_curves_request.par_curve_set.CopyFrom(market_data._par_curve_set)
+            print('Building curves, please wait.')
             response = stub.serve(request)
             if response.header.response_code != 0:
                 raise Exception(response.header.response_message)
@@ -330,6 +331,7 @@ class ServerCommand:
     def register_curve_mappings(self, curve_group, curve_mappings):
         with grpc.insecure_channel(self._address) as channel:
             stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
+            print('Registering curve mappings')
             request = services_pb2.Request()
             request.set_curve_mappings_request.curve_group = curve_group
             request.set_curve_mappings_request.mappings.extend(curve_mappings)
