@@ -272,6 +272,19 @@ class MarketData:
     def business_date(self):
         return self._business_date
 
+    def pricing_context(self, curve_group):
+        pricing_context = valuation.PricingContext()
+        pricing_context.curve_group = curve_group
+        pricing_context.as_of_date = self._business_date.serial()
+        pricing_context.qualifier = enums.MDQ_NORMAL
+        pricing_context.cycle = 0
+        pricing_context.payment_cutoff_date = pricing_context.as_of_date
+        pricing_context.derivative_order = 2
+        pricing_context.is_todays_fixings_included = False
+        pricing_context.from_scenario = 0
+        pricing_context.to_scenario = 0
+        return pricing_context
+
 def load_market_data(business_date, curve_definitions_filename, par_rates_filename, fixings_filename=None):
     market_data = MarketData(business_date)
     market_data.read_curvedefinitions(curve_definitions_filename)
@@ -316,6 +329,8 @@ class ServerCommand:
             return response.hello_reply.message
 
     def build_curves(self, market_data):
+        if not isinstance(market_data, MarketData):
+            raise ValueError('market_data must be of MarketData type')
         with grpc.insecure_channel(self._address) as channel:
             stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
             request = services_pb2.Request()
@@ -340,6 +355,8 @@ class ServerCommand:
                 raise Exception(response.header.response_message)
 
     def register_curve_definitions(self, stub, market_data):
+        if not isinstance(market_data, MarketData):
+            raise ValueError('market_data must be of MarketData type')
         print('Registering curve definitions')
         request = services_pb2.Request()
         request.register_curve_definitions_request.curve_definitions.extend(market_data.curve_definitions())
@@ -348,6 +365,8 @@ class ServerCommand:
             raise Exception(response.header.response_message)
 
     def register_zero_curves(self, stub, curve_group, market_data, forward_curves_list, discount_curve_list):
+        if not isinstance(market_data, MarketData):
+            raise ValueError('market_data must be of MarketData type')
         print('Registering zero curves')
         request = services_pb2.Request()
         for id in forward_curves_list:
@@ -370,6 +389,8 @@ class ServerCommand:
             raise Exception(response.header.response_message)
 
     def register_fixings(self, stub, market_data):
+        if not isinstance(market_data, MarketData):
+            raise ValueError('market_data must be of MarketData type')
         print('Registering fixings')
         fixings_by_index = market_data.fixings()
         for entry in fixings_by_index.values():
@@ -380,9 +401,27 @@ class ServerCommand:
                 raise Exception(response.header.response_message)
 
     def register_market_data(self, curve_group, market_data, forward_curves_list, discount_curve_list):
+        if not isinstance(market_data, MarketData):
+            raise ValueError('market_data must be of MarketData type')
         with grpc.insecure_channel(self._address) as channel:
             stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
             self.register_curve_definitions(stub, market_data)
             self.register_zero_curves(stub, curve_group, market_data, forward_curves_list, discount_curve_list)            
             if market_data.has_fixings():
-                self.register_fixings(stub, market_data)               
+                self.register_fixings(stub, market_data)         
+
+    def get_valuation(self, pricing_context, cfcollection):
+        if not isinstance(pricing_context, valuation.PricingContext):
+            raise ValueError('pricing_context must of of type valuation_pb2.PricingContext')
+        if not isinstance(cfcollection, cashflows.CFCollection):
+            raise ValueError('cfcollection must be of type cashflows_pb2.CFCollection') 
+        with grpc.insecure_channel(self._address) as channel:
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
+            print('Requesting valuation')
+            request = services_pb2.Request()
+            request.valuation_request.pricing_context.CopyFrom(pricing_context)
+            request.valuation_request.cashflows.CopyFrom(cfcollection)
+            response = stub.serve(request)
+            if response.header.response_code != 0:
+                raise Exception(response.header.response_message)
+            return response.valuation_reply         
