@@ -11,6 +11,12 @@
 # The contents of this file are subject to the the GNU General Public License
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
+# cython: language_level=3, embedsignature=True
+
+"""
+Implements the interface to OpenRedukti classes and functions
+"""
+
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 cimport autodiff, date, enums, schedule, calendar, dayfraction, index, allocator, interpolator, curve
 from redukti import schedule_pb2
@@ -20,16 +26,38 @@ from cpython cimport array
 import array
 
 cdef class ADVar:
+    """
+    ADVar represents an automatically differentiated variable
+
+    An ADVar object contains a numeric value, but additionally it may
+    contain a gradient vector and a 2-dimensional hessian matrix. 
+
+    Each ADVar object has a variable id which must be unique within the
+    context of a calculation. Variable ids start with ``0``, and if there are 3 variables
+    in a calculation, then the variables would have ids ``0``, ``1``, and ``2``.
+
+    Note that all ADVars in a calculation must have the same number size and order.
+    """
+
     cdef autodiff.redukti_adouble_t* _ad
     cdef int _vars
     cdef int _order
 
     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+        """
+        Construct a new ADVar variable
+
+        Args:
+            n_vars: Number of variables in the function
+            order: The order can be ``0``, ``1``, or ``2`` and says whether 1st order and 2nd order derivatives should be computed
+            variable: This variable's id in the function's set of variables, ``-1`` can be used signify no position
+            initial_value: The value assigned to the variable initailly
+        """
         if (n_vars <= 0):
             raise ValueError('Number of variables in AdVar must be > 0')
         if order < 0 or order > 2:
             raise ValueError('Order must be between 0 and 2')
-        if (variable < 0 or variable >= n_vars):
+        if (variable < -1 or variable >= n_vars):
             raise ValueError('Variable index is out of range')
         cdef size_t size = autodiff.redukti_adouble_alloc_size(n_vars, order)
         self._ad = <autodiff.redukti_adouble_t*> PyMem_Malloc(size)
@@ -41,6 +69,11 @@ cdef class ADVar:
         PyMem_Free(self._ad)
 
     def assign(self, ADVar other):
+        """
+        Sets this variables data to be the same as the ``other``
+
+        Note that the ``other`` variable must be the same size and order
+        """
         is_compatible = self._vars == other._vars and self._order == other._order
         if not is_compatible:
             raise ValueError('Supplied values are not of the same order or size')
@@ -57,9 +90,15 @@ cdef class ADVar:
         return copy
 
     def value(self):
+        """
+        Returns the value of the variable
+        """
         return autodiff.redukti_adouble_get_value(self._ad)
 
     def gradient(self):
+        """
+        Returns the first order derivatives if available else empty list
+        """
         g = []
         if self._order == 0:
             return g
@@ -67,7 +106,27 @@ cdef class ADVar:
             list.append(g, autodiff.redukti_adouble_get_derivative1(self._ad, i))
         return g
 
+    def hessian(self):
+        """
+        Returns the second order derivatives if available else empty list
+        """
+        h = []
+        if self._order < 2:
+            return h
+        for i in range(0,self._vars):
+            g = []
+            h.append(g)
+            for j in range(0, self._vars):
+                list.append(g, autodiff.redukti_adouble_get_derivative2(self._ad, i, j))
+        return h
+
 cdef class Date:
+    """
+    Holds a date value as the number of days since civil 1899-12-31. Negative values indicate days prior to 1899-12-31.
+
+    Note that OpenRedukti requires dates to be in the range ``1901-01-01`` and ``2199-12-31``.
+    """
+
     cdef int _serial
     cdef date.YearMonthDay _ymd
 
@@ -92,6 +151,9 @@ cdef class Date:
         return Date(date.make_date(d, m, y))
 
 def dmy(unsigned d, unsigned m, int y):
+    """
+    Constructs a Date object from day, month, year
+    """
     return Date(date.make_date(d, m, y))
 
 cdef validate_periodunit(enums.PeriodUnit unit):
@@ -99,6 +161,14 @@ cdef validate_periodunit(enums.PeriodUnit unit):
         raise ValueError('Invalid PeriodUnit specified')
 
 def advance(Date d, int n, enums.PeriodUnit unit):
+    """
+    Adds or subtracts a period from a date
+
+    When handling month periods it ensures that the day stays the same if possible,
+    but if not (e.g. no 29th Feb in final date) then the day is adjusted to fit in the month
+    When handling year periods, the day and month are kept the same if possible
+    or adjusted as above.
+    """
     validate_periodunit(unit)
     return Date(date.advance(d.serial(), n, unit))
 
@@ -113,6 +183,12 @@ cdef bytes to_bytes(s):
         raise TypeError("Could not convert to bytes.")
 
 def parse_date(s):
+    """
+    Parse a string representation of date
+    
+    The parser will detect seperator character '/' or '-'.
+    The formats acceptable are 'yyyy/mm/dd', 'dd/mm/yyyy', 'yyyy-mm-dd', or 'dd-mm-yyyy'
+    """
     cdef int d
     byte_s = to_bytes(s)
     cdef const char* c_string = byte_s
@@ -121,6 +197,17 @@ def parse_date(s):
     return Date(d)
 
 def generate_schedule(schedule_parameters):
+    """
+    Generates a schedule
+
+    Args:
+        schedule_parameters: Must be of protobuf type schedule_pb2.ScheduleParameters 
+
+    Returns:
+        An instance of schedule_pb2.Schedule
+    """
+    if not isinstance(schedule_parameters, schedule_pb2.ScheduleParameters):
+        raise ValueError('Input must be an instance of schedule_pb2.ScheduleParameters')
     cdef string str = schedule_parameters.SerializeToString()
     cdef schedule.ScheduleParameters _parameters
     if not _parameters.ParseFromString(str):

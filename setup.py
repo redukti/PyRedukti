@@ -14,6 +14,10 @@
 import os
 from setuptools import setup, Extension
 from Cython.Build import cythonize
+from Cython.Compiler import Options
+
+Options.docstrings = True   # ensure doc strings are included
+Options.annotate = True     # generate HTML version of sources
 
 basepath=os.path.expanduser('~/Software')
 

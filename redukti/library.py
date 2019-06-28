@@ -49,7 +49,7 @@ swap_templates = {
     'EUR_EONIA_1D': {
         'currency': enums.EUR,
         'start_delay': 2,
-        'payment_calendar': enums.EUTA,
+        'payment_calendar': [enums.EUTA],
         'fixed_payment_frequency': enums.TENOR_12M,
         'floating_payment_frequency': enums.TENOR_12M,
         'fixed_day_fraction': enums.ACT_360,
@@ -61,7 +61,7 @@ swap_templates = {
     'EUR_EURIBOR_3M': {
         'currency': enums.EUR,
         'start_delay': 2,
-        'payment_calendar': enums.EUTA,
+        'payment_calendar': [enums.EUTA],
         'fixed_payment_frequency': enums.TENOR_3M,
         'floating_payment_frequency': enums.TENOR_3M,
         'fixed_day_fraction': enums.ACT_360,
@@ -73,7 +73,7 @@ swap_templates = {
     'EUR_EURIBOR_6M': {
         'currency': enums.EUR,
         'start_delay': 2,
-        'payment_calendar': enums.EUTA,
+        'payment_calendar': [enums.EUTA],
         'fixed_payment_frequency': enums.TENOR_6M,
         'floating_payment_frequency': enums.TENOR_6M,
         'fixed_day_fraction': enums.ACT_360,
@@ -93,7 +93,7 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     floating_schedule_params.effective_date = effective_date.serial()
     floating_schedule_params.termination_date = termination_date.serial()
     floating_schedule_params.payment_frequency = template['floating_payment_frequency']
-    floating_schedule_params.payment_calendars.append(template['payment_calendar'])
+    floating_schedule_params.payment_calendars.extend(template['payment_calendar'])
     floating_schedule_params.payment_convention = template['payment_day_convention']
     floating_schedule = redukti.generate_schedule(floating_schedule_params)
 
@@ -101,7 +101,7 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     fixed_schedule_params.effective_date = effective_date.serial()
     fixed_schedule_params.termination_date = termination_date.serial()
     fixed_schedule_params.payment_frequency = template['fixed_payment_frequency']
-    fixed_schedule_params.payment_calendars.append(template['payment_calendar'])
+    fixed_schedule_params.payment_calendars.extend(template['payment_calendar'])
     fixed_schedule_params.payment_convention = template['payment_day_convention']
     fixed_schedule = redukti.generate_schedule(fixed_schedule_params)
   
