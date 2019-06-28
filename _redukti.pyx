@@ -148,6 +148,9 @@ cdef class Date:
     
     @staticmethod
     def from_dmy(unsigned d, unsigned m, int y):
+        """
+        Constructs a Date object from day, month, year
+        """
         return Date(date.make_date(d, m, y))
 
 def dmy(unsigned d, unsigned m, int y):
@@ -231,9 +234,23 @@ cdef validate_business_centers(list business_centres):
             raise ValueError('Invalid business center')
 
 cdef class Calendar:
+    """
+    Represents a Business/Holiday Calendar for a business center or a combination of business centers.
+    
+    Calendar instances are immutable.
+
+    Currently supported business centers are ``AUSY``, ``USNY``, ``GBLO``, ``EUTA``, ``JPTO`` and ``BRSP``
+    """
+
     cdef const calendar.Calendar *_calendar
 
     def __cinit__(self, list business_centres):
+        """
+        Constructs a instance for specified list of business centers.
+
+        Args:
+            business_centres: List of business centers
+        """
         cdef calendar.JointCalendarParameters joint_calendars
         validate_business_centers(business_centres)
         if len(business_centres) == 0:
@@ -255,16 +272,45 @@ cdef class Calendar:
             raise ValueError('Unable to construct a calendar from given parameters')
     
     cpdef bint is_holiday(self, Date d):
+        """
+        Determines if the given date is a holiday as per this calendar
+
+        Args:
+            d: date to be checked
+        """
         return self._calendar.is_holiday(d.serial())
 
     def last_day_of_month(self, Date d):
+        """
+        Computes the last business date of the month/year in given date
+
+        Args:
+            d: Date to be used to compute the last day of month
+        """
         return Date(self._calendar.end_of_month(d.serial()))
 
     def advance(self, Date date, int n, enums.PeriodUnit unit, enums.BusinessDayConvention convention = enums.BusinessDayConvention.FOLLOWING, bint eom = False):
+        """
+        Advances the given date by the given period and if the resulting date is a holiday then adjusts it to be on a business day. 
+        
+        Args:
+            date: Date from which new date is to be computed
+            n: Number of units
+            unit: Type of units
+            convention: Business Day Convention, defaults to ``FOLLOWING``
+            is_eom: Boolean value to indicate whether EOM convention should be applied, defaults to ``False``
+        """
         validate_periodunit(unit)
         return Date(self._calendar.advance(date.serial(), n, unit, convention, eom))
 
     def adjust(self, Date date, enums.BusinessDayConvention convention = enums.BusinessDayConvention.FOLLOWING):
+        """
+        If given date falls on holiday then a new date is computed that is a business day, else same date is returned
+
+        Args:
+            date: Date to be checked
+            convention: Business Day Convention, defaults to ``FOLLOWING``
+        """
         return Date(self._calendar.adjust(date.serial(), convention))
 
 cdef validate_daycountfraction(enums.DayCountFraction dfc):
@@ -272,6 +318,13 @@ cdef validate_daycountfraction(enums.DayCountFraction dfc):
         raise ValueError('Invalid DayCountFraction specified')
 
 cdef class DayFraction:
+    """
+    Day Count Fraction calculator.
+
+    Computes the difference between dates as per Day Count Convention.
+    The difference is measured in factional units of a year, where one year 1.0.
+    """
+
     cdef const dayfraction.DayFraction *_dayfraction
 
     def __cinit__(self, enums.DayCountFraction dfc):
@@ -279,12 +332,34 @@ cdef class DayFraction:
         self._dayfraction = dayfraction.get_day_fraction(dfc)
 
     cpdef double year_fraction(self, Date d1, Date d2):
+        """
+        Calculates the day fraction between two dates
+
+        Return value is a decimal expressed as a year fraction
+        """
         return self._dayfraction.year_fraction(d1.serial(), d2.serial())
 
     cpdef double year_fraction_with_finalperiod(self, Date d1, Date d2, bint final_period):
+        """
+        Calculates the day fraction between two dates, only used for ``30E/360.ISDA``
+
+        Args:
+            d1: First date
+            d2: Second date
+            final_period: The finalPeriod flag indicates whether this fraction is for the final period - i.e. d2 is maturity date.
+        """
         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), final_period)
     
     cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):
+        """
+        Calculates the day fraction between two dates, Used only for ACT/ACT.ISMA
+
+        Args:
+            d1: First date
+            d2: Second date
+            refStart: If regular period or front stub then adjusted end date minus calculation period frequency (roll convention NONE), else adjusted start date
+            refEnd: If regular period or front stub then adjusted end date, else adjusted start date plus calculation period frequency (roll convention NONE)
+        """
         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), ref_date1.serial(), ref_date2.serial())
 
 cdef validate_isda_index(enums.IsdaIndex index):
@@ -308,6 +383,12 @@ cdef validate_interpolator_type(enums.InterpolatorType t):
         raise ValueError('Invalid InterpolatorType specified')
 
 cdef class InterestRateIndex:
+    """
+    An interest rate index representation. 
+    
+    An object of this type is immutable.
+    """
+
     cdef const index.InterestRateIndex *_index
 
     def __cinit__(self):
@@ -315,6 +396,9 @@ cdef class InterestRateIndex:
 
     @staticmethod
     def get_index_by_isdaindex(enums.IsdaIndex isda_index, enums.Tenor tenor):
+        """
+        Obtains an instance by IsdaIndex and Tenor
+        """
         validate_isda_index(isda_index)
         validate_tenor(tenor)
         cdef const index.InterestRateIndex *idx = index.get_default_index_service().get_index(isda_index, tenor)
@@ -326,6 +410,9 @@ cdef class InterestRateIndex:
 
     @staticmethod
     def get_index(enums.Currency currency, enums.IndexFamily index_family, enums.Tenor tenor):
+        """
+        Obtains an instance by Currency, IndexFamily and Tenor
+        """
         validate_currency(currency)
         validate_index_family(index_family)
         validate_tenor(tenor)
@@ -337,21 +424,45 @@ cdef class InterestRateIndex:
         return obj
 
     cpdef Date value_date(self, Date fixing_date):
+        """
+        Given a fixing date, calculate the value date
+        
+        Applies the calendars and day conventions associated with the index
+        """
         if self._index is NULL:
             return Exception('Index object is not initialized')
         return Date(self._index.value_date(fixing_date.serial()))
 
     cpdef Date fixing_date(self, Date accrual_start_date):
+        """
+        Given a value date, calculate the fixing date
+
+        Applies the calendars and day conventions associated with the index
+        """
         if self._index is NULL:
             return Exception('Index object is not initialized')
         return Date(self._index.fixing_date(accrual_start_date.serial()))
 
     cpdef Date maturity_date(self, Date value_date):
+        """
+        Given a value date calculate the maturity date
+
+        Applies the calendars and day conventions associated with the index
+        """
         if self._index is NULL:
             return Exception('Index object is not initialized')
         return Date(self._index.maturity_date(value_date.serial()))
 
     def date_components(self, Date adjusted):
+        """
+        For a given accrual start date, computes fixing date, value date and maturity date
+
+        Args:
+            adjusted: Adjusted start date
+
+        Returns:
+            Tuple containing fixing date, value date and maturity date
+        """
         if self._index is NULL:
             return Exception('Index object is not initialized')
         cdef int fixing = self._index.fixing_date(adjusted.serial())
