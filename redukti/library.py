@@ -22,6 +22,7 @@ from redukti import bootstrap_pb2 as bootstrap
 from redukti import valuation_pb2 as valuation
 from redukti import cashflow_pb2 as cashflows
 from redukti import schedule_pb2 as schedule
+from redukti import index_pb2 as index
 import redukti
 
 import csv
@@ -56,7 +57,9 @@ swap_templates = {
         'floating_day_fraction': enums.ACT_360,
         'payment_day_convention': enums.MODIFIED_FOLLOWING,
         'floating_index': enums.EUR_EONIA_OIS_COMPOUND,
-        'floating_tenor': enums.ISDA_INDEX_UNSPECIFIED
+        'floating_tenor': enums.TENOR_UNSPECIFIED,
+        'fixed_discounting_index_family': enums.EONIA,
+        'is_ois': True
     },
     'EUR_EURIBOR_3M': {
         'currency': enums.EUR,
@@ -68,7 +71,9 @@ swap_templates = {
         'floating_day_fraction': enums.ACT_360,
         'payment_day_convention': enums.MODIFIED_FOLLOWING,
         'floating_index': enums.EUR_EURIBOR_Reuters,
-        'floating_tenor': enums.TENOR_3M
+        'floating_tenor': enums.TENOR_3M,
+        'fixed_discounting_index_family': enums.EONIA,
+        'is_ois': False
     },
     'EUR_EURIBOR_6M': {
         'currency': enums.EUR,
@@ -80,11 +85,28 @@ swap_templates = {
         'floating_day_fraction': enums.ACT_360,
         'payment_day_convention': enums.MODIFIED_FOLLOWING,
         'floating_index': enums.EUR_EURIBOR_Reuters,
-        'floating_tenor': enums.TENOR_6M
+        'floating_tenor': enums.TENOR_6M,
+        'fixed_discounting_index_family': enums.EONIA,
+        'is_ois': False
     }
 }
 
+
 def build_vanilla_swap(notional, effective_date, termination_date, template_name, fixed_rate, fixed_leg_sign):
+    """
+    Constructs cashflows for a Vanilla Interest Rate Swap with a fixed leg and a floating leg
+
+    Args:
+        notional: Notional amount
+        effective_date: The unadjusted effective date of the swap
+        termination_date: The unadjusted termination date of the swap
+        template_name: The template to be used to determine various parameters
+        fixed_rate: The fixed rate on the fixed leg
+        fixed_leg_sign: The sign of the fixed leg, -1.0 indicates pay fixed rate
+
+    Returns:
+        Returns an instance of cashflow_pb2.CFCollection
+    """
     template = swap_templates[template_name]
     if not template:
         raise Exception('No template found with name: ' + template_name)
@@ -104,16 +126,16 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     fixed_schedule_params.payment_calendars.extend(template['payment_calendar'])
     fixed_schedule_params.payment_convention = template['payment_day_convention']
     fixed_schedule = redukti.generate_schedule(fixed_schedule_params)
-  
+
     fixed_daycount = redukti.DayFraction(template['fixed_day_fraction'])
     if not fixed_daycount:
         raise Exception('Unable to find day count fraction ' + str(template['fixed_day_fraction']))
 
     fixed_leg_scalars = []
     for i in range(0, len(fixed_schedule.adjusted_start_dates)):
-        fixed_leg_scalars.append(notional * fixed_rate * 
-            fixed_daycount.year_fraction(redukti.Date(fixed_schedule.adjusted_start_dates[i]), 
-                redukti.Date(fixed_schedule.adjusted_end_dates[i])))
+        fixed_leg_scalars.append(notional * fixed_rate *
+                                 fixed_daycount.year_fraction(redukti.Date(fixed_schedule.adjusted_start_dates[i]),
+                                                              redukti.Date(fixed_schedule.adjusted_end_dates[i])))
 
     cfcollection = cashflows.CFCollection()
     fixed_stream = cfcollection.streams.add()
@@ -123,35 +145,52 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
         single.simple.currency = ccy
         single.simple.amount = fixed_leg_scalars[i]
         single.simple.payment_date = fixed_schedule.adjusted_payment_dates[i]
+        single.simple.discounting_index_family = template['fixed_discounting_index_family']
 
     float_stream = cfcollection.streams.add()
     float_stream.factor = -fixed_leg_sign
     for i in range(0, len(floating_schedule.adjusted_start_dates)):
         single = float_stream.cashflows.add()
-        single.floating.currency = ccy
-        single.floating.day_count_fraction = template['floating_day_fraction']
-        single.floating.payment_date = floating_schedule.adjusted_payment_dates[i]
-        floating_period = single.floating.floating_periods.add()
-        floating_period.notional = notional
-        floating_period.accrual_start_date = floating_schedule.adjusted_start_dates[i]
-        floating_period.accrual_end_date = floating_schedule.adjusted_end_dates[i]
-        floating_period.index = template['floating_index']
-        floating_period.tenor = template['floating_tenor']
-        floating_period.spread = 0.0
-
+        is_ois = template['is_ois']
+        if not is_ois:
+            single.floating.currency = ccy
+            single.floating.day_count_fraction = template['floating_day_fraction']
+            single.floating.payment_date = floating_schedule.adjusted_payment_dates[i]
+            floating_period = single.floating.floating_periods.add()
+            floating_period.notional = notional
+            floating_period.accrual_start_date = floating_schedule.adjusted_start_dates[i]
+            floating_period.accrual_end_date = floating_schedule.adjusted_end_dates[i]
+            floating_period.index = template['floating_index']
+            floating_period.tenor = template['floating_tenor']
+            floating_period.spread = 0.0
+        else:
+            single.ois.index = template['floating_index']
+            single.ois.notional = notional
+            single.ois.accrual_start_date = floating_schedule.adjusted_start_dates[i]
+            single.ois.accrual_end_date = floating_schedule.adjusted_end_dates[i]
+            single.ois.payment_date = floating_schedule.adjusted_payment_dates[i]
+            single.ois.day_count_fraction = template['floating_day_fraction']
     return cfcollection
 
-class MarketData:
 
-    def __init__(self, date):
+class MarketData:
+    """
+    The MarketData object encapsulates the market data required for valuation
+
+    The MarketData object provides utilities for loading market data from
+    CSV format files.
+    """
+
+    def __init__(self, date, curve_group):
         if not isinstance(date, redukti.Date):
             raise ValueError('A business date must be supplied')
         self._curve_definitions = None
         self._par_curve_set = None
         self._fixings = None
         self._business_date = date
-        self._yield_curves = None # Redukti YieldCurve instances 
-        self._zero_curves_by_id = {} # Bootstrapped raw curves
+        self._curve_group = curve_group
+        self._yield_curves = None  # Redukti YieldCurve instances
+        self._zero_curves_by_id = {}  # Bootstrapped raw curves
 
     def read_curvedefinitions(self, filename):
         defs = []
@@ -160,8 +199,11 @@ class MarketData:
             for row in csv_reader:
                 if row[0] == 'group':
                     continue
+                curve_group = enums.CurveGroup.Value('CURVE_GROUP_' + row[0])
+                if curve_group != self._curve_group:
+                    continue
                 definition = curve.IRCurveDefinition()
-                definition.curve_group = enums.CurveGroup.Value('CURVE_GROUP_' + row[0])
+                definition.curve_group = curve_group
                 definition.id = int(row[1])
                 definition.currency = enums.Currency.Value(row[2])
                 definition.index_family = enums.IndexFamily.Value(row[3])
@@ -224,7 +266,6 @@ class MarketData:
                 tenor = enums.Tenor.Value('TENOR_' + row[1])
                 fixing_date = redukti.parse_date(row[2])
                 fixing = float(row[3])
-                fixings_by_index = None
                 if isda_index not in fixings:
                     fixings_by_index = valuation.FixingsByIndexTenor()
                     fixings_by_index.index = isda_index
@@ -232,7 +273,7 @@ class MarketData:
                     fixings[isda_index] = fixings_by_index
                 else:
                     fixings_by_index = fixings[isda_index]
-                fixings_by_index.fixings[fixing_date.serial()] = fixing 
+                fixings_by_index.fixings[fixing_date.serial()] = fixing
         self._fixings = fixings
 
     def find_curve_definition(self, id):
@@ -253,13 +294,14 @@ class MarketData:
             self._yield_curves.append(yc)
             self._zero_curves_by_id[definition_id] = zc
             print('Curve ' + str(definition_id) + ' created')
+        return self._yield_curves
 
     def curve_definitions(self):
         return self._curve_definitions
-    
+
     def yield_curves(self):
         return self._yield_curves
-    
+
     def find_zero_curve_by_id(self, definition_id):
         return self._zero_curves_by_id[definition_id]
 
@@ -272,9 +314,12 @@ class MarketData:
     def business_date(self):
         return self._business_date
 
-    def pricing_context(self, curve_group):
+    def curve_group(self):
+        return self._curve_group
+
+    def pricing_context(self):
         pricing_context = valuation.PricingContext()
-        pricing_context.curve_group = curve_group
+        pricing_context.curve_group = self._curve_group
         pricing_context.as_of_date = self._business_date.serial()
         pricing_context.qualifier = enums.MDQ_NORMAL
         pricing_context.cycle = 0
@@ -285,6 +330,7 @@ class MarketData:
         pricing_context.to_scenario = 0
         return pricing_context
 
+
 def load_market_data(business_date, curve_definitions_filename, par_rates_filename, fixings_filename=None):
     market_data = MarketData(business_date)
     market_data.read_curvedefinitions(curve_definitions_filename)
@@ -293,46 +339,88 @@ def load_market_data(business_date, curve_definitions_filename, par_rates_filena
         market_data.read_fixings(fixings_filename)
     return market_data
 
+
 class ServerCommand:
+    """The ServerCommand object encapsulates interactions withe OpenRedukti Valuation Server
+
+    It communicates with the OpenRedukti Valuation server using gRPC protocol.
+    All requests and responses to/from the server are in Google Protocol Buffers format.
+    """
 
     def __init__(self, address):
+        """Creates a new ServerCommand object with specified address
+
+        Args:
+            address: Must be in host:port format
+        """
         self._address = address
-    
+
     def reset_valuation_service(self):
+        """Resets all data held by the OpenRedukti valuation server
+
+        Returns:
+            None
+
+        Raises:
+            RuntimeError if there was a problem
+        """
         with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             request = services_pb2.Request()
             request.reset_valuation_service_request.SetInParent()
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
+                raise RuntimeError(response.header.response_message)
             return None
 
-    def hello(self, name):
+    def hello(self, echo_string):
+        """Invokes the hello service
+
+        Args:
+            echo_string: An input string that will be echoed back by the server
+
+        Returns:
+            An instance of HelloReply message
+        """
         with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             request = services_pb2.Request()
-            request.hello_request.name = name
+            request.hello_request.name = echo_string
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
+                raise RuntimeError(response.header.response_message)
             return response.hello_reply.message
 
     def shutdown_valuation_service(self):
+        """Shuts down the valuation service
+
+        Note that if you invoke this the valuation server will shutdown
+        and will need to restarted
+
+        Returns:
+            None
+        """
         with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             request = services_pb2.Request()
             request.shutdown_request.password = "password"
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
-            return response.hello_reply.message
+                raise RuntimeError(response.header.response_message)
 
     def build_curves(self, market_data):
+        """Invokes the curve building service and returns the resulting yield curves
+
+        Args:
+            market_data: MarketData instance that will be used to source curve definitions and market quotes (par rates)
+
+        Returns:
+            A list of yield curves upon success
+        """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             request = services_pb2.Request()
             request.bootstrap_curves_request.business_date = market_data._business_date.serial()
             request.bootstrap_curves_request.curve_definitions.extend(market_data._curve_definitions)
@@ -340,10 +428,19 @@ class ServerCommand:
             print('Building curves, please wait.')
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
+                raise RuntimeError(response.header.response_message)
             return market_data.init_zero_curves(response.bootstrap_curves_reply)
 
     def register_curve_mappings(self, curve_group, curve_mappings):
+        """Registers the list of curve mappings with the OpenRedukti valuation server
+
+        Args:
+            curve_group: Curve group
+            curve_mappings: The list of curve mappings, each mapping must be of type valuation_pb2.CurveMapping.
+
+        Returns:
+            None
+        """
         with grpc.insecure_channel(self._address) as channel:
             stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             print('Registering curve mappings')
@@ -352,9 +449,10 @@ class ServerCommand:
             request.set_curve_mappings_request.mappings.extend(curve_mappings)
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
+                raise RuntimeError(response.header.response_message)
 
-    def register_curve_definitions(self, stub, market_data):
+    @staticmethod
+    def register_curve_definitions(stub, market_data):
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering curve definitions')
@@ -362,9 +460,10 @@ class ServerCommand:
         request.register_curve_definitions_request.curve_definitions.extend(market_data.curve_definitions())
         response = stub.serve(request)
         if response.header.response_code != 0:
-            raise Exception(response.header.response_message)
+            raise RuntimeError(response.header.response_message)
 
-    def register_zero_curves(self, stub, curve_group, market_data, forward_curves_list, discount_curve_list):
+    @staticmethod
+    def register_zero_curves(stub, market_data, forward_curves_list, discount_curve_list):
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering zero curves')
@@ -383,12 +482,13 @@ class ServerCommand:
         request.set_zero_curves_request.cycle = 0
         request.set_zero_curves_request.qualifier = enums.MDQ_NORMAL
         request.set_zero_curves_request.scenario = 0
-        request.set_zero_curves_request.curve_group = curve_group
+        request.set_zero_curves_request.curve_group = market_data.curve_group()
         response = stub.serve(request)
         if response.header.response_code != 0:
-            raise Exception(response.header.response_message)
+            raise RuntimeError(response.header.response_message)
 
-    def register_fixings(self, stub, market_data):
+    @staticmethod
+    def register_fixings(stub, market_data):
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering fixings')
@@ -398,23 +498,42 @@ class ServerCommand:
             request.set_fixings_request.fixings_by_index_tenor.CopyFrom(entry)
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
+                raise RuntimeError(response.header.response_message)
 
-    def register_market_data(self, curve_group, market_data, forward_curves_list, discount_curve_list):
+    def register_market_data(self, market_data, forward_curves_list, discount_curve_list):
+        """Registers a set of market data with the OpenRedukti server
+
+        Args:
+            market_data: Instance of MarketData
+            forward_curves_list: List of curve ids that should be registered as forward curves
+            discount_curve_list: List of curve ids that should be registered as discount curves
+
+        Returns:
+            None
+        """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)        
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             self.register_curve_definitions(stub, market_data)
-            self.register_zero_curves(stub, curve_group, market_data, forward_curves_list, discount_curve_list)            
+            self.register_zero_curves(stub, market_data, forward_curves_list, discount_curve_list)
             if market_data.has_fixings():
-                self.register_fixings(stub, market_data)         
+                self.register_fixings(stub, market_data)
 
     def get_valuation(self, pricing_context, cfcollection):
+        """Request Valuation for a set of cashflows
+
+        Args:
+            pricing_context: valuation_pb2.PricingContext instance
+            cfcollection: cashflow_pb2.CFCollection instance
+
+        Returns:
+            The valuation service reply
+        """
         if not isinstance(pricing_context, valuation.PricingContext):
             raise ValueError('pricing_context must of of type valuation_pb2.PricingContext')
         if not isinstance(cfcollection, cashflows.CFCollection):
-            raise ValueError('cfcollection must be of type cashflows_pb2.CFCollection') 
+            raise ValueError('cfcollection must be of type cashflow_pb2.CFCollection')
         with grpc.insecure_channel(self._address) as channel:
             stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
             print('Requesting valuation')
@@ -423,5 +542,52 @@ class ServerCommand:
             request.valuation_request.cashflows.CopyFrom(cfcollection)
             response = stub.serve(request)
             if response.header.response_code != 0:
-                raise Exception(response.header.response_message)
-            return response.valuation_reply         
+                raise RuntimeError(response.header.response_message)
+            return response.valuation_reply
+
+    def register_calendar(self, business_center_id, holidays_list):
+        """Registers a calendar for specified business center id
+
+        Note that a calendar can only be registered at system start
+        This is because calendars may be joined with other calendars and therefore
+        once a calendar is in use it cannot be safely replaced
+
+        Args:
+            business_center_id: Business Center id for which calendar is being registered
+            holidays_list: List containing redukti.Date objects
+
+        Returns:
+            None
+        """
+        request = services_pb2.Request()
+        for day in holidays_list:
+            if not isinstance(day, redukti.Date):
+                raise ValueError('Holidays must be a list of redukti.Date objects')
+            request.register_calendar_request.holidays.append(day.serial())
+        request.register_calendar_request.business_center = business_center_id
+        with grpc.insecure_channel(self._address) as channel:
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
+            print('Registering calendar ' + str(business_center_id))
+            response = stub.serve(request)
+            if response.header.response_code != 0:
+                raise RuntimeError(response.header.response_message)
+
+    def register_index_definition(self, index_definition):
+        """Registers an index definition with the server
+
+        Args:
+            index_definition: An instance of index_pb2.IndexDefinition
+
+        Returns:
+            None
+        """
+        if not isinstance(index_definition, index.IndexDefinition):
+            raise ValueError('index_definition must be of index.IndexDefinition type')
+        with grpc.insecure_channel(self._address) as channel:
+            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
+            print('Registering index')
+            request = services_pb2.Request()
+            request.register_index_definition_request.index_definition = index_definition
+            response = stub.serve(request)
+            if response.header.response_code != 0:
+                raise RuntimeError(response.header.response_message)

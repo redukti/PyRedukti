@@ -58,6 +58,12 @@ class TestDate(unittest.TestCase):
         d3 = calendar.advance(d, -1, enums.DAYS)
         self.assertEqual(d3.serial(), redukti.Date.from_dmy(14,6,2019).serial())
         #d3 = calendar.advance(d, -1, 90)
+        result = redukti.Calendar.register_calendar(enums.CATO, [redukti.Date.from_dmy(14,6,2019)])
+        self.assertTrue(result)
+        calendar = redukti.Calendar([enums.CATO])
+        self.assertTrue(calendar.is_holiday(d))
+        self.assertTrue(calendar.is_holiday(d3))
+        self.assertFalse(calendar.is_holiday(redukti.Date(d3.serial()-1)))
 
     def test_daycountfraction_basics(self):
         dfc = redukti.DayFraction(enums.ACT_365_FIXED)

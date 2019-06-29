@@ -15,6 +15,8 @@ _sym_db = _symbol_database.Default()
 
 from redukti import enums_pb2 as redukti_dot_enums__pb2
 from redukti import infra_pb2 as redukti_dot_infra__pb2
+from redukti import calendar_pb2 as redukti_dot_calendar__pb2
+from redukti import index_pb2 as redukti_dot_index__pb2
 from redukti import valuation_pb2 as redukti_dot_valuation__pb2
 from redukti import bootstrap_pb2 as redukti_dot_bootstrap__pb2
 
@@ -24,9 +26,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='redukti',
   syntax='proto3',
   serialized_options=_b('\n\021com.redukti.typesB\005TypesP\001\370\001\001\252\002\rRedukti.Types'),
-  serialized_pb=_b('\n\x16redukti/services.proto\x12\x07redukti\x1a\x13redukti/enums.proto\x1a\x13redukti/infra.proto\x1a\x17redukti/valuation.proto\x1a\x17redukti/bootstrap.proto\"{\n\rRequestHeader\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tuser_role\x18\x02 \x01(\t\x12\x11\n\tpage_size\x18\x03 \x01(\x05\x12\x1d\n\x15requested_page_number\x18\x04 \x01(\x05\x12\x14\n\x0crequest_time\x18\x05 \x01(\x03\"\xd2\x01\n\x0eResponseHeader\x12\x34\n\rresponse_code\x18\x01 \x01(\x0e\x32\x1d.redukti.StandardResponseCode\x12\x18\n\x10response_message\x18\x02 \x01(\t\x12\x19\n\x11response_sub_code\x18\x03 \x01(\x05\x12\x13\n\x0bpage_number\x18\x04 \x01(\x05\x12\x11\n\tpage_size\x18\x05 \x01(\x05\x12\x17\n\x0f\x61vailable_pages\x18\x06 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x07 \x01(\x03\"\xd9\x05\n\x07Request\x12&\n\x06header\x18\x01 \x01(\x0b\x32\x16.redukti.RequestHeader\x12.\n\rhello_request\x18\x02 \x01(\x0b\x32\x15.redukti.HelloRequestH\x00\x12\x43\n\x18\x62ootstrap_curves_request\x18\x16 \x01(\x0b\x32\x1f.redukti.BootstrapCurvesRequestH\x00\x12I\n\x1b\x63urve_interpolation_request\x18\x17 \x01(\x0b\x32\".redukti.CurveInterpolationRequestH\x00\x12\x46\n\x1aset_curve_mappings_request\x18\x1b \x01(\x0b\x32 .redukti.SetCurveMappingsRequestH\x00\x12@\n\x17set_zero_curves_request\x18\x1d \x01(\x0b\x32\x1d.redukti.SetZeroCurvesRequestH\x00\x12V\n\"register_curve_definitions_request\x18\x1e \x01(\x0b\x32(.redukti.RegisterCurveDefinitionsRequestH\x00\x12\x39\n\x13set_fixings_request\x18\x1f \x01(\x0b\x32\x1a.redukti.SetFixingsRequestH\x00\x12\x36\n\x11valuation_request\x18  \x01(\x0b\x32\x19.redukti.ValuationRequestH\x00\x12\x34\n\x10shutdown_request\x18\x31 \x01(\x0b\x32\x18.redukti.ShutdownRequestH\x00\x12P\n\x1freset_valuation_service_request\x18; \x01(\x0b\x32%.redukti.ResetValuationServiceRequestH\x00\x42\t\n\x07request\"\xb4\x05\n\x08Response\x12\'\n\x06header\x18\x01 \x01(\x0b\x32\x17.redukti.ResponseHeader\x12*\n\x0bhello_reply\x18\x02 \x01(\x0b\x32\x13.redukti.HelloReplyH\x00\x12?\n\x16\x62ootstrap_curves_reply\x18\x16 \x01(\x0b\x32\x1d.redukti.BootstrapCurvesReplyH\x00\x12\x45\n\x19\x63urve_interpolation_reply\x18\x17 \x01(\x0b\x32 .redukti.CurveInterpolationReplyH\x00\x12\x42\n\x18set_curve_mappings_reply\x18\x1b \x01(\x0b\x32\x1e.redukti.SetCurveMappingsReplyH\x00\x12<\n\x15set_zero_curves_reply\x18\x1d \x01(\x0b\x32\x1b.redukti.SetZeroCurvesReplyH\x00\x12R\n register_curve_definitions_reply\x18\x1e \x01(\x0b\x32&.redukti.RegisterCurveDefinitionsReplyH\x00\x12\x35\n\x11set_fixings_reply\x18\x1f \x01(\x0b\x32\x18.redukti.SetFixingsReplyH\x00\x12\x32\n\x0fvaluation_reply\x18  \x01(\x0b\x32\x17.redukti.ValuationReplyH\x00\x12\x30\n\x0eshutdown_reply\x18\x31 \x01(\x0b\x32\x16.redukti.ShutdownReplyH\x00\x12L\n\x1dreset_valuation_service_reply\x18; \x01(\x0b\x32#.redukti.ResetValuationServiceReplyH\x00\x42\n\n\x08response2E\n\x13OpenReduktiServices\x12.\n\x05serve\x12\x10.redukti.Request\x1a\x11.redukti.Response\"\x00\x42/\n\x11\x63om.redukti.typesB\x05TypesP\x01\xf8\x01\x01\xaa\x02\rRedukti.Typesb\x06proto3')
+  serialized_pb=_b('\n\x16redukti/services.proto\x12\x07redukti\x1a\x13redukti/enums.proto\x1a\x13redukti/infra.proto\x1a\x16redukti/calendar.proto\x1a\x13redukti/index.proto\x1a\x17redukti/valuation.proto\x1a\x17redukti/bootstrap.proto\"{\n\rRequestHeader\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tuser_role\x18\x02 \x01(\t\x12\x11\n\tpage_size\x18\x03 \x01(\x05\x12\x1d\n\x15requested_page_number\x18\x04 \x01(\x05\x12\x14\n\x0crequest_time\x18\x05 \x01(\x03\"\xd2\x01\n\x0eResponseHeader\x12\x34\n\rresponse_code\x18\x01 \x01(\x0e\x32\x1d.redukti.StandardResponseCode\x12\x18\n\x10response_message\x18\x02 \x01(\t\x12\x19\n\x11response_sub_code\x18\x03 \x01(\x05\x12\x13\n\x0bpage_number\x18\x04 \x01(\x05\x12\x11\n\tpage_size\x18\x05 \x01(\x05\x12\x17\n\x0f\x61vailable_pages\x18\x06 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x07 \x01(\x03\"\xf6\x06\n\x07Request\x12&\n\x06header\x18\x01 \x01(\x0b\x32\x16.redukti.RequestHeader\x12.\n\rhello_request\x18\x02 \x01(\x0b\x32\x15.redukti.HelloRequestH\x00\x12\x43\n\x18\x62ootstrap_curves_request\x18\x16 \x01(\x0b\x32\x1f.redukti.BootstrapCurvesRequestH\x00\x12I\n\x1b\x63urve_interpolation_request\x18\x17 \x01(\x0b\x32\".redukti.CurveInterpolationRequestH\x00\x12\x46\n\x1aset_curve_mappings_request\x18\x1b \x01(\x0b\x32 .redukti.SetCurveMappingsRequestH\x00\x12@\n\x17set_zero_curves_request\x18\x1d \x01(\x0b\x32\x1d.redukti.SetZeroCurvesRequestH\x00\x12V\n\"register_curve_definitions_request\x18\x1e \x01(\x0b\x32(.redukti.RegisterCurveDefinitionsRequestH\x00\x12\x39\n\x13set_fixings_request\x18\x1f \x01(\x0b\x32\x1a.redukti.SetFixingsRequestH\x00\x12\x36\n\x11valuation_request\x18  \x01(\x0b\x32\x19.redukti.ValuationRequestH\x00\x12\x34\n\x10shutdown_request\x18\x31 \x01(\x0b\x32\x18.redukti.ShutdownRequestH\x00\x12P\n\x1freset_valuation_service_request\x18; \x01(\x0b\x32%.redukti.ResetValuationServiceRequestH\x00\x12T\n!register_index_definition_request\x18= \x01(\x0b\x32\'.redukti.RegisterIndexDefinitionRequestH\x00\x12\x45\n\x19register_calendar_request\x18> \x01(\x0b\x32 .redukti.RegisterCalendarRequestH\x00\x42\t\n\x07request\"\xc9\x06\n\x08Response\x12\'\n\x06header\x18\x01 \x01(\x0b\x32\x17.redukti.ResponseHeader\x12*\n\x0bhello_reply\x18\x02 \x01(\x0b\x32\x13.redukti.HelloReplyH\x00\x12?\n\x16\x62ootstrap_curves_reply\x18\x16 \x01(\x0b\x32\x1d.redukti.BootstrapCurvesReplyH\x00\x12\x45\n\x19\x63urve_interpolation_reply\x18\x17 \x01(\x0b\x32 .redukti.CurveInterpolationReplyH\x00\x12\x42\n\x18set_curve_mappings_reply\x18\x1b \x01(\x0b\x32\x1e.redukti.SetCurveMappingsReplyH\x00\x12<\n\x15set_zero_curves_reply\x18\x1d \x01(\x0b\x32\x1b.redukti.SetZeroCurvesReplyH\x00\x12R\n register_curve_definitions_reply\x18\x1e \x01(\x0b\x32&.redukti.RegisterCurveDefinitionsReplyH\x00\x12\x35\n\x11set_fixings_reply\x18\x1f \x01(\x0b\x32\x18.redukti.SetFixingsReplyH\x00\x12\x32\n\x0fvaluation_reply\x18  \x01(\x0b\x32\x17.redukti.ValuationReplyH\x00\x12\x30\n\x0eshutdown_reply\x18\x31 \x01(\x0b\x32\x16.redukti.ShutdownReplyH\x00\x12L\n\x1dreset_valuation_service_reply\x18; \x01(\x0b\x32#.redukti.ResetValuationServiceReplyH\x00\x12P\n\x1fregister_index_definition_reply\x18= \x01(\x0b\x32%.redukti.RegisterIndexDefinitionReplyH\x00\x12\x41\n\x17register_calendar_reply\x18> \x01(\x0b\x32\x1e.redukti.RegisterCalendarReplyH\x00\x42\n\n\x08response2E\n\x13OpenReduktiServices\x12.\n\x05serve\x12\x10.redukti.Request\x1a\x11.redukti.Response\"\x00\x42/\n\x11\x63om.redukti.typesB\x05TypesP\x01\xf8\x01\x01\xaa\x02\rRedukti.Typesb\x06proto3')
   ,
-  dependencies=[redukti_dot_enums__pb2.DESCRIPTOR,redukti_dot_infra__pb2.DESCRIPTOR,redukti_dot_valuation__pb2.DESCRIPTOR,redukti_dot_bootstrap__pb2.DESCRIPTOR,])
+  dependencies=[redukti_dot_enums__pb2.DESCRIPTOR,redukti_dot_infra__pb2.DESCRIPTOR,redukti_dot_calendar__pb2.DESCRIPTOR,redukti_dot_index__pb2.DESCRIPTOR,redukti_dot_valuation__pb2.DESCRIPTOR,redukti_dot_bootstrap__pb2.DESCRIPTOR,])
 
 
 
@@ -85,8 +87,8 @@ _REQUESTHEADER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=127,
-  serialized_end=250,
+  serialized_start=172,
+  serialized_end=295,
 )
 
 
@@ -158,8 +160,8 @@ _RESPONSEHEADER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=253,
-  serialized_end=463,
+  serialized_start=298,
+  serialized_end=508,
 )
 
 
@@ -247,6 +249,20 @@ _REQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='register_index_definition_request', full_name='redukti.Request.register_index_definition_request', index=11,
+      number=61, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='register_calendar_request', full_name='redukti.Request.register_calendar_request', index=12,
+      number=62, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -262,8 +278,8 @@ _REQUEST = _descriptor.Descriptor(
       name='request', full_name='redukti.Request.request',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=466,
-  serialized_end=1195,
+  serialized_start=511,
+  serialized_end=1397,
 )
 
 
@@ -351,6 +367,20 @@ _RESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='register_index_definition_reply', full_name='redukti.Response.register_index_definition_reply', index=11,
+      number=61, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='register_calendar_reply', full_name='redukti.Response.register_calendar_reply', index=12,
+      number=62, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -366,8 +396,8 @@ _RESPONSE = _descriptor.Descriptor(
       name='response', full_name='redukti.Response.response',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=1198,
-  serialized_end=1890,
+  serialized_start=1400,
+  serialized_end=2241,
 )
 
 _RESPONSEHEADER.fields_by_name['response_code'].enum_type = redukti_dot_enums__pb2._STANDARDRESPONSECODE
@@ -382,6 +412,8 @@ _REQUEST.fields_by_name['set_fixings_request'].message_type = redukti_dot_valuat
 _REQUEST.fields_by_name['valuation_request'].message_type = redukti_dot_valuation__pb2._VALUATIONREQUEST
 _REQUEST.fields_by_name['shutdown_request'].message_type = redukti_dot_infra__pb2._SHUTDOWNREQUEST
 _REQUEST.fields_by_name['reset_valuation_service_request'].message_type = redukti_dot_valuation__pb2._RESETVALUATIONSERVICEREQUEST
+_REQUEST.fields_by_name['register_index_definition_request'].message_type = redukti_dot_index__pb2._REGISTERINDEXDEFINITIONREQUEST
+_REQUEST.fields_by_name['register_calendar_request'].message_type = redukti_dot_calendar__pb2._REGISTERCALENDARREQUEST
 _REQUEST.oneofs_by_name['request'].fields.append(
   _REQUEST.fields_by_name['hello_request'])
 _REQUEST.fields_by_name['hello_request'].containing_oneof = _REQUEST.oneofs_by_name['request']
@@ -412,6 +444,12 @@ _REQUEST.fields_by_name['shutdown_request'].containing_oneof = _REQUEST.oneofs_b
 _REQUEST.oneofs_by_name['request'].fields.append(
   _REQUEST.fields_by_name['reset_valuation_service_request'])
 _REQUEST.fields_by_name['reset_valuation_service_request'].containing_oneof = _REQUEST.oneofs_by_name['request']
+_REQUEST.oneofs_by_name['request'].fields.append(
+  _REQUEST.fields_by_name['register_index_definition_request'])
+_REQUEST.fields_by_name['register_index_definition_request'].containing_oneof = _REQUEST.oneofs_by_name['request']
+_REQUEST.oneofs_by_name['request'].fields.append(
+  _REQUEST.fields_by_name['register_calendar_request'])
+_REQUEST.fields_by_name['register_calendar_request'].containing_oneof = _REQUEST.oneofs_by_name['request']
 _RESPONSE.fields_by_name['header'].message_type = _RESPONSEHEADER
 _RESPONSE.fields_by_name['hello_reply'].message_type = redukti_dot_infra__pb2._HELLOREPLY
 _RESPONSE.fields_by_name['bootstrap_curves_reply'].message_type = redukti_dot_bootstrap__pb2._BOOTSTRAPCURVESREPLY
@@ -423,6 +461,8 @@ _RESPONSE.fields_by_name['set_fixings_reply'].message_type = redukti_dot_valuati
 _RESPONSE.fields_by_name['valuation_reply'].message_type = redukti_dot_valuation__pb2._VALUATIONREPLY
 _RESPONSE.fields_by_name['shutdown_reply'].message_type = redukti_dot_infra__pb2._SHUTDOWNREPLY
 _RESPONSE.fields_by_name['reset_valuation_service_reply'].message_type = redukti_dot_valuation__pb2._RESETVALUATIONSERVICEREPLY
+_RESPONSE.fields_by_name['register_index_definition_reply'].message_type = redukti_dot_index__pb2._REGISTERINDEXDEFINITIONREPLY
+_RESPONSE.fields_by_name['register_calendar_reply'].message_type = redukti_dot_calendar__pb2._REGISTERCALENDARREPLY
 _RESPONSE.oneofs_by_name['response'].fields.append(
   _RESPONSE.fields_by_name['hello_reply'])
 _RESPONSE.fields_by_name['hello_reply'].containing_oneof = _RESPONSE.oneofs_by_name['response']
@@ -453,6 +493,12 @@ _RESPONSE.fields_by_name['shutdown_reply'].containing_oneof = _RESPONSE.oneofs_b
 _RESPONSE.oneofs_by_name['response'].fields.append(
   _RESPONSE.fields_by_name['reset_valuation_service_reply'])
 _RESPONSE.fields_by_name['reset_valuation_service_reply'].containing_oneof = _RESPONSE.oneofs_by_name['response']
+_RESPONSE.oneofs_by_name['response'].fields.append(
+  _RESPONSE.fields_by_name['register_index_definition_reply'])
+_RESPONSE.fields_by_name['register_index_definition_reply'].containing_oneof = _RESPONSE.oneofs_by_name['response']
+_RESPONSE.oneofs_by_name['response'].fields.append(
+  _RESPONSE.fields_by_name['register_calendar_reply'])
+_RESPONSE.fields_by_name['register_calendar_reply'].containing_oneof = _RESPONSE.oneofs_by_name['response']
 DESCRIPTOR.message_types_by_name['RequestHeader'] = _REQUESTHEADER
 DESCRIPTOR.message_types_by_name['ResponseHeader'] = _RESPONSEHEADER
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
@@ -496,8 +542,8 @@ _OPENREDUKTISERVICES = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=1892,
-  serialized_end=1961,
+  serialized_start=2243,
+  serialized_end=2312,
   methods=[
   _descriptor.MethodDescriptor(
     name='serve',

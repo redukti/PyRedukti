@@ -39,5 +39,6 @@ cdef extern from "calendars.h" namespace "redukti":
         const Calendar *get_calendar(enums.BusinessCenter id)
         Calendar *get_calendar(JointCalendarParameters calendars)
         Calendar *get_calendar(JointCalendarParameters calendars, enums.JointCalendarRule rule)
+        bint set_calendar(enums.BusinessCenter id, const int *holidays, size_t n)
 
     cdef CalendarService *get_calendar_factory()
