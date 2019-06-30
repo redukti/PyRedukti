@@ -11,7 +11,7 @@
 # The contents of this file are subject to the the GNU General Public License
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
-# cython: language_level=3, embedsignature=True
+#cython: language_level=3, embedsignature=True
 
 """
 Implements the interface to OpenRedukti classes and functions
@@ -23,9 +23,11 @@ from redukti import schedule_pb2
 from libcpp.string cimport string
 from cpython cimport array
 import array
+cimport cython
 
 cdef class ADVar:
-    """ADVar represents an automatically differentiated variable.
+    """
+    ADVar represents an automatically differentiated variable.
 
     An ADVar object contains a numeric value, but additionally it may
     contain a gradient vector and a 2-dimensional hessian matrix. 
@@ -42,7 +44,8 @@ cdef class ADVar:
     cdef int _order
 
     def __cinit__(self, int n_vars, int order, int variable, double initial_value):
-        """Construct a new ADVar variable.
+        """
+        Construct a new ADVar variable.
 
         Args:
             n_vars: Number of variables in the function
@@ -66,7 +69,8 @@ cdef class ADVar:
         PyMem_Free(self._ad)
 
     def assign(self, ADVar other):
-        """Sets this variables data to be the same as the ``other``.
+        """
+        Sets this variables data to be the same as the ``other``.
 
         Args:
             other: The variable to be copied from
@@ -80,7 +84,8 @@ cdef class ADVar:
 
     @staticmethod
     cdef dup(autodiff.redukti_adouble_t *value):
-        """Duplicates an autodiff value
+        """
+        Duplicates an autodiff value
         
         Args:
             value: The source that will be copied
@@ -97,12 +102,14 @@ cdef class ADVar:
         return copy
 
     def value(self):
-        """Returns the value of the variable.
+        """
+        Returns the value of the variable.
         """
         return autodiff.redukti_adouble_get_value(self._ad)
 
     def gradient(self):
-        """Returns the first order derivatives if available else empty list
+        """
+        Returns the first order derivatives if available else empty list
         """
         g = []
         if self._order == 0:
@@ -112,7 +119,8 @@ cdef class ADVar:
         return g
 
     def hessian(self):
-        """Returns the second order derivatives if available else empty list
+        """
+        Returns the second order derivatives if available else empty list
         """
         h = []
         if self._order < 2:
@@ -125,7 +133,8 @@ cdef class ADVar:
         return h
 
 cdef class Date:
-    """Holds a date value as the number of days since civil 1899-12-31.
+    """
+    Holds a date value as the number of days since civil 1899-12-31.
 
     Negative values indicate days prior to 1899-12-31.
     Note that OpenRedukti requires dates to be in the range ``1901-01-01`` and ``2199-12-31``.
@@ -152,12 +161,14 @@ cdef class Date:
 
     @staticmethod
     def from_dmy(unsigned d, unsigned m, int y):
-        """Constructs a Date object from day, month, year.
+        """
+        Constructs a Date object from day, month, year.
         """
         return Date(date.make_date(d, m, y))
 
 def dmy(unsigned d, unsigned m, int y):
-    """Constructs a Date object from day, month, year.
+    """
+    Constructs a Date object from day, month, year.
     """
     return Date(date.make_date(d, m, y))
 
@@ -166,7 +177,8 @@ cdef validate_periodunit(enums.PeriodUnit unit):
         raise ValueError('Invalid PeriodUnit specified')
 
 def advance(Date d, int n, enums.PeriodUnit unit):
-    """Adds or subtracts a period from a date.
+    """
+    Adds or subtracts a period from a date.
 
     When handling month periods it ensures that the day stays the same if possible,
     but if not (e.g. no 29th Feb in final date) then the day is adjusted to fit in the month
@@ -195,7 +207,8 @@ cdef bytes to_bytes(s):
         raise TypeError("Could not convert to bytes.")
 
 def parse_date(s):
-    """Parses a string representation of date.
+    """
+    Parses a string representation of date.
     
     The parser will detect seperator character '/' or '-'.
     The formats acceptable are 'yyyy/mm/dd', 'dd/mm/yyyy', 'yyyy-mm-dd', or 'dd-mm-yyyy'
@@ -260,7 +273,8 @@ def convert_to_date_array(list values):
     return date_array
 
 cdef class Calendar:
-    """Represents a Business/Holiday Calendar for a business center or a combination of business centers.
+    """
+    Represents a Business/Holiday Calendar for a business center or a combination of business centers.
 
     The Calendar interface provides the means to determine whether
     a given date is a holiday for a business center or not. Also
@@ -305,7 +319,8 @@ cdef class Calendar:
             raise ValueError('Unable to construct a calendar from given parameters')
 
     cpdef bint is_holiday(self, Date d):
-        """Determines if the given date is a holiday as per this calendar.
+        """
+        Determines if the given date is a holiday as per this calendar.
 
         Args:
             d: date to be checked
@@ -316,19 +331,21 @@ cdef class Calendar:
         return self._calendar.is_holiday(d.serial())
 
     def last_day_of_month(self, Date d):
-        """Computes the last business date of the month/year in given date
+        """
+        Computes the last business date of the month/year in given date
 
         Args:
             d: Date to be used to compute the last business day of month
 
-        Returns
+        Returns:
             New Date object representing the last business day of the month
         """
         return Date(self._calendar.end_of_month(d.serial()))
 
     def advance(self, Date date, int n, enums.PeriodUnit unit,
                 enums.BusinessDayConvention convention = enums.BusinessDayConvention.FOLLOWING, bint is_eom = False):
-        """Advances the given date by the given period and if the resulting date is a holiday then adjusts it to be on a business day.
+        """
+        Advances the given date by the given period and if the resulting date is a holiday then adjusts it to be on a business day.
         
         Args:
             date: Date from which new date is to be computed
@@ -344,7 +361,8 @@ cdef class Calendar:
         return Date(self._calendar.advance(date.serial(), n, unit, convention, is_eom))
 
     def adjust(self, Date date, enums.BusinessDayConvention convention = enums.BusinessDayConvention.FOLLOWING):
-        """If given date falls on holiday then a new date is computed that is a business day, else same date is returned
+        """
+        If given date falls on holiday then a new date is computed that is a business day, else same date is returned
 
         Args:
             date: Date to be checked
@@ -357,7 +375,8 @@ cdef class Calendar:
 
     @staticmethod
     def register_calendar(enums.BusinessCenter id, list holidays):
-        """Creates a calendar from a set of holidays and assign it to the business center
+        """
+        Creates a calendar from a set of holidays and assign it to the business center
 
         If the assignment is successful the service will take ownership of the instance
         May fail if calendar instance already set and has been
@@ -373,7 +392,8 @@ cdef validate_daycountfraction(enums.DayCountFraction dfc):
         raise ValueError('Invalid DayCountFraction specified')
 
 cdef class DayFraction:
-    """Day Count Fraction calculator.
+    """
+    Day Count Fraction calculator.
 
     Computes the difference between dates as per Day Count Convention.
     The difference is measured in factional units of a year, where one year 1.0.
@@ -386,7 +406,8 @@ cdef class DayFraction:
         self._dayfraction = dayfraction.get_day_fraction(dfc)
 
     cpdef double year_fraction(self, Date d1, Date d2):
-        """Calculates the day fraction between two dates
+        """
+        Calculates the day fraction between two dates
         
         Args:
             d1: First date
@@ -398,7 +419,8 @@ cdef class DayFraction:
         return self._dayfraction.year_fraction(d1.serial(), d2.serial())
 
     cpdef double year_fraction_with_finalperiod(self, Date d1, Date d2, bint final_period):
-        """Calculates the day fraction between two dates, only used for ``30E/360.ISDA``
+        """
+        Calculates the day fraction between two dates, only used for ``30E/360.ISDA``
 
         Args:
             d1: First date
@@ -411,7 +433,8 @@ cdef class DayFraction:
         return self._dayfraction.year_fraction(d1.serial(), d2.serial(), final_period)
 
     cpdef double year_fraction_with_refdates(self, Date d1, Date d2, Date ref_date1, Date ref_date2):
-        """Calculates the day fraction between two dates, Used only for ACT/ACT.ISMA
+        """
+        Calculates the day fraction between two dates, Used only for ACT/ACT.ISMA
 
         Args:
             d1: First date
@@ -445,7 +468,8 @@ cdef validate_interpolator_type(enums.InterpolatorType t):
         raise ValueError('Invalid InterpolatorType specified')
 
 cdef class InterestRateIndex:
-    """An interest rate index representation.
+    """
+    An interest rate index representation.
     
     An object of this type is immutable.
     """
@@ -609,7 +633,8 @@ cdef class CurveId:
         return self._id
 
 cdef class InterpolatedYieldCurve:
-    """YieldCurve that operates on top of an interpolator.
+    """
+    YieldCurve that operates on top of an interpolator.
 
     The curve can interpolate on discount factors or zero rates, except for 
     ``MonotoneConvex`` which can only interpolate on zero rates.
@@ -641,15 +666,54 @@ cdef class InterpolatedYieldCurve:
         self._yield_curve.reset(NULL)
 
     cpdef double discount(self, Date d):
+        """
+        Computes the discount factor for the given date
+
+        Args:
+            d: Date for which discount factor is desired
+
+        Returns:
+            Desired discount factor
+        """
+
         return self._yield_curve_ptr.discount(d.serial())
 
     cpdef double zero_rate(self, Date d):
+        """
+        Computes the continuously compounded zero rate for a given date
+
+        Args:
+            d: Date for which the zero rate is desired
+
+        Returns:
+            Continuously compounded zero rate at the given date
+        """
+
         return self._yield_curve_ptr.zero_rate(d.serial())
 
     cpdef double forward_rate(self, Date d1, Date d2):
+        """
+        Computes the forward rate between two dates
+
+        Args:
+            d1: Start date
+            d2: End date
+
+        Returns:
+            Forward rate for the specified dates
+        """
         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
 
     cpdef double time_from_reference(self, Date d):
+        """
+        Gets time from the curve's reference date to the given date expressed as a year fraction
+
+        Args:
+            d: date to be converted
+
+        Returns:
+            A double value expressing the time from curve's reference date
+        """
         return self._yield_curve_ptr.time_from_reference(d.serial())
 
     cdef ADVar get_sensitivities_(self, double x, allocator.FixedRegionAllocator *fixed_region_allocator):
@@ -661,6 +725,15 @@ cdef class InterpolatedYieldCurve:
         return ADVar.dup(sensitivities.get())
 
     cpdef ADVar get_sensitivities(self, double x):
+        """
+        Obtains sensitivities of x to the interpolator fixed points.
+
+        Args:
+            x: A value in the range of the interpolator's x-axis
+
+        Returns:
+            An ADVar containing first order and second order sensitivities depending upon how the interpolator was configured
+        """
         cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
         cdef size_t pos = fixed_region_allocator.pos()  # Since we can't use the FixedRegionAllocatorGuard in Cython
         try:
@@ -669,6 +742,15 @@ cdef class InterpolatedYieldCurve:
             fixed_region_allocator.pos(pos)
 
 cdef class SvenssonCurve:
+    """
+    Svensson YieldCurve - this is a parametric yield curve.
+
+    This parametric yield curve computes rates using a formula that uses six parameters.
+    For details please check documents on Svensson Yield curve.
+
+    As this is a parametric curve, it does not support computing rate sensitivities.
+    """
+
     cdef array.array _parameters
     cdef curve.YieldCurvePointerType _yield_curve
     cdef curve.YieldCurve *_yield_curve_ptr
@@ -691,18 +773,61 @@ cdef class SvenssonCurve:
         self._yield_curve.reset(NULL)
 
     cpdef double discount(self, Date d):
+        """
+        Computes the discount factor for the given date
+
+        Args:
+            d: Date for which discount factor is desired
+
+        Returns:
+            Desired discount factor
+        """
+
         return self._yield_curve_ptr.discount(d.serial())
 
     cpdef double zero_rate(self, Date d):
+        """
+        Computes the continuously compounded zero rate for a given date
+
+        Args:
+            d: Date for which the zero rate is desired
+
+        Returns:
+            Continuously compounded zero rate at the given date
+        """
+
         return self._yield_curve_ptr.zero_rate(d.serial())
 
     cpdef double forward_rate(self, Date d1, Date d2):
+        """
+        Computes the forward rate between two dates
+
+        Args:
+            d1: Start date
+            d2: End date
+
+        Returns:
+            Forward rate for the specified dates
+        """
+
         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
 
     cpdef double time_from_reference(self, Date d):
+        """
+        Gets time from the curve's reference date to the given date expressed as a year fraction
+
+        Args:
+            d: date to be converted
+
+        Returns:
+            A double value expressing the time from curve's reference date
+        """
         return self._yield_curve_ptr.time_from_reference(d.serial())
 
 cdef class YieldCurve:
+    """
+    """
+
     cdef curve.IRCurveDefinition _definition
     cdef curve.ZeroCurve _underlying_curve
     cdef curve.YieldCurvePointerType _yield_curve
@@ -727,13 +852,78 @@ cdef class YieldCurve:
         self._yield_curve.reset(NULL)
 
     cpdef double discount(self, Date d):
+        """
+        Computes the discount factor for the given date
+
+        Args:
+            d: Date for which discount factor is desired
+
+        Returns:
+            Desired discount factor
+        """
         return self._yield_curve_ptr.discount(d.serial())
 
     cpdef double zero_rate(self, Date d):
+        """
+        Computes the continuously compounded zero rate for a given date
+
+        Args:
+            d: Date for which the zero rate is desired
+
+        Returns:
+            Continuously compounded zero rate at the given date
+        """
         return self._yield_curve_ptr.zero_rate(d.serial())
 
     cpdef double forward_rate(self, Date d1, Date d2):
+        """
+        Computes the forward rate between two dates
+
+        Args:
+            d1: Start date
+            d2: End date
+
+        Returns:
+            Forward rate for the specified dates
+        """
+
         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
 
     cpdef double time_from_reference(self, Date d):
+        """
+        Gets time from the curve's reference date to the given date expressed as a year fraction
+
+        Args:
+            d: date to be converted
+
+        Returns:
+            A double value expressing the time from curve's reference date
+        """
         return self._yield_curve_ptr.time_from_reference(d.serial())
+
+    cdef ADVar get_sensitivities_(self, double x, allocator.FixedRegionAllocator *fixed_region_allocator):
+        cdef curve.CurveSensitivitiesPointerType sensitivities = self._yield_curve_ptr.get_sensitivities(x,
+                                                                                                         fixed_region_allocator)
+        cdef autodiff.redukti_adouble_t *data = sensitivities.get()
+        if data is NULL:
+            return None
+        return ADVar.dup(sensitivities.get())
+
+    cpdef ADVar get_sensitivities(self, double x):
+        """
+        Obtains sensitivities of x to the interpolator fixed points.
+        Note that this is only available on interpolated curves.
+        If you invoke this on a parametric curve you will get ``None`` as the answer.
+
+        Args:
+            x: A value in the range of the interpolator's x-axis
+
+        Returns:
+            An ADVar containing first order and second order sensitivities depending upon how the interpolator was configured
+        """
+        cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
+        cdef size_t pos = fixed_region_allocator.pos()  # Since we can't use the FixedRegionAllocatorGuard in Cython
+        try:
+            return self.get_sensitivities_(x, fixed_region_allocator)
+        finally:
+            fixed_region_allocator.pos(pos)
