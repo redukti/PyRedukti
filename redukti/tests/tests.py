@@ -20,7 +20,7 @@ import array
 class TestDate(unittest.TestCase):
 
     def test_date_basics(self):
-        x = redukti.Date.from_dmy(18,6,2019)
+        x = redukti.Date.dmy(18,6,2019)
         self.assertEqual(x.day(), 18)
         self.assertEqual(x.month(), 6)
         self.assertEqual(x.year(), 2019)
@@ -28,13 +28,13 @@ class TestDate(unittest.TestCase):
 
     def test_schedule_basics(self):
         x = schedule_pb2.ScheduleParameters()
-        x.effective_date = redukti.Date.from_dmy(1,1,2016).serial()
-        x.termination_date = redukti.Date.from_dmy(1,1,2017).serial()
+        x.effective_date = redukti.Date.dmy(1,1,2016).serial()
+        x.termination_date = redukti.Date.dmy(1,1,2017).serial()
         x.payment_frequency = enums.TENOR_3M
         x.payment_calendars.append(enums.GBLO)
         x.payment_calendars.append(enums.USNY)
         x.payment_convention = enums.MODIFIED_FOLLOWING
-        y = redukti.generate_schedule(x)
+        y = redukti.ScheduleGenerator.generate_schedule(x)
         # TODO Check following
         #adjusted_start_dates: 42370
         #adjusted_start_dates: 42461
@@ -51,14 +51,14 @@ class TestDate(unittest.TestCase):
 
     def test_calendar_basics(self):
         calendar = redukti.Calendar([enums.GBLO])
-        d = redukti.Date.from_dmy(16,6,2019)
+        d = redukti.Date.dmy(16,6,2019)
         self.assertTrue(calendar.is_holiday(d))
         d2 = calendar.advance(d, 1, enums.DAYS)
         self.assertEqual(d.serial()+1, d2.serial())
         d3 = calendar.advance(d, -1, enums.DAYS)
-        self.assertEqual(d3.serial(), redukti.Date.from_dmy(14,6,2019).serial())
+        self.assertEqual(d3.serial(), redukti.Date.dmy(14,6,2019).serial())
         #d3 = calendar.advance(d, -1, 90)
-        result = redukti.Calendar.register_calendar(enums.CATO, [redukti.Date.from_dmy(14,6,2019)])
+        result = redukti.Calendar.register_calendar(enums.CATO, [redukti.Date.dmy(14,6,2019)])
         self.assertTrue(result)
         calendar = redukti.Calendar([enums.CATO])
         self.assertTrue(calendar.is_holiday(d))
@@ -67,18 +67,18 @@ class TestDate(unittest.TestCase):
 
     def test_daycountfraction_basics(self):
         dfc = redukti.DayFraction(enums.ACT_365_FIXED)
-        d1 = redukti.Date.from_dmy(14,6,2019)
-        d2 = redukti.Date.from_dmy(13,6,2020)
+        d1 = redukti.Date.dmy(14,6,2019)
+        d2 = redukti.Date.dmy(13,6,2020)
         fraction = dfc.year_fraction(d1, d2)
         self.assertEqual(fraction, 1.0)
     
     def test_interestrateindex_basics(self):
         idx = redukti.InterestRateIndex.get_index(enums.USD, enums.LIBOR, enums.TENOR_1W)
-        dt = redukti.Date.from_dmy(23,10,2016)
+        dt = redukti.Date.dmy(23,10,2016)
         adjusted = idx.adjust_date(dt, 1)
-        self.assertEqual(adjusted.serial(), redukti.Date.from_dmy(24,10,2016).serial())
+        self.assertEqual(adjusted.serial(), redukti.Date.dmy(24,10,2016).serial())
         fixing_dt, value_dt, maturity_dt = idx.date_components(adjusted)
-        self.assertEqual(maturity_dt.serial(), redukti.Date.from_dmy(31,10,2016).serial())
+        self.assertEqual(maturity_dt.serial(), redukti.Date.dmy(31,10,2016).serial())
         self.assertEqual(value_dt.serial(), adjusted.serial())
 
     def test_interpolator_basics(self):
@@ -90,41 +90,41 @@ class TestDate(unittest.TestCase):
         print(interp.interpolate_with_sensitivities(0.035).gradient())
 
     def test_curve_basics(self):
-        maturities = [ redukti.dmy(14,12,2012),
-            redukti.dmy(15,12,2012),
-            redukti.dmy(20,12,2012),
-            redukti.dmy(27,12,2012),
-            redukti.dmy(3,1,2013),
-            redukti.dmy(13,1,2013),
-            redukti.dmy(13,2,2013),
-            redukti.dmy(13,3,2013),
-            redukti.dmy(13,4,2013),
-            redukti.dmy(13,5,2013),
-            redukti.dmy(13,6,2013),
-            redukti.dmy(13,7,2013),
-            redukti.dmy(13,8,2013),
-            redukti.dmy(13,9,2013),
-            redukti.dmy(13,10,2013),
-            redukti.dmy(13,11,2013),
-            redukti.dmy(13,12,2013),
-            redukti.dmy(13,3,2014),
-            redukti.dmy(13,6,2014),
-            redukti.dmy(13,9,2014),
-            redukti.dmy(13,12,2014),
-            redukti.dmy(13,12,2015),
-            redukti.dmy(13,12,2016),
-            redukti.dmy(13,12,2017),
-            redukti.dmy(13,12,2018),
-            redukti.dmy(13,12,2019),
-            redukti.dmy(13,12,2020),
-            redukti.dmy(13,12,2021),
-            redukti.dmy(13,12,2022),
-            redukti.dmy(13,12,2023),
-            redukti.dmy(13,12,2024),
-            redukti.dmy(13,12,2027),
-            redukti.dmy(13,12,2032),
-            redukti.dmy(13,12,2037),
-            redukti.dmy(13,12,2042)]
+        maturities = [ redukti.Date.dmy(14,12,2012),
+            redukti.Date.dmy(15,12,2012),
+            redukti.Date.dmy(20,12,2012),
+            redukti.Date.dmy(27,12,2012),
+            redukti.Date.dmy(3,1,2013),
+            redukti.Date.dmy(13,1,2013),
+            redukti.Date.dmy(13,2,2013),
+            redukti.Date.dmy(13,3,2013),
+            redukti.Date.dmy(13,4,2013),
+            redukti.Date.dmy(13,5,2013),
+            redukti.Date.dmy(13,6,2013),
+            redukti.Date.dmy(13,7,2013),
+            redukti.Date.dmy(13,8,2013),
+            redukti.Date.dmy(13,9,2013),
+            redukti.Date.dmy(13,10,2013),
+            redukti.Date.dmy(13,11,2013),
+            redukti.Date.dmy(13,12,2013),
+            redukti.Date.dmy(13,3,2014),
+            redukti.Date.dmy(13,6,2014),
+            redukti.Date.dmy(13,9,2014),
+            redukti.Date.dmy(13,12,2014),
+            redukti.Date.dmy(13,12,2015),
+            redukti.Date.dmy(13,12,2016),
+            redukti.Date.dmy(13,12,2017),
+            redukti.Date.dmy(13,12,2018),
+            redukti.Date.dmy(13,12,2019),
+            redukti.Date.dmy(13,12,2020),
+            redukti.Date.dmy(13,12,2021),
+            redukti.Date.dmy(13,12,2022),
+            redukti.Date.dmy(13,12,2023),
+            redukti.Date.dmy(13,12,2024),
+            redukti.Date.dmy(13,12,2027),
+            redukti.Date.dmy(13,12,2032),
+            redukti.Date.dmy(13,12,2037),
+            redukti.Date.dmy(13,12,2042)]
 
         values = [-0.000419352,
             0.000194959,
@@ -161,7 +161,7 @@ class TestDate(unittest.TestCase):
             0.020446036,
             0.021078048,
             0.021398632]
-        curve = redukti.InterpolatedYieldCurve(0, redukti.dmy(11,12,2012), maturities, values, enums.LINEAR, enums.ZERO_RATE, 2, enums.ACT_365_FIXED)
+        curve = redukti.InterpolatedYieldCurve(0, redukti.Date.dmy(11,12,2012), maturities, values, enums.LINEAR, enums.ZERO_RATE, 2, enums.ACT_365_FIXED)
 
 if __name__ == '__main__':
     unittest.main()

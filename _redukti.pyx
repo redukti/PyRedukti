@@ -132,6 +132,20 @@ cdef class ADVar:
                 list.append(g, autodiff.redukti_adouble_get_derivative2(self._ad, i, j))
         return h
 
+cdef validate_periodunit(enums.PeriodUnit unit):
+    if unit < 1 or unit > enums.YEARS:
+        raise ValueError('Invalid PeriodUnit specified')
+
+cdef bytes to_bytes(s):
+    if type(s) is unicode:
+        return s.encode('UTF-8')
+    elif isinstance(s, bytes):
+        return s
+    elif isinstance(s, unicode):
+        return bytes(s)
+    else:
+        raise TypeError("Could not convert to bytes.")
+
 cdef class Date:
     """
     Holds a date value as the number of days since civil 1899-12-31.
@@ -160,101 +174,89 @@ cdef class Date:
         return self._serial
 
     @staticmethod
-    def from_dmy(unsigned d, unsigned m, int y):
+    def dmy(unsigned d, unsigned m, int y):
         """
         Constructs a Date object from day, month, year.
         """
         return Date(date.make_date(d, m, y))
 
-def dmy(unsigned d, unsigned m, int y):
+    def advance(self, int n, enums.PeriodUnit unit):
+        """
+        Adds or subtracts a period from a date.
+
+        When handling month periods it ensures that the day stays the same if possible,
+        but if not (e.g. no 29th Feb in final date) then the day is adjusted to fit in the month
+        When handling year periods, the day and month are kept the same if possible
+        or adjusted as above.
+
+        Args:
+            d: Input date
+            n: quantity
+            unit: The unit of ``n``
+
+        Returns:
+            New Date object
+        """
+        validate_periodunit(unit)
+        return Date(date.advance(self.serial(), n, unit))
+
+    @staticmethod
+    def parse(s):
+        """
+        Parses a string representation of date.
+        
+        The parser will detect seperator character '/' or '-'.
+        The formats acceptable are 'yyyy/mm/dd', 'dd/mm/yyyy', 'yyyy-mm-dd', or 'dd-mm-yyyy'
+
+        Args:
+            s: Input string containing a date value in supported format
+
+        Returns:
+            Date object if parsing is successful
+
+        Raises:
+            ValueError: if input cannot be parsed
+        """
+        cdef int d
+        byte_s = to_bytes(s)
+        cdef const char*c_string = byte_s
+        if not date.parse_date(c_string, &d):
+            raise ValueError('Invalid date: cannot parse')
+        return Date(d)
+
+cdef class ScheduleGenerator:
     """
-    Constructs a Date object from day, month, year.
+    Utilities for generating schedules for interest rate products.
+    The algorithm is based upon the FpML specifications.
     """
-    return Date(date.make_date(d, m, y))
 
-cdef validate_periodunit(enums.PeriodUnit unit):
-    if unit < 1 or unit > enums.YEARS:
-        raise ValueError('Invalid PeriodUnit specified')
+    @staticmethod
+    def generate_schedule(schedule_parameters):
+        """
+        Generates a schedule
 
-def advance(Date d, int n, enums.PeriodUnit unit):
-    """
-    Adds or subtracts a period from a date.
+        Args:
+            schedule_parameters (schedule_pb2.ScheduleParameters): parameters for schedule generation  
 
-    When handling month periods it ensures that the day stays the same if possible,
-    but if not (e.g. no 29th Feb in final date) then the day is adjusted to fit in the month
-    When handling year periods, the day and month are kept the same if possible
-    or adjusted as above.
-
-    Args:
-        d: Input date
-        n: quantity
-        unit: The unit of ``n``
-
-    Returns:
-        New Date object
-    """
-    validate_periodunit(unit)
-    return Date(date.advance(d.serial(), n, unit))
-
-cdef bytes to_bytes(s):
-    if type(s) is unicode:
-        return s.encode('UTF-8')
-    elif isinstance(s, bytes):
-        return s
-    elif isinstance(s, unicode):
-        return bytes(s)
-    else:
-        raise TypeError("Could not convert to bytes.")
-
-def parse_date(s):
-    """
-    Parses a string representation of date.
-    
-    The parser will detect seperator character '/' or '-'.
-    The formats acceptable are 'yyyy/mm/dd', 'dd/mm/yyyy', 'yyyy-mm-dd', or 'dd-mm-yyyy'
-
-    Args:
-        s: Input string containing a date value in supported format
-
-    Returns:
-        Date object if parsing is successful
-
-    Raises:
-        ValueError: if input cannot be parsed
-    """
-    cdef int d
-    byte_s = to_bytes(s)
-    cdef const char*c_string = byte_s
-    if not date.parse_date(c_string, &d):
-        raise ValueError('Invalid date: cannot parse')
-    return Date(d)
-
-def generate_schedule(schedule_parameters):
-    """
-    Generates a schedule
-
-    Args:
-        schedule_parameters: Must be of protobuf type schedule_pb2.ScheduleParameters 
-
-    Returns:
-        An instance of schedule_pb2.Schedule
-    """
-    if not isinstance(schedule_parameters, schedule_pb2.ScheduleParameters):
-        raise ValueError('Input must be an instance of schedule_pb2.ScheduleParameters')
-    cdef string str = schedule_parameters.SerializeToString()
-    cdef schedule.ScheduleParameters _parameters
-    if not _parameters.ParseFromString(str):
-        raise ValueError("Cannot parse the schedule parameters")
-    cdef schedule.Schedule _schedule
-    status = schedule.build_schedule(_parameters, _schedule)
-    if not status == enums.ResponseSubCode.kOk:
-        raise Exception('Failed to generate schedule')
-    result = schedule_pb2.Schedule()
-    cdef string result_str
-    if not _schedule.SerializeToString(&result_str):
-        raise Exception('Failed to parse result from api call')
-    result.ParseFromString(result_str)
-    return result
+        Returns:
+            An instance of schedule_pb2.Schedule
+        """
+        if not isinstance(schedule_parameters, schedule_pb2.ScheduleParameters):
+            raise ValueError('Input must be an instance of schedule_pb2.ScheduleParameters')
+        cdef string str = schedule_parameters.SerializeToString()
+        cdef schedule.ScheduleParameters _parameters
+        if not _parameters.ParseFromString(str):
+            raise ValueError("Cannot parse the schedule parameters")
+        cdef schedule.Schedule _schedule
+        status = schedule.build_schedule(_parameters, _schedule)
+        if not status == enums.ResponseSubCode.kOk:
+            raise Exception('Failed to generate schedule')
+        result = schedule_pb2.Schedule()
+        cdef string result_str
+        if not _schedule.SerializeToString(&result_str):
+            raise Exception('Failed to parse result from api call')
+        result.ParseFromString(result_str)
+        return result
 
 cdef validate_business_centers(list business_centres):
     if len(business_centres) == 0:

@@ -117,7 +117,7 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     floating_schedule_params.payment_frequency = template['floating_payment_frequency']
     floating_schedule_params.payment_calendars.extend(template['payment_calendar'])
     floating_schedule_params.payment_convention = template['payment_day_convention']
-    floating_schedule = redukti.generate_schedule(floating_schedule_params)
+    floating_schedule = redukti.ScheduleGenerator.generate_schedule(floating_schedule_params)
 
     fixed_schedule_params = schedule.ScheduleParameters()
     fixed_schedule_params.effective_date = effective_date.serial()
@@ -125,7 +125,7 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     fixed_schedule_params.payment_frequency = template['fixed_payment_frequency']
     fixed_schedule_params.payment_calendars.extend(template['payment_calendar'])
     fixed_schedule_params.payment_convention = template['payment_day_convention']
-    fixed_schedule = redukti.generate_schedule(fixed_schedule_params)
+    fixed_schedule = redukti.ScheduleGenerator.generate_schedule(fixed_schedule_params)
 
     fixed_daycount = redukti.DayFraction(template['fixed_day_fraction'])
     if not fixed_daycount:
@@ -193,6 +193,11 @@ class MarketData:
         self._zero_curves_by_id = {}  # Bootstrapped raw curves
 
     def read_curvedefinitions(self, filename):
+        """
+        Reads Curve Definitions from a CSV format file
+
+        For an example file see: `https://github.com/redukti/PyRedukti/blob/master/testdata/20121211/curve_definitions.csv <https://github.com/redukti/PyRedukti/blob/master/testdata/20121211/curve_definitions.csv>`_
+        """
         defs = []
         with open(filename) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -224,6 +229,11 @@ class MarketData:
         self._curve_definitions = defs
 
     def read_parcurves(self, filename):
+        """
+        Loads market quotes from a CSV format file
+
+        For an example see: `https://github.com/redukti/PyRedukti/blob/master/testdata/20121211/par_rates.csv <https://github.com/redukti/PyRedukti/blob/master/testdata/20121211/par_rates.csv>`_.
+        """
         par_curve_set = bootstrap.ParCurveSet()
         curve = None
         with open(filename) as csv_file:
@@ -256,6 +266,11 @@ class MarketData:
         self._par_curve_set = par_curve_set
 
     def read_fixings(self, filename):
+        """
+        Reads Index Fixings from a CSV format file
+
+        For an example of fixings data file see: `https://github.com/redukti/PyRedukti/blob/master/testdata/20121211/fixings.csv <https://github.com/redukti/PyRedukti/blob/master/testdata/20121211/fixings.csv>`_.
+        """
         fixings = {}
         with open(filename) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -264,7 +279,7 @@ class MarketData:
                     continue
                 isda_index = index_mappings[row[0]]
                 tenor = enums.Tenor.Value('TENOR_' + row[1])
-                fixing_date = redukti.parse_date(row[2])
+                fixing_date = redukti.Date.parse(row[2])
                 fixing = float(row[3])
                 if isda_index not in fixings:
                     fixings_by_index = valuation.FixingsByIndexTenor()
@@ -277,12 +292,23 @@ class MarketData:
         self._fixings = fixings
 
     def find_curve_definition(self, id):
+        """
+        Finds a curve definition by its id
+
+        Precondition is that curve definitions must have been loaded
+        """
         for defn in self._curve_definitions:
             if defn.id == id:
                 return defn
         return None
 
     def init_zero_curves(self, bootstrap_curves_reply):
+        """
+        Converts the result from a curve building call to YieldCurve instances
+
+        Args:
+            bootstrap_curves_reply: reply from the Bootstrap command
+        """
         zero_curves = bootstrap_curves_reply.curves
         self._yield_curves = []
         for zc in zero_curves:
@@ -297,27 +323,56 @@ class MarketData:
         return self._yield_curves
 
     def curve_definitions(self):
+        """
+        Gives a list of the curve definitions currently loaded
+        """
         return self._curve_definitions
 
     def yield_curves(self):
+        """
+        Gives a list of the yield curves currently available locally
+
+        Note that the list is in the same order as the curve definitions
+        """
         return self._yield_curves
 
     def find_zero_curve_by_id(self, definition_id):
+        """
+        Given a curve definition id, locates the corresponding ZeroCurve data object.
+
+        Args:
+            definition_id: The curve definition id
+        """
         return self._zero_curves_by_id[definition_id]
 
     def has_fixings(self):
+        """
+        Checks if fixings are available (i.e. loaded)
+        """
         return self._fixings is not None
 
     def fixings(self):
+        """
+        Returns the currently loaded fixings
+        """
         return self._fixings
 
     def business_date(self):
+        """
+        Returns the business date associated with this market data instance
+        """
         return self._business_date
 
     def curve_group(self):
+        """
+        Returns the CurveGroup associated with this market data instance
+        """
         return self._curve_group
 
     def pricing_context(self):
+        """
+        Builds a default PricingContext object from the market data information
+        """
         pricing_context = valuation.PricingContext()
         pricing_context.curve_group = self._curve_group
         pricing_context.as_of_date = self._business_date.serial()
