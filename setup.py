@@ -12,6 +12,7 @@
 # Version 3 (https://www.gnu.org/licenses/gpl.txt).
 
 import os
+import sys
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 from Cython.Compiler import Options
@@ -19,16 +20,34 @@ from Cython.Compiler import Options
 Options.docstrings = True   # ensure doc strings are included
 Options.annotate = True     # generate HTML version of sources
 
-basepath=os.path.expanduser('~/Software')
+redukti_subdir = 'redukti'
+protobuf_subdir = 'protobuf'
+
+libraries = []
+library_dirs = []
+extra_compile_args=[]
+
+if sys.platform != 'win32':
+    basepath=os.path.expanduser('~/Software')
+    libraries = ["openredukti"]
+    library_dirs = [os.path.join(basepath, redukti_subdir, 'lib')]
+    extra_compile_args=[]
+else:
+    basepath='/Software'
+    libraries = ["openredukti", "libprotobuf", "libopenblas"]
+    library_dirs = [os.path.join(basepath, redukti_subdir, 'lib'),
+        os.path.join(basepath, protobuf_subdir, 'lib')]
+    extra_compile_args=["/MD"]
 
 sourcefiles = ['_redukti.pyx']
 extensions = [Extension("_redukti", sourcefiles,
-    libraries=["openredukti"],
-    library_dirs=[os.path.join(basepath, 'redukti', 'lib')],
-    include_dirs = [os.path.join(basepath, 'redukti', 'include', 'redukti'),
-        os.path.join(basepath, 'redukti', 'include'), 
-        os.path.join(basepath, 'protobuf', 'include')],
-    language="c++",             # generate C++ code
+    libraries    = libraries,
+    library_dirs = library_dirs,
+    include_dirs = [os.path.join(basepath, redukti_subdir, 'include/redukti'),
+        os.path.join(basepath, redukti_subdir, 'include'), 
+        os.path.join(basepath, protobuf_subdir, 'include')],
+    language     = "c++",             # generate C++ code,
+    extra_compile_args = extra_compile_args
     )]
 
 setup(name='pyredukti',
