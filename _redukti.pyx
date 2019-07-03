@@ -43,7 +43,7 @@ cdef class ADVar:
     cdef int _vars
     cdef int _order
 
-    def __cinit__(self, int n_vars, int order, int variable, double initial_value):
+    def __init__(self, int n_vars, int order, int variable, double initial_value):
         """
         Construct a new ADVar variable.
 
@@ -53,6 +53,9 @@ cdef class ADVar:
             variable: This variable's id in the function's set of variables, ``-1`` can be used signify no position
             initial_value: The value assigned to the variable initailly
         """
+        pass
+
+    def __cinit__(self, int n_vars, int order, int variable, double initial_value):
         if n_vars <= 0:
             raise ValueError('Number of variables in ADVar must be > 0')
         if order < 0 or order > 2:
@@ -156,6 +159,14 @@ cdef class Date:
 
     cdef int _serial
     cdef date.YearMonthDay _ymd
+
+    def __init__(self, int value):
+        """
+        Constructs a Date object from a serial number
+        Args:
+            value: serial number
+        """
+        pass
 
     def __cinit__(self, int value):
         self._serial = value
@@ -291,13 +302,16 @@ cdef class Calendar:
 
     cdef const calendar.Calendar *_calendar
 
-    def __cinit__(self, list business_centres):
+    def __init__(self, list business_centres):
         """
-        Constructs a instance for specified list of business centers.
+        Constructs a Calendar instance for specified list of business centers.
 
         Args:
             business_centres: List of business centers
         """
+        pass
+
+    def __cinit__(self, list business_centres):
         cdef calendar.JointCalendarParameters joint_calendars
         validate_business_centers(business_centres)
         if len(business_centres) == 0:
@@ -402,6 +416,14 @@ cdef class DayFraction:
     """
 
     cdef const dayfraction.DayFraction *_dayfraction
+
+    def __init__(self, enums.DayCountFraction dfc):
+        """
+        Constructs a DayFraction object
+        Args:
+            dfc: The Day Count Fraction enum
+        """
+        pass
 
     def __cinit__(self, enums.DayCountFraction dfc):
         validate_daycountfraction(dfc)
@@ -583,6 +605,9 @@ cdef class Interpolator:
     cdef interpolator.InterpolatorPointerType _interpolator
     cdef interpolator.Interpolator *_interpolator_ptr
 
+    def __init__(self, enums.InterpolatorType interpolator_type, array.array x, array.array y, int order = 0):
+        pass
+
     def __cinit__(self, enums.InterpolatorType interpolator_type, array.array x, array.array y, int order = 0):
         validate_interpolator_type(interpolator_type)
         if x.typecode != 'd' or y.typecode != 'd':
@@ -645,6 +670,11 @@ cdef class InterpolatedYieldCurve:
     cdef array.array _values
     cdef curve.YieldCurvePointerType _yield_curve
     cdef curve.YieldCurve *_yield_curve_ptr
+
+    def __init__(self, long long id, Date as_of_date, list maturities, list values,
+                  enums.InterpolatorType interpolator_type, enums.IRRateType rate_type, int deriv_order,
+                  enums.DayCountFraction fraction):
+        pass
 
     def __cinit__(self, long long id, Date as_of_date, list maturities, list values,
                   enums.InterpolatorType interpolator_type, enums.IRRateType rate_type, int deriv_order,
@@ -757,6 +787,9 @@ cdef class SvenssonCurve:
     cdef curve.YieldCurvePointerType _yield_curve
     cdef curve.YieldCurve *_yield_curve_ptr
 
+    def __init__(self, long long id, Date as_of_date, list parameters, enums.DayCountFraction fraction):
+        pass
+
     def __cinit__(self, long long id, Date as_of_date, list parameters, enums.DayCountFraction fraction):
         if len(parameters) != 6:
             raise ValueError('Invalid size of parameters: six parameters required')
@@ -834,6 +867,11 @@ cdef class YieldCurve:
     cdef curve.ZeroCurve _underlying_curve
     cdef curve.YieldCurvePointerType _yield_curve
     cdef curve.YieldCurve *_yield_curve_ptr
+
+    def __init__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2,
+                  enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD,
+                  enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):
+        pass
 
     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2,
                   enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD,
