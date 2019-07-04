@@ -394,6 +394,34 @@ def load_market_data(business_date, curve_definitions_filename, par_rates_filena
         market_data.read_fixings(fixings_filename)
     return market_data
 
+class GRPCAdapter:
+    """
+    Provides a service invocation adapter that connects to an OpenRedukti server
+    over the gRPC protocol
+    """
+    def __init__(self, address):
+        self._channel = grpc.insecure_channel(address)
+        self._stub = services_pb2_grpc.OpenReduktiServicesStub(self._channel)
+
+    def serve(self, request):
+        return self._stub.serve(request)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._channel.close()
+
+class LocalAdapter:
+    """
+    Provides a service invocation adapter that uses an internal InMemoryRequestProcessor
+    to handle requests
+    """
+    def __init__(self, pricing_script):
+        self._request_processor = redukti.InMemoryRequestProcessor(pricing_script)
+
+    def serve(self, request):
+        return self._request_processor.serve(request)
 
 class ServerCommand:
     """The ServerCommand object encapsulates interactions withe OpenRedukti Valuation Server
@@ -402,13 +430,13 @@ class ServerCommand:
     All requests and responses to/from the server are in Google Protocol Buffers format.
     """
 
-    def __init__(self, address):
+    def __init__(self, adapter):
         """Creates a new ServerCommand object with specified address
 
         Args:
             address: Must be in host:port format
         """
-        self._address = address
+        self._adapter = adapter
 
     def reset_valuation_service(self):
         """Resets all data held by the OpenRedukti valuation server
@@ -419,14 +447,12 @@ class ServerCommand:
         Raises:
             RuntimeError if there was a problem
         """
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            request = services_pb2.Request()
-            request.reset_valuation_service_request.SetInParent()
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
-            return None
+        request = services_pb2.Request()
+        request.reset_valuation_service_request.SetInParent()
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
+        return None
 
     def hello(self, echo_string):
         """Invokes the hello service
@@ -437,14 +463,12 @@ class ServerCommand:
         Returns:
             An instance of HelloReply message
         """
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            request = services_pb2.Request()
-            request.hello_request.name = echo_string
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
-            return response.hello_reply.message
+        request = services_pb2.Request()
+        request.hello_request.name = echo_string
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
+        return response.hello_reply.message
 
     def shutdown_valuation_service(self):
         """Shuts down the valuation service
@@ -455,13 +479,11 @@ class ServerCommand:
         Returns:
             None
         """
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            request = services_pb2.Request()
-            request.shutdown_request.password = "password"
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
+        request = services_pb2.Request()
+        request.shutdown_request.password = "password"
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
 
     def build_curves(self, market_data):
         """Invokes the curve building service and returns the resulting yield curves
@@ -474,17 +496,15 @@ class ServerCommand:
         """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            request = services_pb2.Request()
-            request.bootstrap_curves_request.business_date = market_data._business_date.serial()
-            request.bootstrap_curves_request.curve_definitions.extend(market_data._curve_definitions)
-            request.bootstrap_curves_request.par_curve_set.CopyFrom(market_data._par_curve_set)
-            print('Building curves, please wait.')
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
-            return market_data.init_zero_curves(response.bootstrap_curves_reply)
+        request = services_pb2.Request()
+        request.bootstrap_curves_request.business_date = market_data._business_date.serial()
+        request.bootstrap_curves_request.curve_definitions.extend(market_data._curve_definitions)
+        request.bootstrap_curves_request.par_curve_set.CopyFrom(market_data._par_curve_set)
+        print('Building curves, please wait.')
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
+        return market_data.init_zero_curves(response.bootstrap_curves_reply)
 
     def register_curve_mappings(self, curve_group, curve_mappings):
         """Registers the list of curve mappings with the OpenRedukti valuation server
@@ -496,29 +516,25 @@ class ServerCommand:
         Returns:
             None
         """
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            print('Registering curve mappings')
-            request = services_pb2.Request()
-            request.set_curve_mappings_request.curve_group = curve_group
-            request.set_curve_mappings_request.mappings.extend(curve_mappings)
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
+        print('Registering curve mappings')
+        request = services_pb2.Request()
+        request.set_curve_mappings_request.curve_group = curve_group
+        request.set_curve_mappings_request.mappings.extend(curve_mappings)
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
 
-    @staticmethod
-    def register_curve_definitions(stub, market_data):
+    def register_curve_definitions(self, market_data):
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering curve definitions')
         request = services_pb2.Request()
         request.register_curve_definitions_request.curve_definitions.extend(market_data.curve_definitions())
-        response = stub.serve(request)
+        response = self._adapter.serve(request)
         if response.header.response_code != 0:
             raise RuntimeError(response.header.response_message)
 
-    @staticmethod
-    def register_zero_curves(stub, market_data, forward_curves_list, discount_curve_list):
+    def register_zero_curves(self, market_data, forward_curves_list, discount_curve_list):
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering zero curves')
@@ -538,12 +554,11 @@ class ServerCommand:
         request.set_zero_curves_request.qualifier = enums.MDQ_NORMAL
         request.set_zero_curves_request.scenario = 0
         request.set_zero_curves_request.curve_group = market_data.curve_group()
-        response = stub.serve(request)
+        response = self._adapter.serve(request)
         if response.header.response_code != 0:
             raise RuntimeError(response.header.response_message)
 
-    @staticmethod
-    def register_fixings(stub, market_data):
+    def register_fixings(self, market_data):
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering fixings')
@@ -551,7 +566,7 @@ class ServerCommand:
         for entry in fixings_by_index.values():
             request = services_pb2.Request()
             request.set_fixings_request.fixings_by_index_tenor.CopyFrom(entry)
-            response = stub.serve(request)
+            response = self._adapter.serve(request)
             if response.header.response_code != 0:
                 raise RuntimeError(response.header.response_message)
 
@@ -568,12 +583,10 @@ class ServerCommand:
         """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            self.register_curve_definitions(stub, market_data)
-            self.register_zero_curves(stub, market_data, forward_curves_list, discount_curve_list)
-            if market_data.has_fixings():
-                self.register_fixings(stub, market_data)
+        self.register_curve_definitions(market_data)
+        self.register_zero_curves(market_data, forward_curves_list, discount_curve_list)
+        if market_data.has_fixings():
+            self.register_fixings(market_data)
 
     def get_valuation(self, pricing_context, cfcollection):
         """Request Valuation for a set of cashflows
@@ -589,16 +602,14 @@ class ServerCommand:
             raise ValueError('pricing_context must of of type valuation_pb2.PricingContext')
         if not isinstance(cfcollection, cashflows.CFCollection):
             raise ValueError('cfcollection must be of type cashflow_pb2.CFCollection')
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            print('Requesting valuation')
-            request = services_pb2.Request()
-            request.valuation_request.pricing_context.CopyFrom(pricing_context)
-            request.valuation_request.cashflows.CopyFrom(cfcollection)
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
-            return response.valuation_reply
+        print('Requesting valuation')
+        request = services_pb2.Request()
+        request.valuation_request.pricing_context.CopyFrom(pricing_context)
+        request.valuation_request.cashflows.CopyFrom(cfcollection)
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
+        return response.valuation_reply
 
     def register_calendar(self, business_center_id, holidays_list):
         """Registers a calendar for specified business center id
@@ -620,12 +631,10 @@ class ServerCommand:
                 raise ValueError('Holidays must be a list of redukti.Date objects')
             request.register_calendar_request.holidays.append(day.serial())
         request.register_calendar_request.business_center = business_center_id
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            print('Registering calendar ' + str(business_center_id))
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
+        print('Registering calendar ' + str(business_center_id))
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)
 
     def register_index_definition(self, index_definition):
         """Registers an index definition with the server
@@ -638,11 +647,8 @@ class ServerCommand:
         """
         if not isinstance(index_definition, index.IndexDefinition):
             raise ValueError('index_definition must be of index.IndexDefinition type')
-        with grpc.insecure_channel(self._address) as channel:
-            stub = services_pb2_grpc.OpenReduktiServicesStub(channel)
-            print('Registering index')
-            request = services_pb2.Request()
-            request.register_index_definition_request.index_definition = index_definition
-            response = stub.serve(request)
-            if response.header.response_code != 0:
-                raise RuntimeError(response.header.response_message)
+        request = services_pb2.Request()
+        request.register_index_definition_request.index_definition = index_definition
+        response = self._adapter.serve(request)
+        if response.header.response_code != 0:
+            raise RuntimeError(response.header.response_message)

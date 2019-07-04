@@ -18,9 +18,11 @@ Implements the interface to OpenRedukti classes and functions
 """
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-cimport autodiff, date, enums, schedule, calendar, dayfraction, index, allocator, interpolator, curve
+cimport autodiff, date, enums, schedule, calendar, dayfraction, index, allocator, interpolator, curve, request_processor
 from redukti import schedule_pb2
+from redukti import services_pb2
 from libcpp.string cimport string
+from libcpp.memory cimport unique_ptr
 from cpython cimport array
 import array
 cimport cython
@@ -967,3 +969,66 @@ cdef class YieldCurve:
             return self.get_sensitivities_(x, fixed_region_allocator)
         finally:
             fixed_region_allocator.pos(pos)
+
+cdef class InMemoryRequestProcessor:
+    """
+    The InMemoryRequestProcessor creates internal instance of the OpenRedukti RequestProcessor
+    class. This instance contains internal instances of the OpenRedukti CurveBuilderService
+    and ValuationService and hence can process all requests that would normally be submitted to
+    the OpenRedukti server over gRPC protocol.
+
+    The InMemoryRequestProcessor is useful when you only want to use the OpenRedukti
+    functions internally in Python and do not need to interact with the OpenRedukti server.
+
+    The downside of this internal instance is that if there is a bug in the tOpenRedukti
+    code it can crash your Python instance. Hence this type of use is not recommended unless
+    you have tested your interactions thoroughly and are confident that there will not be any
+    issues.
+
+    Note that the InMemoryRequestProcessor is a relatively heavyweight object and some of
+    its computations may take a while to run. Internally threads may be started by the linear
+    algebra library used, additionally the CurveBuilderService creates its own Lua scripting
+    VM.
+    """
+    cdef unique_ptr[request_processor.RequestProcessor] _request_processor
+    cdef request_processor.RequestProcessor *_request_processor_ptr
+
+    def __init__(self, pricing_script):
+        """
+        Args:
+            pricing_script: The path to the Lua pricing script for the CurveBuildingService
+        """
+        pass
+
+    def __cinit__(self, pricing_script):
+        pricing_script_byte_s = to_bytes(pricing_script)
+        cdef const char* c_string = pricing_script_byte_s
+        self._request_processor = request_processor.get_request_processor(c_string)
+        self._request_processor_ptr = self._request_processor.get()
+        if self._request_processor_ptr is NULL:
+            raise Exception('failed to create instance of InMemoryRequestProcessor')
+
+    cpdef serve(self, request):
+        """
+        Simple request processing service, designed to be compatible with the OpenRedukti server protocol.
+        Args:
+            request: Request to process, one of the sub requests must be populated
+        Returns:
+            The result from the request processor
+        """
+        if self._request_processor_ptr is NULL:
+            raise Exception('Invalid state')
+        if not isinstance(request, services_pb2.Request):
+            raise ValueError('Input must be an instance of services_pb2.Request')
+        cdef string request_str = request.SerializeToString()
+        cdef request_processor.Request cpp_request
+        if not cpp_request.ParseFromString(request_str):
+            raise ValueError("Cannot parse the Request object")
+        cdef request_processor.Response cpp_response
+        self._request_processor_ptr.process(&cpp_request, &cpp_response)
+        response = services_pb2.Response()
+        cdef string response_str
+        if not cpp_response.SerializeToString(&response_str):
+            raise Exception('Failed to parse response from api call')
+        response.ParseFromString(response_str)
+        return response
