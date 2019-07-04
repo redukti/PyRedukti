@@ -46,6 +46,8 @@ maturity_rules = {
     'FixedTenors': enums.MATURITY_GENERATION_RULE_FIXED_TENORS
 }
 
+# FIXME create a template class
+# so that user can supply the template
 swap_templates = {
     'EUR_EONIA_1D': {
         'currency': enums.EUR,
@@ -412,6 +414,9 @@ class GRPCAdapter:
     def __exit__(self, exc_type, exc_value, traceback):
         self._channel.close()
 
+    def is_local(self):
+        return False
+
 class LocalAdapter:
     """
     Provides a service invocation adapter that uses an internal InMemoryRequestProcessor
@@ -423,10 +428,14 @@ class LocalAdapter:
     def serve(self, request):
         return self._request_processor.serve(request)
 
-class ServerCommand:
-    """The ServerCommand object encapsulates interactions withe OpenRedukti Valuation Server
+    def is_local(self):
+        return True
 
-    It communicates with the OpenRedukti Valuation server using gRPC protocol.
+class ServerCommand:
+    """The ServerCommand object encapsulates interactions withe OpenRedukti Valuation and Curve Building Services.
+
+    It communicates with the OpenRedukti Valuation/Curve Building sevices via an Adapter, which allows the
+    interface to switch from local InMemoryRequestProcessor to a remote OpenRedukti Server instance.
     All requests and responses to/from the server are in Google Protocol Buffers format.
     """
 
@@ -439,7 +448,7 @@ class ServerCommand:
         self._adapter = adapter
 
     def reset_valuation_service(self):
-        """Resets all data held by the OpenRedukti valuation server
+        """Resets all cached market data held by the OpenRedukti valuation service
 
         Returns:
             None
@@ -479,6 +488,9 @@ class ServerCommand:
         Returns:
             None
         """
+        if self._adapter.is_local():
+            # Local instance, shutdown has no meaning
+            return
         request = services_pb2.Request()
         request.shutdown_request.password = "password"
         response = self._adapter.serve(request)
@@ -525,6 +537,13 @@ class ServerCommand:
             raise RuntimeError(response.header.response_message)
 
     def register_curve_definitions(self, market_data):
+        """
+        Registers curve definitions provided by the MarketData instance to the
+        OpenRedukti Valuation service.
+
+        Args:
+            market_data: MarketData instance that provides the curve definitions
+        """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering curve definitions')
@@ -535,6 +554,18 @@ class ServerCommand:
             raise RuntimeError(response.header.response_message)
 
     def register_zero_curves(self, market_data, forward_curves_list, discount_curve_list):
+        """
+        Registers zero rate curves provided by the MarketData instance to the
+        OpenRedukti valuation service
+
+        Args:
+            market_data: MarketData instance that provides the zero rate curves
+            forward_curves_list: The curve definition ids that will be registered as Forward Curves
+            discount_curve_list:  The curve definition ids that will be registered as Discount Curves
+
+        Returns:
+            None
+        """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering zero curves')
@@ -559,6 +590,16 @@ class ServerCommand:
             raise RuntimeError(response.header.response_message)
 
     def register_fixings(self, market_data):
+        """
+        Registers fixings provided by the market data instance to the OpenRedukti
+        Valuation service.
+
+        Args:
+            market_data: MarketData instance that is the provider of fixings data
+
+        Returns:
+            None
+        """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
         print('Registering fixings')
@@ -571,7 +612,7 @@ class ServerCommand:
                 raise RuntimeError(response.header.response_message)
 
     def register_market_data(self, market_data, forward_curves_list, discount_curve_list):
-        """Registers a set of market data with the OpenRedukti server
+        """Registers a set of market data with the OpenRedukti Valuation service
 
         Args:
             market_data: Instance of MarketData
