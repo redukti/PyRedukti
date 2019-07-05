@@ -16,13 +16,13 @@ import grpc
 from redukti import services_pb2
 from redukti import services_pb2_grpc
 from redukti import enums_pb2 as enums
-from redukti import common_pb2 as common
 from redukti import curve_pb2 as curve
 from redukti import bootstrap_pb2 as bootstrap
 from redukti import valuation_pb2 as valuation
 from redukti import cashflow_pb2 as cashflows
 from redukti import schedule_pb2 as schedule
 from redukti import index_pb2 as index
+from redukti import instrument_templates_pb2 as instrument_templates
 import redukti
 
 import csv
@@ -92,6 +92,13 @@ swap_templates = {
         'is_ois': False
     }
 }
+
+class InstrumentTemplateRepo:
+
+
+    def __init__(self):
+
+        vanilla_eur_eonia = instrument_templates.InstrumentTemplate()
 
 
 def build_vanilla_swap(notional, effective_date, termination_date, template_name, fixed_rate, fixed_leg_sign):

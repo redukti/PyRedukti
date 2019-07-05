@@ -10,6 +10,5 @@ python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukt
 python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukti/shared.proto 
 python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukti/bootstrap.proto 
 python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukti/valuation.proto 
-python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukti/common.proto 
-python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukti/infra.proto
+python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR $SOURCEDIR/redukti/instrument_templates.proto
 python -m grpc_tools.protoc -I$SOURCEDIR --python_out=$DESTDIR --grpc_python_out=$DESTDIR $SOURCEDIR/redukti/services.proto
