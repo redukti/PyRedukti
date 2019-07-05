@@ -28,9 +28,46 @@ import redukti
 import csv
 
 index_mappings = {
+    'AUD-BBR-BBSW': enums.AUD_BBR_BBSW,
+    'AUD-LIBOR-BBA': enums.AUD_LIBOR_BBA,
+    'AUD-AONIA-OIS-COMPOUND': enums.AUD_AONIA_OIS_COMPOUND,
+    'CAD-BA-CDOR': enums.CAD_BA_CDOR,
+    'CAD-LIBOR-BBA': enums.CAD_LIBOR_BBA,
+    'CAD-CORRA-OIS-COMPOUND': enums.CAD_CORRA_OIS_COMPOUND,
+    'CHF-LIBOR-BBA': enums.CHF_LIBOR_BBA,
+    'CHF-TOIS-OIS-COMPOUND': enums.CHF_TOIS_OIS_COMPOUND,
+    'CZK-PRIBOR-PRBO': enums.CZK_PRIBOR_PRBO,
+    'DKK-CIBOR2-DKNA13': enums.DKK_CIBOR2_DKNA13,
+    'DKK-CIBOR-DKNA13': enums.DKK_CIBOR_DKNA13,
     'EUR-EURIBOR-Reuters': enums.EUR_EURIBOR_Reuters,
-    'EUR-EONIA-OIS-COMPOUND': enums.EUR_EONIA_OIS_COMPOUND
-    # FIXME add all 
+    'EUR-EURIBOR-Telerate': enums.EUR_EURIBOR_Telerate,
+    'EUR-LIBOR-BBA': enums.EUR_LIBOR_BBA,
+    'EUR-EONIA-OIS-COMPOUND': enums.EUR_EONIA_OIS_COMPOUND,
+    'GBP-LIBOR-BBA': enums.GBP_LIBOR_BBA,
+    'GBP-WMBA-SONIA-COMPOUND': enums.GBP_WMBA_SONIA_COMPOUND,
+    'HKD-HIBOR-HIBOR=': enums.HKD_HIBOR_HIBOR,
+    'HKD-HIBOR-HKAB': enums.HKD_HIBOR_HKAB,
+    'HKD-HIBOR-ISDC': enums.HKD_HIBOR_ISDC,
+    'HUF-BUBOR-Reuters': enums.HUF_BUBOR_Reuters,
+    'JPY-LIBOR-BBA': enums.JPY_LIBOR_BBA,
+    'JPY-TONA-OIS-COMPOUND': enums.JPY_TONA_OIS_COMPOUND,
+    'MXN-USDMXNBASIS': enums.MXN_USDMXNBASIS,
+    'MXN-TIIE-Banxico': enums.MXN_TIIE_Banxico,
+    'NOK-NIBOR-NIBR': enums.NOK_NIBOR_NIBR,
+    'NZD-BBR-FRA': enums.NZD_BBR_FRA,
+    'NZD-BBR-Telerate': enums.NZD_BBR_Telerate,
+    'PLN-WIBOR-WIBO': enums.PLN_WIBOR_WIBO,
+    'SEK-STIBOR-SIDE': enums.SEK_STIBOR_SIDE,
+    'SGD-SOR-Reuters': enums.SGD_SOR_Reuters,
+    'SGD-SOR-VWAP': enums.SGD_SOR_VWAP,
+    'USD-LIBOR-BBA': enums.USD_LIBOR_BBA,
+    'USD-Federal Funds-H.15-OIS-COMPOUND': enums.USD_Federal_Funds_H_15_OIS_COMPOUND,
+    'USD-Federal Funds-H.15': enums.USD_Federal_Funds_H_15,
+    'ZAR-JIBAR-SAFEX': enums.ZAR_JIBAR_SAFEX,
+    'UK-RPI': enums.UK_RPI,
+    'EUR-EXT-CPI': enums.EUR_EXT_CPI,
+    'FRC-EXT-CPI': enums.FRC_EXT_CPI,
+    'USA-CPI-U': enums.USA_CPI_U
 }
 interpolator_types = {
     'Linear': enums.LINEAR,
@@ -46,59 +83,83 @@ maturity_rules = {
     'FixedTenors': enums.MATURITY_GENERATION_RULE_FIXED_TENORS
 }
 
-# FIXME create a template class
-# so that user can supply the template
-swap_templates = {
-    'EUR_EONIA_1D': {
-        'currency': enums.EUR,
-        'start_delay': 2,
-        'payment_calendar': [enums.EUTA],
-        'fixed_payment_frequency': enums.TENOR_12M,
-        'floating_payment_frequency': enums.TENOR_12M,
-        'fixed_day_fraction': enums.ACT_360,
-        'floating_day_fraction': enums.ACT_360,
-        'payment_day_convention': enums.MODIFIED_FOLLOWING,
-        'floating_index': enums.EUR_EONIA_OIS_COMPOUND,
-        'floating_tenor': enums.TENOR_UNSPECIFIED,
-        'fixed_discounting_index_family': enums.EONIA,
-        'is_ois': True
-    },
-    'EUR_EURIBOR_3M': {
-        'currency': enums.EUR,
-        'start_delay': 2,
-        'payment_calendar': [enums.EUTA],
-        'fixed_payment_frequency': enums.TENOR_3M,
-        'floating_payment_frequency': enums.TENOR_3M,
-        'fixed_day_fraction': enums.ACT_360,
-        'floating_day_fraction': enums.ACT_360,
-        'payment_day_convention': enums.MODIFIED_FOLLOWING,
-        'floating_index': enums.EUR_EURIBOR_Reuters,
-        'floating_tenor': enums.TENOR_3M,
-        'fixed_discounting_index_family': enums.EONIA,
-        'is_ois': False
-    },
-    'EUR_EURIBOR_6M': {
-        'currency': enums.EUR,
-        'start_delay': 2,
-        'payment_calendar': [enums.EUTA],
-        'fixed_payment_frequency': enums.TENOR_6M,
-        'floating_payment_frequency': enums.TENOR_6M,
-        'fixed_day_fraction': enums.ACT_360,
-        'floating_day_fraction': enums.ACT_360,
-        'payment_day_convention': enums.MODIFIED_FOLLOWING,
-        'floating_index': enums.EUR_EURIBOR_Reuters,
-        'floating_tenor': enums.TENOR_6M,
-        'fixed_discounting_index_family': enums.EONIA,
-        'is_ois': False
-    }
-}
 
-class InstrumentTemplateRepo:
+def is_ois_index(index):
+    return index == enums.AUD_AONIA_OIS_COMPOUND or \
+           index == enums.CAD_CORRA_OIS_COMPOUND or \
+           index == enums.CHF_TOIS_OIS_COMPOUND or \
+           index == enums.EUR_EONIA_OIS_COMPOUND or \
+           index == enums.GBP_WMBA_SONIA_COMPOUND or \
+           index == enums.JPY_TONA_OIS_COMPOUND or \
+           index == enums.USD_Federal_Funds_H_15 or \
+           index == enums.USD_Federal_Funds_H_15_OIS_COMPOUND
 
+
+class InstrumentTemplateRepository:
 
     def __init__(self):
 
-        vanilla_eur_eonia = instrument_templates.InstrumentTemplate()
+        swap_template = instrument_templates.InstrumentTemplate()
+        swap_template.product_sub_type = enums.IRSWAP_OIS
+        swap_template.currency = enums.EUR
+        swap_template.payment_calendars.extend([enums.EUTA])
+        swap_template.payment_frequency1 = enums.TENOR_12M # Fixed leg
+        swap_template.payment_frequency2 = enums.TENOR_12M # Floating leg
+        swap_template.day_count_fraction1 = enums.ACT_360 # Fixed leg
+        swap_template.day_count_fraction2 = enums.ACT_360 # Floating leg
+        swap_template.payment_day_convention = enums.MODIFIED_FOLLOWING
+        swap_template.floating_index1 = enums.EUR_EONIA_OIS_COMPOUND
+        swap_template.floating_tenor1 = enums.TENOR_UNSPECIFIED
+        swap_template.fixed_discounting_index_family = enums.EONIA
+
+        self._templates = {}
+        self._templates['EUR_EONIA_1D'] = swap_template
+
+        swap_template = instrument_templates.InstrumentTemplate()
+        swap_template.product_sub_type = enums.IRSWAP_FIXEDFLOAT
+        swap_template.currency = enums.EUR
+        swap_template.payment_calendars.extend([enums.EUTA])
+        swap_template.payment_frequency1 = enums.TENOR_12M # Fixed leg
+        swap_template.payment_frequency2 = enums.TENOR_3M # Floating leg
+        swap_template.day_count_fraction1 = enums.ACT_360 # Fixed leg
+        swap_template.day_count_fraction2 = enums.ACT_360 # Floating leg
+        swap_template.payment_day_convention = enums.MODIFIED_FOLLOWING
+        swap_template.floating_index1 = enums.EUR_EURIBOR_Reuters
+        swap_template.floating_tenor1 = enums.TENOR_3M
+        swap_template.fixed_discounting_index_family = enums.EONIA
+        self._templates['EUR_EURIBOR_3M'] = swap_template
+
+        swap_template = instrument_templates.InstrumentTemplate()
+        swap_template.product_sub_type = enums.IRSWAP_FIXEDFLOAT
+        swap_template.currency = enums.EUR
+        swap_template.payment_calendars.extend([enums.EUTA])
+        swap_template.payment_frequency1 = enums.TENOR_12M # Fixed leg
+        swap_template.payment_frequency2 = enums.TENOR_6M # Floating leg
+        swap_template.day_count_fraction1 = enums.ACT_360 # Fixed leg
+        swap_template.day_count_fraction2 = enums.ACT_360 # Floating leg
+        swap_template.payment_day_convention = enums.MODIFIED_FOLLOWING
+        swap_template.floating_index1 = enums.EUR_EURIBOR_Reuters
+        swap_template.floating_tenor1 = enums.TENOR_6M
+        swap_template.fixed_discounting_index_family = enums.EONIA
+        self._templates['EUR_EURIBOR_6M'] = swap_template
+
+    def show_templates(self):
+        for template in self._templates:
+            print(template)
+
+    def get_template(self, id):
+        return self._templates[id]
+
+    def add_template(self, id, template):
+        if not isinstance(template, instrument_templates.InstrumentTemplate):
+            raise ValueError('Template must of of type instrument_templates.InstrumentTemplate')
+        if not isinstance(id, str) or len(str) == 0:
+            raise ValueError('Invalid id')
+        # TODO validate template
+        self._templates[id] = template
+
+
+templates_repository = InstrumentTemplateRepository()
 
 
 def build_vanilla_swap(notional, effective_date, termination_date, template_name, fixed_rate, fixed_leg_sign):
@@ -106,39 +167,52 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     Constructs cashflows for a Vanilla Interest Rate Swap with a fixed leg and a floating leg
 
     Args:
-        notional: Notional amount
-        effective_date: The unadjusted effective date of the swap
-        termination_date: The unadjusted termination date of the swap
-        template_name: The template to be used to determine various parameters
-        fixed_rate: The fixed rate on the fixed leg
-        fixed_leg_sign: The sign of the fixed leg, -1.0 indicates pay fixed rate
+        notional (float): Notional amount
+        effective_date (redukti.Date): The unadjusted effective date of the swap
+        termination_date (redukti.Date): The unadjusted termination date of the swap
+        template_name (str): The template to be used to determine various parameters
+        fixed_rate (float): The fixed rate on the fixed leg
+        fixed_leg_sign (float): The sign of the fixed leg, -1.0 indicates pay fixed rate
 
     Returns:
         Returns an instance of cashflow_pb2.CFCollection
     """
-    template = swap_templates[template_name]
+    if not isinstance(effective_date, redukti.Date):
+        raise ValueError('Effective date must be an instance of redukti.Date')
+    if not isinstance(termination_date, redukti.Date):
+        raise ValueError('Termination date must be an instance of redukti.Date')
+    template = templates_repository.get_template(template_name)
     if not template:
         raise Exception('No template found with name: ' + template_name)
-    ccy = template['currency']
+    if fixed_leg_sign != 1.0 and fixed_leg_sign != -1.0:
+        raise ValueError('Fixed leg sign must be 1.0 or -1.0')
+    if not isinstance(notional, int) and not isinstance(notional, float):
+        raise ValueError('Notional must be integer or float value')
+    if not isinstance(fixed_rate, float):
+        raise ValueError('Fixed rate must be a float')
+    if fixed_rate < -0.01 or fixed_rate > 0.3:
+        raise ValueError('Fixed rate is not plausible')
+
+    ccy = template.currency
     floating_schedule_params = schedule.ScheduleParameters()
     floating_schedule_params.effective_date = effective_date.serial()
     floating_schedule_params.termination_date = termination_date.serial()
-    floating_schedule_params.payment_frequency = template['floating_payment_frequency']
-    floating_schedule_params.payment_calendars.extend(template['payment_calendar'])
-    floating_schedule_params.payment_convention = template['payment_day_convention']
+    floating_schedule_params.payment_frequency = template.payment_frequency2
+    floating_schedule_params.payment_calendars.extend(template.payment_calendars)
+    floating_schedule_params.payment_convention = template.payment_day_convention
     floating_schedule = redukti.ScheduleGenerator.generate_schedule(floating_schedule_params)
 
     fixed_schedule_params = schedule.ScheduleParameters()
     fixed_schedule_params.effective_date = effective_date.serial()
     fixed_schedule_params.termination_date = termination_date.serial()
-    fixed_schedule_params.payment_frequency = template['fixed_payment_frequency']
-    fixed_schedule_params.payment_calendars.extend(template['payment_calendar'])
-    fixed_schedule_params.payment_convention = template['payment_day_convention']
+    fixed_schedule_params.payment_frequency = template.payment_frequency1
+    fixed_schedule_params.payment_calendars.extend(template.payment_calendars)
+    fixed_schedule_params.payment_convention = template.payment_day_convention
     fixed_schedule = redukti.ScheduleGenerator.generate_schedule(fixed_schedule_params)
 
-    fixed_daycount = redukti.DayFraction(template['fixed_day_fraction'])
+    fixed_daycount = redukti.DayFraction(template.day_count_fraction1)
     if not fixed_daycount:
-        raise Exception('Unable to find day count fraction ' + str(template['fixed_day_fraction']))
+        raise Exception('Unable to find day count fraction ' + str(template.day_count_fraction1))
 
     fixed_leg_scalars = []
     for i in range(0, len(fixed_schedule.adjusted_start_dates)):
@@ -154,31 +228,31 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
         single.simple.currency = ccy
         single.simple.amount = fixed_leg_scalars[i]
         single.simple.payment_date = fixed_schedule.adjusted_payment_dates[i]
-        single.simple.discounting_index_family = template['fixed_discounting_index_family']
+        single.simple.discounting_index_family = template.fixed_discounting_index_family
 
     float_stream = cfcollection.streams.add()
     float_stream.factor = -fixed_leg_sign
     for i in range(0, len(floating_schedule.adjusted_start_dates)):
         single = float_stream.cashflows.add()
-        is_ois = template['is_ois']
+        is_ois = is_ois_index(template.floating_index1)
         if not is_ois:
             single.floating.currency = ccy
-            single.floating.day_count_fraction = template['floating_day_fraction']
+            single.floating.day_count_fraction = template.day_count_fraction2
             single.floating.payment_date = floating_schedule.adjusted_payment_dates[i]
             floating_period = single.floating.floating_periods.add()
             floating_period.notional = notional
             floating_period.accrual_start_date = floating_schedule.adjusted_start_dates[i]
             floating_period.accrual_end_date = floating_schedule.adjusted_end_dates[i]
-            floating_period.index = template['floating_index']
-            floating_period.tenor = template['floating_tenor']
+            floating_period.index = template.floating_index1
+            floating_period.tenor = template.floating_tenor1
             floating_period.spread = 0.0
         else:
-            single.ois.index = template['floating_index']
+            single.ois.index = template.floating_index1
             single.ois.notional = notional
             single.ois.accrual_start_date = floating_schedule.adjusted_start_dates[i]
             single.ois.accrual_end_date = floating_schedule.adjusted_end_dates[i]
             single.ois.payment_date = floating_schedule.adjusted_payment_dates[i]
-            single.ois.day_count_fraction = template['floating_day_fraction']
+            single.ois.day_count_fraction = template.day_count_fraction2
     return cfcollection
 
 
@@ -189,8 +263,12 @@ class MarketData:
     The MarketData object provides utilities for loading market data from
     CSV format files.
     """
-
     def __init__(self, date, curve_group):
+        """
+        Args:
+            date (redukti.Date): The business date
+            curve_group (enums.CurveGroup): The curve group to which the market data belongs
+        """
         if not isinstance(date, redukti.Date):
             raise ValueError('A business date must be supplied')
         self._curve_definitions = None
@@ -403,6 +481,7 @@ def load_market_data(business_date, curve_definitions_filename, par_rates_filena
         market_data.read_fixings(fixings_filename)
     return market_data
 
+
 class GRPCAdapter:
     """
     Provides a service invocation adapter that connects to an OpenRedukti server
@@ -424,6 +503,7 @@ class GRPCAdapter:
     def is_local(self):
         return False
 
+
 class LocalAdapter:
     """
     Provides a service invocation adapter that uses an internal InMemoryRequestProcessor
@@ -437,6 +517,7 @@ class LocalAdapter:
 
     def is_local(self):
         return True
+
 
 class ServerCommand:
     """The ServerCommand object encapsulates interactions withe OpenRedukti Valuation and Curve Building Services.
