@@ -96,6 +96,9 @@ def is_ois_index(index):
 
 
 class InstrumentTemplateRepository:
+    """
+    Repository of templates used to construct trades
+    """
 
     def __init__(self):
 
@@ -144,13 +147,34 @@ class InstrumentTemplateRepository:
         self._templates['EUR_EURIBOR_6M'] = swap_template
 
     def show_templates(self):
+        """
+        Prints available templates
+        """
         for template in self._templates:
             print(template)
 
     def get_template(self, id):
+        """
+        Gets the specified template identified by id
+        Args:
+            id (str): unique template id
+
+        Returns:
+            Template if available for the given id
+        """
         return self._templates[id]
 
     def add_template(self, id, template):
+        """
+        Adds a template to the repository
+
+        Args:
+            id (str): Unique id for the template
+            template (instrument_templates_pb2.InstrumentTemplate): The template to be added
+
+        Returns:
+            None
+        """
         if not isinstance(template, instrument_templates.InstrumentTemplate):
             raise ValueError('Template must of of type instrument_templates.InstrumentTemplate')
         if not isinstance(id, str) or len(str) == 0:
@@ -267,7 +291,7 @@ class MarketData:
         """
         Args:
             date (redukti.Date): The business date
-            curve_group (enums.CurveGroup): The curve group to which the market data belongs
+            curve_group (enums_pb2.CurveGroup): The curve group to which the market data belongs
         """
         if not isinstance(date, redukti.Date):
             raise ValueError('A business date must be supplied')
@@ -394,7 +418,10 @@ class MarketData:
         Converts the result from a curve building call to YieldCurve instances
 
         Args:
-            bootstrap_curves_reply: reply from the Bootstrap command
+            bootstrap_curves_reply (bootstrap_pb2.BootstrapCurvesReply): reply from the Bootstrap command
+
+        Returns:
+            Constructed list of YieldCurve objects
         """
         zero_curves = bootstrap_curves_reply.curves
         self._yield_curves = []
@@ -510,6 +537,10 @@ class LocalAdapter:
     to handle requests
     """
     def __init__(self, pricing_script):
+        """
+        Args:
+            pricing_script (str): Path of the ``pricing.lua`` script that is used by the CurveBuilder to construct cashflows
+        """
         self._request_processor = redukti.InMemoryRequestProcessor(pricing_script)
 
     def serve(self, request):
@@ -630,7 +661,7 @@ class ServerCommand:
         OpenRedukti Valuation service.
 
         Args:
-            market_data: MarketData instance that provides the curve definitions
+            market_data (MarketData): MarketData instance that provides the curve definitions
         """
         if not isinstance(market_data, MarketData):
             raise ValueError('market_data must be of MarketData type')
@@ -647,7 +678,7 @@ class ServerCommand:
         OpenRedukti valuation service
 
         Args:
-            market_data: MarketData instance that provides the zero rate curves
+            market_data (MarketData): MarketData instance that provides the zero rate curves
             forward_curves_list: The curve definition ids that will be registered as Forward Curves
             discount_curve_list:  The curve definition ids that will be registered as Discount Curves
 
@@ -683,7 +714,7 @@ class ServerCommand:
         Valuation service.
 
         Args:
-            market_data: MarketData instance that is the provider of fixings data
+            market_data (MarketData): MarketData instance that is the provider of fixings data
 
         Returns:
             None
@@ -703,7 +734,7 @@ class ServerCommand:
         """Registers a set of market data with the OpenRedukti Valuation service
 
         Args:
-            market_data: Instance of MarketData
+            market_data (MarketData): Instance of MarketData
             forward_curves_list: List of curve ids that should be registered as forward curves
             discount_curve_list: List of curve ids that should be registered as discount curves
 
@@ -721,8 +752,8 @@ class ServerCommand:
         """Request Valuation for a set of cashflows
 
         Args:
-            pricing_context: valuation_pb2.PricingContext instance
-            cfcollection: cashflow_pb2.CFCollection instance
+            pricing_context (valuation_pb2.PricingContext): Pricing Context that defines various parameters
+            cfcollection (cashflow_pb2.CFCollection): cashflow collection instance that contains the cashflows to be evaluated
 
         Returns:
             The valuation service reply
@@ -748,7 +779,7 @@ class ServerCommand:
         once a calendar is in use it cannot be safely replaced
 
         Args:
-            business_center_id: Business Center id for which calendar is being registered
+            business_center_id (enums_pb2.BusinessCenter): Business Center id for which calendar is being registered
             holidays_list: List containing redukti.Date objects
 
         Returns:
@@ -769,7 +800,7 @@ class ServerCommand:
         """Registers an index definition with the server
 
         Args:
-            index_definition: An instance of index_pb2.IndexDefinition
+            index_definition (index_pb2.IndexDefinition): An instance of index_pb2.IndexDefinition
 
         Returns:
             None

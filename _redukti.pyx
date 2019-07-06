@@ -593,7 +593,18 @@ cdef class Interpolator:
     An Interpolator computes values between ranges based upon an interpolation method.
 
     Several methods are supported.
-    Interpolators can not only interpolate values, but also compute sensitivities to the
+
+    * ``LINEAR``
+    * ``LOG_LINEAR``
+    * ``MONOTONE_CONVEX``
+    * ``FLAT_RIGHT``
+    * ``FLAT_LEFT``
+    * ``CUBIC_SPLINE_NOT_A_KNOT``
+    * ``CUBIC_SPLINE_NATURAL``
+    * ``LOG_CUBIC_SPLINE_NATURAL``
+    * ``CUBIC_SPLINE_CLAMPED``
+
+    An Interpolator can not only interpolate values, but also compute sensitivities to the
     fixed points in the x-axis.
 
     Note that the Interpolators operate on the arrays supplied by the user; these
@@ -608,6 +619,15 @@ cdef class Interpolator:
     cdef interpolator.Interpolator *_interpolator_ptr
 
     def __init__(self, enums.InterpolatorType interpolator_type, array.array x, array.array y, int order = 0):
+        """
+        Args:
+            interpolator_type (enums_pb2.InterpolatorType): The type of interpolator
+            x (array): Array of doubles representing x-axis
+            y (array): Array of doubles representing y-axis
+            order (int): Whether the interpolator should compute derivatives, 0=No, 1=First order only, 2=First and second order.
+        Returns:
+            Interpolator: constructed interpolator object
+        """
         pass
 
     def __cinit__(self, enums.InterpolatorType interpolator_type, array.array x, array.array y, int order = 0):
@@ -631,6 +651,15 @@ cdef class Interpolator:
         self._interpolator.reset(NULL)
 
     cpdef double interpolate(self, double x):
+        """
+        Interpolates a value for the given point
+        
+        Args:
+            x (float): The point at which an interpolated value is desired 
+
+        Returns:
+            float: interpolated value
+        """
         return self._interpolator_ptr.interpolate(x)
 
     cdef ADVar interpolate_with_sensitivities_(self, double x, allocator.FixedRegionAllocator *fixed_region_allocator):
@@ -641,7 +670,24 @@ cdef class Interpolator:
             return None
         return ADVar.dup(sensitivities.get())
 
+    cdef ADVar interpolate_with_numeric_sensitivities_(self, double x, allocator.FixedRegionAllocator *fixed_region_allocator):
+        cdef interpolator.SensitivitiesPointerType sensitivities = self._interpolator_ptr.interpolate_with_numeric_sensitivities(
+            x, fixed_region_allocator)
+        cdef autodiff.redukti_adouble_t *data = sensitivities.get()
+        if data is NULL:
+            return None
+        return ADVar.dup(sensitivities.get())
+
     cpdef ADVar interpolate_with_sensitivities(self, double x):
+        """
+        Interpolates a value for the given point, and sensitivities of the value to fixed points. Sensitivities computed via autodiff.
+        
+        Args:
+            x (float): The point at which an interpolated value is desired
+
+        Returns:
+            ADVar: interpolated value and sensitivities to the fixed points 
+        """
         cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
         cdef size_t pos = fixed_region_allocator.pos()  # Since we can't use the FixedRegionAllocatorGuard in Cython
         try:
@@ -649,8 +695,49 @@ cdef class Interpolator:
         finally:
             fixed_region_allocator.pos(pos)
 
+    cpdef ADVar interpolate_with_numeric_sensitivities(self, double x):
+        """
+        Interpolates a value for the given point, and sensitivities of the value to fixed points. Sensitivities computed numerically.
+        
+        Args:
+            x (float): The point at which an interpolated value is desired
+
+        Returns:
+            ADVar: interpolated value and sensitivities to the fixed points 
+        """
+        cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
+        cdef size_t pos = fixed_region_allocator.pos()  # Since we can't use the FixedRegionAllocatorGuard in Cython
+        try:
+            return self.interpolate_with_numeric_sensitivities_(x, fixed_region_allocator)
+        finally:
+            fixed_region_allocator.pos(pos)
+
+
 cdef class CurveId:
+    """
+    CurveId constructs a long value encoding a number of curve attributes.
+    This is used as the curve identifier.
+    """
     cdef long long _id
+
+    def __init__(self, enums.PricingCurveType pricing_curve_type, enums.Currency ccy, enums.IndexFamily index_family,
+                  enums.Tenor tenor,
+                  Date as_of_date, int cycle = 0, enums.MarketDataQualifier qual = enums.MDQ_NORMAL, int scenario = 0):
+        """
+        Args:
+            pricing_curve_type (enums_pb2.PricingCurveType): A classifier that says whether the curve is to be used only for forward rates or both forward rates and discounting.
+            ccy (enums_pb2.Currency):  The currency of the curve
+            index_family (enums_pb2.IndexFamily): The Index Family of the curve
+            tenor (enums_pb2.Tenor): If this curve is specialized for a tenor then thsi should identify the tenor else use TENOR_UNSPECIFIED
+            as_of_date (Date): The business date
+            cycle (int): An identifier to differentiate between other market data sets for a given business day, and MarketDataQualifier. Should be incremented for each set
+            qual (enums_pb2.MarketDataQualifier): A classifier that says whether the curve belongs to Closing market data or Normal, i.e. intra-day, market data
+            scenario (int): Scenario identifier. Curves with scenario 0 support sensitivities. All other values do not compute sensitivities.
+
+        Returns:
+            CurveId: The constructed curve identifier
+        """
+        pass
 
     def __cinit__(self, enums.PricingCurveType pricing_curve_type, enums.Currency ccy, enums.IndexFamily index_family,
                   enums.Tenor tenor,
@@ -659,6 +746,10 @@ cdef class CurveId:
                                        cycle, qual, scenario)
 
     cpdef long long id(self):
+        """
+        Returns:
+            int: The long value constructed from the curve parameters
+        """
         return self._id
 
 cdef class InterpolatedYieldCurve:
@@ -676,6 +767,17 @@ cdef class InterpolatedYieldCurve:
     def __init__(self, long long id, Date as_of_date, list maturities, list values,
                   enums.InterpolatorType interpolator_type, enums.IRRateType rate_type, int deriv_order,
                   enums.DayCountFraction fraction):
+        """
+        Args:
+            id (int): A Curve Id value computed using
+            as_of_date (Date): The business date
+            maturities (list): List of redukti.Date values for curve's fixed points
+            values (list): List of float values - either zero rates or discount factors, depending on rate_type parameter
+            interpolator_type (enums_pb2.InterpolatorType): The type of interpolator to be used
+            rate_type (enums.IRRateType): Specifies whether the values are zero rates or discount factors
+            deriv_order (int): Whether the interpolator should compute derivatives, 0=No, 1=First order only, 2=First and second order. Note that SvenssonCurve does not support derivatives
+            fraction (enums_pb2.DayCountFraction): The Day Count Fraction for computing time intervals
+        """
         pass
 
     def __cinit__(self, long long id, Date as_of_date, list maturities, list values,
@@ -704,10 +806,10 @@ cdef class InterpolatedYieldCurve:
         Computes the discount factor for the given date
 
         Args:
-            d: Date for which discount factor is desired
+            d (Date): Date for which discount factor is desired
 
         Returns:
-            Desired discount factor
+            float: Desired discount factor
         """
 
         return self._yield_curve_ptr.discount(d.serial())
@@ -717,10 +819,10 @@ cdef class InterpolatedYieldCurve:
         Computes the continuously compounded zero rate for a given date
 
         Args:
-            d: Date for which the zero rate is desired
+            d (Date): Date for which the zero rate is desired
 
         Returns:
-            Continuously compounded zero rate at the given date
+            float: Continuously compounded zero rate at the given date
         """
 
         return self._yield_curve_ptr.zero_rate(d.serial())
@@ -730,11 +832,11 @@ cdef class InterpolatedYieldCurve:
         Computes the forward rate between two dates
 
         Args:
-            d1: Start date
-            d2: End date
+            d1 (Date): Start date
+            d2 (Date): End date
 
         Returns:
-            Forward rate for the specified dates
+            float: Forward rate for the specified dates
         """
         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
 
@@ -743,10 +845,10 @@ cdef class InterpolatedYieldCurve:
         Gets time from the curve's reference date to the given date expressed as a year fraction
 
         Args:
-            d: date to be converted
+            d (Date): date to be converted
 
         Returns:
-            A double value expressing the time from curve's reference date
+            float: A double value expressing the time from curve's reference date
         """
         return self._yield_curve_ptr.time_from_reference(d.serial())
 
@@ -763,10 +865,10 @@ cdef class InterpolatedYieldCurve:
         Obtains sensitivities of x to the interpolator fixed points.
 
         Args:
-            x: A value in the range of the interpolator's x-axis
+            x (float): A value in the range of the interpolator's x-axis
 
         Returns:
-            An ADVar containing first order and second order sensitivities depending upon how the interpolator was configured
+            ADVar: An ADVar containing first order and second order sensitivities depending upon how the interpolator was configured
         """
         cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
         cdef size_t pos = fixed_region_allocator.pos()  # Since we can't use the FixedRegionAllocatorGuard in Cython
@@ -790,6 +892,13 @@ cdef class SvenssonCurve:
     cdef curve.YieldCurve *_yield_curve_ptr
 
     def __init__(self, long long id, Date as_of_date, list parameters, enums.DayCountFraction fraction):
+        """
+        Args:
+            id (int): A Curve Id value computed using
+            as_of_date (Date): The business date
+            parameters (list): The 6 curve parameters
+            fraction (enums_pb2.DayCountFraction): The Day Count Fraction for computing time intervals
+        """
         pass
 
     def __cinit__(self, long long id, Date as_of_date, list parameters, enums.DayCountFraction fraction):
@@ -814,10 +923,10 @@ cdef class SvenssonCurve:
         Computes the discount factor for the given date
 
         Args:
-            d: Date for which discount factor is desired
+            d (Date): Date for which discount factor is desired
 
         Returns:
-            Desired discount factor
+            float: Desired discount factor
         """
 
         return self._yield_curve_ptr.discount(d.serial())
@@ -827,10 +936,10 @@ cdef class SvenssonCurve:
         Computes the continuously compounded zero rate for a given date
 
         Args:
-            d: Date for which the zero rate is desired
+            d (Date): Date for which the zero rate is desired
 
         Returns:
-            Continuously compounded zero rate at the given date
+            float: Continuously compounded zero rate at the given date
         """
 
         return self._yield_curve_ptr.zero_rate(d.serial())
@@ -840,11 +949,11 @@ cdef class SvenssonCurve:
         Computes the forward rate between two dates
 
         Args:
-            d1: Start date
-            d2: End date
+            d1 (Date): Start date
+            d2 (Date): End date
 
         Returns:
-            Forward rate for the specified dates
+            float: Forward rate for the specified dates
         """
 
         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
@@ -854,15 +963,18 @@ cdef class SvenssonCurve:
         Gets time from the curve's reference date to the given date expressed as a year fraction
 
         Args:
-            d: date to be converted
+            d (Date): date to be converted
 
         Returns:
-            A double value expressing the time from curve's reference date
+            float: A double value expressing the time from curve's reference date
         """
         return self._yield_curve_ptr.time_from_reference(d.serial())
 
 cdef class YieldCurve:
     """
+    Generic YieldCurve which may be an InterpolatedYieldCurve or a SvenssonYieldCurve.
+    Due to technical limitations the YieldCurve instance is not a supertype of either
+    but has the same interface.
     """
 
     cdef curve.IRCurveDefinition _definition
@@ -873,6 +985,19 @@ cdef class YieldCurve:
     def __init__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2,
                   enums.PricingCurveType type = enums.PRICING_CURVE_TYPE_FORWARD,
                   enums.MarketDataQualifier mdq = enums.MDQ_NORMAL, int cycle = 0, int scenario = 0):
+        """
+        Args:
+            business_date (Date): The business date
+            curve_defn (curve_pb2.IRCurveDefinition): The Interest Rate Curve definition
+            zero_curve (redukti.curve_pb2.ZeroCurve): For InterpolatedYieldCurves this must supply list of maturities and zero rates, for SvenssonCurves it must supply the 6 parameters
+            deriv_order (int): Whether the interpolator should compute derivatives, 0=No, 1=First order only, 2=First and second order. Note that SvenssonCurve does not support derivatives
+            type (enums.PricingCurveType): A classifier that says whether the curve is to be used only for forward rates or both forward rates and discounting.
+            mdq (enums.MarketDataQualifier): A classifier that says whether the curve belongs to Closing market data or Normal, i.e. intra-day, market data
+            cycle (int): An identifier to differentiate between other market data sets for a given business day, and MarketDataQualifier. Should be incremented for each set
+            scenario (int): Scenario identifier. Curves with scenario 0 support sensitivities. All other values do not compute sensitivities.
+        Returns:
+            YieldCurve: An instance of the YieldCurve
+        """
         pass
 
     def __cinit__(self, Date business_date, curve_defn, zero_curve, int deriv_order = 2,
@@ -888,7 +1013,7 @@ cdef class YieldCurve:
                                              deriv_order, type, mdq, cycle, scenario)
         self._yield_curve_ptr = self._yield_curve.get()
         if self._yield_curve_ptr is NULL:
-            raise Exception('Failed to create instance of SvenssonCurve: please check inputs are correct')
+            raise Exception('Failed to create instance of YieldCurve: please check inputs are correct')
 
     def __dealloc__(self):
         self._yield_curve.reset(NULL)
@@ -898,10 +1023,10 @@ cdef class YieldCurve:
         Computes the discount factor for the given date
 
         Args:
-            d: Date for which discount factor is desired
+            d (Date): Date for which discount factor is desired
 
         Returns:
-            Desired discount factor
+            discount factor (float): Desired discount factor
         """
         return self._yield_curve_ptr.discount(d.serial())
 
@@ -910,10 +1035,10 @@ cdef class YieldCurve:
         Computes the continuously compounded zero rate for a given date
 
         Args:
-            d: Date for which the zero rate is desired
+            d (Date): Date for which the zero rate is desired
 
         Returns:
-            Continuously compounded zero rate at the given date
+            float: Continuously compounded zero rate at the given date
         """
         return self._yield_curve_ptr.zero_rate(d.serial())
 
@@ -922,11 +1047,11 @@ cdef class YieldCurve:
         Computes the forward rate between two dates
 
         Args:
-            d1: Start date
-            d2: End date
+            d1 (Date): Start date
+            d2 (Date): End date
 
         Returns:
-            Forward rate for the specified dates
+            float: Forward rate for the specified dates
         """
 
         return self._yield_curve_ptr.forward_rate(d1.serial(), d2.serial())
@@ -936,10 +1061,10 @@ cdef class YieldCurve:
         Gets time from the curve's reference date to the given date expressed as a year fraction
 
         Args:
-            d: date to be converted
+            d (Date): date to be converted
 
         Returns:
-            A double value expressing the time from curve's reference date
+            float: A double value expressing the time from curve's reference date
         """
         return self._yield_curve_ptr.time_from_reference(d.serial())
 
@@ -958,10 +1083,10 @@ cdef class YieldCurve:
         If you invoke this on a parametric curve you will get ``None`` as the answer.
 
         Args:
-            x: A value in the range of the interpolator's x-axis
+            x (float): A value in the range of the interpolator's x-axis
 
         Returns:
-            An ADVar containing first order and second order sensitivities depending upon how the interpolator was configured
+            ADVar: An ADVar containing first order and second order sensitivities depending upon how the interpolator was configured
         """
         cdef allocator.FixedRegionAllocator *fixed_region_allocator = allocator.get_threadspecific_allocators().tempspace_allocator
         cdef size_t pos = fixed_region_allocator.pos()  # Since we can't use the FixedRegionAllocatorGuard in Cython
@@ -996,7 +1121,7 @@ cdef class InMemoryRequestProcessor:
     def __init__(self, pricing_script):
         """
         Args:
-            pricing_script: The path to the Lua pricing script for the CurveBuildingService
+            pricing_script (str): The path to the Lua pricing script for the CurveBuildingService
         """
         pass
 
@@ -1011,10 +1136,11 @@ cdef class InMemoryRequestProcessor:
     cpdef serve(self, request):
         """
         Simple request processing service, designed to be compatible with the OpenRedukti server protocol.
+        
         Args:
-            request: Request to process, one of the sub requests must be populated
+            request (services_pb2.Request): Request to process, one of the sub requests must be populated
         Returns:
-            The result from the request processor
+            response (services_pb2.Response): The result from the request processor
         """
         if self._request_processor_ptr is NULL:
             raise Exception('Invalid state')
