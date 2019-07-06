@@ -122,7 +122,7 @@ class InstrumentTemplateRepository:
         swap_template.product_sub_type = enums.IRSWAP_FIXEDFLOAT
         swap_template.currency = enums.EUR
         swap_template.payment_calendars.extend([enums.EUTA])
-        swap_template.payment_frequency1 = enums.TENOR_12M # Fixed leg
+        swap_template.payment_frequency1 = enums.TENOR_3M # Fixed leg
         swap_template.payment_frequency2 = enums.TENOR_3M # Floating leg
         swap_template.day_count_fraction1 = enums.ACT_360 # Fixed leg
         swap_template.day_count_fraction2 = enums.ACT_360 # Floating leg
@@ -136,7 +136,7 @@ class InstrumentTemplateRepository:
         swap_template.product_sub_type = enums.IRSWAP_FIXEDFLOAT
         swap_template.currency = enums.EUR
         swap_template.payment_calendars.extend([enums.EUTA])
-        swap_template.payment_frequency1 = enums.TENOR_12M # Fixed leg
+        swap_template.payment_frequency1 = enums.TENOR_6M # Fixed leg
         swap_template.payment_frequency2 = enums.TENOR_6M # Floating leg
         swap_template.day_count_fraction1 = enums.ACT_360 # Fixed leg
         swap_template.day_count_fraction2 = enums.ACT_360 # Floating leg

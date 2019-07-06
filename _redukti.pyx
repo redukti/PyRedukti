@@ -39,6 +39,10 @@ cdef class ADVar:
     in a calculation, then the variables would have ids ``0``, ``1``, and ``2``.
 
     Note that all ADVars in a calculation must have the same number size and order.
+
+    Note that ADVar objects are heavyweight and not efficient to use in Python code.
+    Most operations on ADVar create new values, so in a sense these
+    are immutable objects in Python code.
     """
 
     cdef autodiff.redukti_adouble_t*_ad
@@ -106,13 +110,111 @@ cdef class ADVar:
         autodiff.redukti_adouble_assign(copy._ad, value)
         return copy
 
-    def value(self):
+    def __add__(ADVar self, other):
+        cdef ADVar copy = None
+        if isinstance(other, float):
+            copy = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_scalar_add(copy._ad, <double>other)
+        elif isinstance(other, ADVar):
+            otherv = <ADVar> other
+            is_compatible = self._vars == otherv._vars and self._order == otherv._order
+            if not is_compatible:
+                raise ValueError('Supplied values are not of the same order or size')
+            copy = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_add(copy._ad, otherv._ad, 1.0)
+        else:
+            raise ValueError('Can only add scalar or other ADVar values')
+        return copy
+
+    def __sub__(ADVar self, other):
+        cdef ADVar copy = None
+        if isinstance(other, float):
+            copy = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_scalar_add(copy._ad, -(<double>other))
+        elif isinstance(other, ADVar):
+            otherv = <ADVar> other
+            is_compatible = self._vars == otherv._vars and self._order == otherv._order
+            if not is_compatible:
+                raise ValueError('Supplied values are not of the same order or size')
+            copy = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_add(copy._ad, otherv._ad, -1.0)
+        else:
+            raise ValueError('Can only subtract scalar or other ADVar values')
+        return copy
+
+    def __mul__(ADVar self, other):
+        cdef ADVar copy = None
+        cdef ADVar temp = None
+        if isinstance(other, float):
+            copy = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_scalar_multiply(copy._ad, <double>other)
+        elif isinstance(other, ADVar):
+            otherv = <ADVar> other
+            is_compatible = self._vars == otherv._vars and self._order == otherv._order
+            if not is_compatible:
+                raise ValueError('Supplied values are not of the same order or size')
+            copy = ADVar.dup(self._ad)
+            temp = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_multiply(copy._ad, otherv._ad, temp._ad)
+        else:
+            raise ValueError('Can only multiply scalar or other ADVar values')
+        return copy
+
+    def __truediv__(ADVar self, other):
+        cdef ADVar copy = None
+        cdef ADVar temp1 = None
+        cdef ADVar temp2 = None
+        if isinstance(other, float):
+            if other == 0.0:
+                raise ZeroDivisionError()
+            copy = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_scalar_multiply(copy._ad, 1.0 / (<double>other))
+        elif isinstance(other, ADVar):
+            otherv = <ADVar> other
+            if autodiff.redukti_adouble_get_value(otherv._ad) == 0.0:
+                raise ZeroDivisionError()
+            is_compatible = self._vars == otherv._vars and self._order == otherv._order
+            if not is_compatible:
+                raise ValueError('Supplied values are not of the same order or size')
+            copy = ADVar.dup(self._ad)
+            temp1 = ADVar.dup(self._ad)
+            temp2 = ADVar.dup(self._ad)
+            autodiff.redukti_adouble_divide(copy._ad, otherv._ad, temp1._ad, temp2._ad)
+        else:
+            raise ValueError('Can only divide scalar or other ADVar values')
+        return copy
+
+    def exp(ADVar self):
+        """
+        Computes exp(var)
+
+        Returns:
+            ADVar: exponent
+        """
+        cdef ADVar copy = ADVar.dup(self._ad)
+        cdef ADVar temp = ADVar.dup(self._ad)
+        autodiff.redukti_adouble_exp(copy._ad, temp._ad)
+        return copy
+
+    def log(ADVar self):
+        """
+        Computes log(var)
+
+        Returns:
+            ADVar: natural logarithm
+        """
+        cdef ADVar copy = ADVar.dup(self._ad)
+        cdef ADVar temp = ADVar.dup(self._ad)
+        autodiff.redukti_adouble_log(copy._ad, temp._ad)
+        return copy
+
+    def value(ADVar self):
         """
         Returns the value of the variable.
         """
         return autodiff.redukti_adouble_get_value(self._ad)
 
-    def gradient(self):
+    def gradient(ADVar self):
         """
         Returns the first order derivatives if available else empty list
         """
@@ -123,7 +225,7 @@ cdef class ADVar:
             list.append(g, autodiff.redukti_adouble_get_derivative1(self._ad, i))
         return g
 
-    def hessian(self):
+    def hessian(ADVar self):
         """
         Returns the second order derivatives if available else empty list
         """
@@ -165,8 +267,12 @@ cdef class Date:
     def __init__(self, int value):
         """
         Constructs a Date object from a serial number
+
         Args:
             value: serial number
+
+        Returns:
+            Date: Date object
         """
         pass
 
@@ -175,21 +281,42 @@ cdef class Date:
         self._ymd = date.date_components(value)
 
     cpdef int day(self):
+        """        
+        Returns:
+            int: Day component
+        """
         return self._ymd.d
 
     cpdef int month(self):
+        """
+        Returns:
+            int: month component
+        """
         return self._ymd.m
 
     cpdef int year(self):
+        """
+        Returns:
+            int: returns year component
+        """
         return self._ymd.y
 
     cpdef int serial(self):
+        """
+        Returns:
+            int: serial number
+        """
         return self._serial
 
     @staticmethod
     def dmy(unsigned d, unsigned m, int y):
         """
         Constructs a Date object from day, month, year.
+
+        Args:
+            d (int): Day of month, 1 based
+            m (int): Month of the year, 1 based
+            y (int): Year in YYYY
         """
         return Date(date.make_date(d, m, y))
 
@@ -203,12 +330,12 @@ cdef class Date:
         or adjusted as above.
 
         Args:
-            d: Input date
-            n: quantity
-            unit: The unit of ``n``
+            d (Date): Input date
+            n (int): quantity
+            unit (enums_pb2.PeriodUnit): The unit of ``n``
 
         Returns:
-            New Date object
+            Date: New Date object
         """
         validate_periodunit(unit)
         return Date(date.advance(self.serial(), n, unit))
@@ -218,14 +345,14 @@ cdef class Date:
         """
         Parses a string representation of date.
         
-        The parser will detect seperator character '/' or '-'.
+        The parser will detect separator character '/' or '-'.
         The formats acceptable are 'yyyy/mm/dd', 'dd/mm/yyyy', 'yyyy-mm-dd', or 'dd-mm-yyyy'
 
         Args:
-            s: Input string containing a date value in supported format
+            s (str): Input string containing a date value in supported format
 
         Returns:
-            Date object if parsing is successful
+            Date: if parsing is successful
 
         Raises:
             ValueError: if input cannot be parsed
@@ -236,6 +363,9 @@ cdef class Date:
         if not date.parse_date(c_string, &d):
             raise ValueError('Invalid date: cannot parse')
         return Date(d)
+
+    def __str__(self):
+        return "{0:04d}-{1:02d}-{2:02d}".format(self._ymd.y, self._ymd.m, self._ymd.d);
 
 cdef class ScheduleGenerator:
     """
@@ -252,7 +382,7 @@ cdef class ScheduleGenerator:
             schedule_parameters (schedule_pb2.ScheduleParameters): parameters for schedule generation  
 
         Returns:
-            An instance of schedule_pb2.Schedule
+            schedule_pb2.Schedule: computed schedule
         """
         if not isinstance(schedule_parameters, schedule_pb2.ScheduleParameters):
             raise ValueError('Input must be an instance of schedule_pb2.ScheduleParameters')
@@ -599,10 +729,8 @@ cdef class Interpolator:
     * ``MONOTONE_CONVEX``
     * ``FLAT_RIGHT``
     * ``FLAT_LEFT``
-    * ``CUBIC_SPLINE_NOT_A_KNOT``
     * ``CUBIC_SPLINE_NATURAL``
     * ``LOG_CUBIC_SPLINE_NATURAL``
-    * ``CUBIC_SPLINE_CLAMPED``
 
     An Interpolator can not only interpolate values, but also compute sensitivities to the
     fixed points in the x-axis.
@@ -722,16 +850,16 @@ cdef class CurveId:
 
     def __init__(self, enums.PricingCurveType pricing_curve_type, enums.Currency ccy, enums.IndexFamily index_family,
                   enums.Tenor tenor,
-                  Date as_of_date, int cycle = 0, enums.MarketDataQualifier qual = enums.MDQ_NORMAL, int scenario = 0):
+                  Date as_of_date, int cycle = 0, enums.MarketDataQualifier qualifier = enums.MDQ_NORMAL, int scenario = 0):
         """
         Args:
             pricing_curve_type (enums_pb2.PricingCurveType): A classifier that says whether the curve is to be used only for forward rates or both forward rates and discounting.
             ccy (enums_pb2.Currency):  The currency of the curve
             index_family (enums_pb2.IndexFamily): The Index Family of the curve
-            tenor (enums_pb2.Tenor): If this curve is specialized for a tenor then thsi should identify the tenor else use TENOR_UNSPECIFIED
+            tenor (enums_pb2.Tenor): If this curve is specialized for a tenor then this should identify the tenor else use TENOR_UNSPECIFIED
             as_of_date (Date): The business date
             cycle (int): An identifier to differentiate between other market data sets for a given business day, and MarketDataQualifier. Should be incremented for each set
-            qual (enums_pb2.MarketDataQualifier): A classifier that says whether the curve belongs to Closing market data or Normal, i.e. intra-day, market data
+            qualifier (enums_pb2.MarketDataQualifier): A classifier that says whether the curve belongs to Closing market data or Normal, i.e. intra-day, market data
             scenario (int): Scenario identifier. Curves with scenario 0 support sensitivities. All other values do not compute sensitivities.
 
         Returns:
@@ -769,7 +897,7 @@ cdef class InterpolatedYieldCurve:
                   enums.DayCountFraction fraction):
         """
         Args:
-            id (int): A Curve Id value computed using
+            id (int): An id for the curve, this may be 0, but is usually the result of CurveId.id(), especially when curve will be used in pricing.
             as_of_date (Date): The business date
             maturities (list): List of redukti.Date values for curve's fixed points
             values (list): List of float values - either zero rates or discount factors, depending on rate_type parameter
@@ -894,7 +1022,7 @@ cdef class SvenssonCurve:
     def __init__(self, long long id, Date as_of_date, list parameters, enums.DayCountFraction fraction):
         """
         Args:
-            id (int): A Curve Id value computed using
+            id (int): An id for the curve, this may be 0, but is usually the result of CurveId.id(), especially when curve will be used in pricing.
             as_of_date (Date): The business date
             parameters (list): The 6 curve parameters
             fraction (enums_pb2.DayCountFraction): The Day Count Fraction for computing time intervals
@@ -1026,7 +1154,7 @@ cdef class YieldCurve:
             d (Date): Date for which discount factor is desired
 
         Returns:
-            discount factor (float): Desired discount factor
+            float: Desired discount factor
         """
         return self._yield_curve_ptr.discount(d.serial())
 
@@ -1078,8 +1206,8 @@ cdef class YieldCurve:
 
     cpdef ADVar get_sensitivities(self, double x):
         """
-        Obtains sensitivities of x to the interpolator fixed points.
-        Note that this is only available on interpolated curves.
+        Obtains sensitivities of x to the interpolator's fixed points.
+        This function is only available on interpolated curves.
         If you invoke this on a parametric curve you will get ``None`` as the answer.
 
         Args:
@@ -1105,7 +1233,7 @@ cdef class InMemoryRequestProcessor:
     The InMemoryRequestProcessor is useful when you only want to use the OpenRedukti
     functions internally in Python and do not need to interact with the OpenRedukti server.
 
-    The downside of this internal instance is that if there is a bug in the tOpenRedukti
+    The downside of this internal instance is that if there is a bug in the OpenRedukti
     code it can crash your Python instance. Hence this type of use is not recommended unless
     you have tested your interactions thoroughly and are confident that there will not be any
     issues.
@@ -1133,14 +1261,14 @@ cdef class InMemoryRequestProcessor:
         if self._request_processor_ptr is NULL:
             raise Exception('failed to create instance of InMemoryRequestProcessor')
 
-    cpdef serve(self, request):
+    cpdef serve(InMemoryRequestProcessor self, request):
         """
         Simple request processing service, designed to be compatible with the OpenRedukti server protocol.
         
         Args:
-            request (services_pb2.Request): Request to process, one of the sub requests must be populated
+            request (services_pb2.Request): The request to process, one of the sub requests must be populated
         Returns:
-            response (services_pb2.Response): The result from the request processor
+            services_pb2.Response: The result returned from OpenRedukti
         """
         if self._request_processor_ptr is NULL:
             raise Exception('Invalid state')
