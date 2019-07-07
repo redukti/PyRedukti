@@ -248,35 +248,42 @@ def build_vanilla_swap(notional, effective_date, termination_date, template_name
     fixed_stream = cfcollection.streams.add()
     fixed_stream.factor = fixed_leg_sign
     for i in range(0, len(fixed_leg_scalars)):
-        single = fixed_stream.cashflows.add()
-        single.simple.currency = ccy
-        single.simple.amount = fixed_leg_scalars[i]
-        single.simple.payment_date = fixed_schedule.adjusted_payment_dates[i]
-        single.simple.discounting_index_family = template.fixed_discounting_index_family
+        coupon = fixed_stream.cashflows.add()
+        coupon.simple.currency = ccy
+        coupon.simple.amount = fixed_leg_scalars[i]
+        coupon.simple.payment_date = fixed_schedule.adjusted_payment_dates[i]
+        coupon.simple.discounting_index_family = template.fixed_discounting_index_family
 
     float_stream = cfcollection.streams.add()
     float_stream.factor = -fixed_leg_sign
-    for i in range(0, len(floating_schedule.adjusted_start_dates)):
-        single = float_stream.cashflows.add()
+    coupon = None
+    for i in range(0, len(floating_schedule.adjusted_payment_dates)):
+        if not coupon:
+            coupon = float_stream.cashflows.add()
         is_ois = is_ois_index(template.floating_index1)
         if not is_ois:
-            single.floating.currency = ccy
-            single.floating.day_count_fraction = template.day_count_fraction2
-            single.floating.payment_date = floating_schedule.adjusted_payment_dates[i]
-            floating_period = single.floating.floating_periods.add()
+            floating_period = coupon.floating.floating_periods.add()
             floating_period.notional = notional
             floating_period.accrual_start_date = floating_schedule.adjusted_start_dates[i]
             floating_period.accrual_end_date = floating_schedule.adjusted_end_dates[i]
             floating_period.index = template.floating_index1
             floating_period.tenor = template.floating_tenor1
             floating_period.spread = 0.0
+            if floating_schedule.adjusted_payment_dates[i] != 0:
+                coupon.floating.currency = ccy
+                coupon.floating.day_count_fraction = template.day_count_fraction2
+                coupon.floating.payment_date = floating_schedule.adjusted_payment_dates[i]
+                if template.compounding_method1:
+                    coupon.floating.compounding_method = template.compounding_method1
+                coupon = None
         else:
-            single.ois.index = template.floating_index1
-            single.ois.notional = notional
-            single.ois.accrual_start_date = floating_schedule.adjusted_start_dates[i]
-            single.ois.accrual_end_date = floating_schedule.adjusted_end_dates[i]
-            single.ois.payment_date = floating_schedule.adjusted_payment_dates[i]
-            single.ois.day_count_fraction = template.day_count_fraction2
+            coupon.ois.index = template.floating_index1
+            coupon.ois.notional = notional
+            coupon.ois.accrual_start_date = floating_schedule.adjusted_start_dates[i]
+            coupon.ois.accrual_end_date = floating_schedule.adjusted_end_dates[i]
+            coupon.ois.payment_date = floating_schedule.adjusted_payment_dates[i]
+            coupon.ois.day_count_fraction = template.day_count_fraction2
+            coupon = None
     return cfcollection
 
 
