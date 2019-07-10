@@ -39,7 +39,7 @@ else:
         os.path.join(basepath, protobuf_subdir, 'lib')]
     extra_compile_args=["/MD"]
 
-sourcefiles = ['_redukti.pyx']
+sourcefiles = ['src/_redukti.pyx']
 extensions = [Extension("_redukti", sourcefiles,
     libraries    = libraries,
     library_dirs = library_dirs,
